@@ -1,13 +1,15 @@
 package com.ironhack.FabFour_ForceOfSalesHomework3;
 
+import com.ironhack.FabFour_ForceOfSalesHomework3.service.StartApp;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class FabFourForceOfSalesHomework3Application {
+public class Main {
 
 	public static void main(String[] args) {
-		SpringApplication.run(FabFourForceOfSalesHomework3Application.class, args);
+		SpringApplication.run(Main.class, args);
+		StartApp.startApp();
 	}
 
 }
