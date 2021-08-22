@@ -24,6 +24,7 @@ public class SalesRepService {
     public static SalesRep newSalesRep() {
         String salesName;
         Scanner aScanner = new Scanner(System.in);
+        //TODO: While loop to check if empty and if it contains only letters
         System.out.println("Please provide the Sales Rep name");
         salesName = aScanner.nextLine();
         SalesRep sales =  new SalesRep(salesName);
@@ -32,7 +33,7 @@ public class SalesRepService {
     }
 
     public static void showSales() {
-        List<SalesRep>  salesList = salesRepRepository.findAll();
+        List<SalesRep> salesList = salesRepRepository.findAll();
         if(salesList.size() > 0) {
             for (SalesRep sales : salesList) {
                 System.out.println("Sales ID: " + sales.getId() + ", Sales Name: " + sales.getName() + ".\n");

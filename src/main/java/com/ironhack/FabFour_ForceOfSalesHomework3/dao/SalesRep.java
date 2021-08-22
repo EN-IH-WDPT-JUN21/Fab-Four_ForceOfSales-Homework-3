@@ -47,7 +47,7 @@ public class SalesRep {
         return salesIDCount;
     }
 
-    public void setId(long id) {
+    public void setId() {
         this.id = salesIDCount;
         salesIDCount++;
     }
