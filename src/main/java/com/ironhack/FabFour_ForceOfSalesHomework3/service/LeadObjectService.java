@@ -75,7 +75,7 @@ public class LeadObjectService {
             System.out.println("Would you like to create a new Account? (Y/N)");
             List<Object> dataList = (List) getUserInput("account");
             Account account = (dataList.size() > 1) ?
-                    createAccount(lead, contact, opportunity, dataList) : addToAccount((String)dataList.get(0), contact, opportunity);
+                    createAccount(lead, contact, opportunity, dataList) : addToAccount((String)dataList.get(0), lead, contact, opportunity);
             return account;
         }
     }

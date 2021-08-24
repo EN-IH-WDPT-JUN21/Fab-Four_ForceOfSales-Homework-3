@@ -7,18 +7,16 @@ import com.ironhack.FabFour_ForceOfSalesHomework3.dao.Opportunity;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Industry;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.AccountRepository;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.ContactRepository;
+import com.ironhack.FabFour_ForceOfSalesHomework3.repository.LeadObjectRepository;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.OpportunityRepository;
 import org.apache.commons.lang.WordUtils;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.*;
 
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.colorMessage;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.getUserInput;
-import static com.ironhack.FabFour_ForceOfSalesHomework3.service.LeadObjectService.removeLead;
 
 @Service
 public class AccountService {
@@ -29,14 +27,17 @@ public class AccountService {
     private static AccountRepository accountRepository;
     private static ContactRepository contactRepository;
     private static OpportunityRepository opportunityRepository;
+    private static LeadObjectRepository leadObjectRepository;
 
     @Autowired
     public AccountService(AccountRepository accountRepository,
                           ContactRepository contactRepository,
-                          OpportunityRepository opportunityRepository) {
+                          OpportunityRepository opportunityRepository,
+                          LeadObjectRepository leadObjectRepository) {
         this.accountRepository = accountRepository;
         this.contactRepository = contactRepository;
         this.opportunityRepository = opportunityRepository;
+        this.leadObjectRepository = leadObjectRepository;
     }
 
     public static Account lookUpAccount(long id) {
@@ -69,9 +70,12 @@ public class AccountService {
         opportunityList.add(opportunity);
         account = new Account((Industry) dataList.get(0), (Integer) dataList.get(1), WordUtils.capitalizeFully((String)dataList.get(2)),
                 WordUtils.capitalizeFully((String) dataList.get(3)), contactList, opportunityList);
+        accountRepository.save(account);
         contact.setAccount(account);
         opportunity.setAccount(account);
-        accountRepository.save(account);
+        contactRepository.save(contact);
+        opportunityRepository.save(opportunity);
+        leadObjectRepository.deleteById(lead.getId());
         colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
         colorMessage("Opportunity created. Opportunity ID: " + opportunity.getId(), GREEN_TEXT);
         colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
@@ -80,7 +84,7 @@ public class AccountService {
         return account;
     }
     //addToAccount
-    public static Account addToAccount(String id, Contact contact, Opportunity opportunity) {
+    public static Account addToAccount(String id, LeadObject lead, Contact contact, Opportunity opportunity) {
         Long accountId = Long.parseLong(id);
         Account account = lookUpAccount(accountId);
         contact.setAccount(account);
@@ -94,6 +98,7 @@ public class AccountService {
         account.setContactList(newList);
         account.setOpportunityList(newOpp);
         accountRepository.save(account);
+        leadObjectRepository.deleteById(lead.getId());
         colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
         colorMessage("Account " + account.getId() + " has been updated", GREEN_TEXT);
         colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
