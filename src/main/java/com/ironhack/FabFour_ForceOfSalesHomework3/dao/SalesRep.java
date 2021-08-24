@@ -44,5 +44,10 @@ public class SalesRep {
     public SalesRep(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "SalesRep ID: " + this.getId() + ", SalesRep name: " + this.getName();
+    }
 }
 

@@ -7,8 +7,7 @@ import static com.ironhack.FabFour_ForceOfSalesHomework3.service.AccountService.
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.*;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.LeadObjectService.*;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.OpportunityService.*;
-import static com.ironhack.FabFour_ForceOfSalesHomework3.service.SalesRepService.newSalesRep;
-import static com.ironhack.FabFour_ForceOfSalesHomework3.service.SalesRepService.showSales;
+import static com.ironhack.FabFour_ForceOfSalesHomework3.service.SalesRepService.*;
 
 @Service
 public class CommandHandlerService {
@@ -23,11 +22,11 @@ public class CommandHandlerService {
                 case NEW_LEAD:
                     createLead();
                     break;
-                case NEW_SALES:
+                case NEW_SALESREP:
                     newSalesRep();
                     break;
-                case SHOW_SALES:
-                    showSales();
+                case SHOW_SALESREPS:
+                    showSalesReps();
                     break;
                 case SHOW_LEADS:
                     showLeads();
@@ -37,18 +36,32 @@ public class CommandHandlerService {
                     break;
                 case HELP:
                     System.out.println(
-                            " Type one of below statement to execute :\n" +
-                                    " > new lead - " + "to create new lead\n" +
-                                    " > show leads - to show all of leads\n" +
-                                    " > export leads - to export all current leads\n" +
-                                    " > lookup lead {id} - to show specific lead\n" +
-                                    " > convert {id} - to convert lead to an opportunity\n" +
-                                    " > lookup opportunity {id} - to show specific opportunity\n" +
-                                    " > export opportunities {id} - to export all current opportunities\n" +
-                                    " > lookup account {id} - to show specific account\n" +
-                                    " > export accounts {id} - to export all accounts\n" +
+                            "Type one of below statement to execute:\n\n" +
+                                    "CREATE A NEW DATASET\n" +
+                                    " > new lead - " + "to create a new lead\n" +
+                                    " > new salesRep - " + "to create a new salesRep\n" +
+                                    " > convert {id} - to convert a lead to an opportunity\n" +
+
+                                    "\nCLOSE AN OPPORTUNITY\n" +
                                     " > close-won {id} - to close case after sale\n" +
                                     " > close-lost {id} - to close case without sale\n" +
+
+                                    "\nLOOKUP A SPECIFIC DATASET\n" +
+                                    " > lookup lead {id} - to show specific lead\n" +
+                                    " > lookup opportunity {id} - to show specific opportunity\n" +
+                                    " > lookup account {id} - to show specific account\n" +
+                                    " > lookup salesrep {id} - to show specific salesRep\n" +
+
+                                    "\nSHOW ALL DATA PER TYPE\n" +
+                                    " > show leads - to show all of leads\n" +
+                                    " > show salesReps - to show all the salesReps\n" +
+
+                                    "\nEXPORT SOME DATA\n" +
+                                    " > export leads - to export all current leads\n" +
+                                    " > export opportunities {id} - to export all current opportunities\n" +
+                                    " > export accounts {id} - to export all accounts\n" +
+
+                                    "\nTO QUIT\n" +
                                     " > quit - to leave the app"
                     );
                     break;
@@ -62,6 +75,9 @@ public class CommandHandlerService {
             switch (Command.getCommandType(upperCommand)) {
                 case CONVERT:
                     convertLead(id);
+                    break;
+                case LOOKUP_SALESREP:
+                    lookUpSalesRep(id);
                     break;
                 case LOOKUP_LEAD:
                     voidChecker(lookupLead(id));
