@@ -15,9 +15,10 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 public class Opportunity {
-    private static long opportunityIDCount = 1000;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "opportunity_generator")
+    @SequenceGenerator(name="opportunity_generator", sequenceName = "opportunity_seq", allocationSize=50)
     private long id;
 
     @Enumerated(EnumType.STRING)
@@ -38,21 +39,11 @@ public class Opportunity {
     private SalesRep sales;
 
     public Opportunity(Product product, int quantity, Contact decisionMaker, SalesRep sales) {
-        setId(id);
         setProduct(product);
         setQuantity(quantity);
         setDecisionMaker(decisionMaker);
         setStatus(Status.OPEN);
         setSales(sales);
-    }
-
-    public long getId() {
-        return Opportunity.opportunityIDCount;
-    }
-
-    public void setId(long id) {
-        this.id = opportunityIDCount;
-        opportunityIDCount++;
     }
 
     public void setStatus(Status status) {

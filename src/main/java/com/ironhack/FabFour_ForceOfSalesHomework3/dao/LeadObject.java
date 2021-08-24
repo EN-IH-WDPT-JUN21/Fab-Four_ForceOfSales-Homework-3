@@ -17,15 +17,13 @@ import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputServ
 @NoArgsConstructor
 @Entity
 @Table(name = "lead_object")
-@Inheritance(strategy = InheritanceType.JOINED)
 public class LeadObject {
 
     public static final String RED_TEXT = "\033[31m";
 
-    // Value for the lead ID, automatically incremented on each creation
-    private static int leadIDCount = 1;
-
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "lead_generator")
+    @SequenceGenerator(name="lead_generator", sequenceName = "lead_seq", allocationSize=50)
     protected long id;
 
     private String contactName;
@@ -33,34 +31,15 @@ public class LeadObject {
     private String email;
     private String companyName;
 
-    @OneToOne
-    private Contact contact;
-
     @ManyToOne(fetch = FetchType.EAGER)
     private SalesRep sales;
 
     public LeadObject(String contactName, String phoneNumber, String email, String companyName, SalesRep sales) {
-        setId();
         setContactName(contactName);
         setPhoneNumber(phoneNumber);
         setEmail(email);
         setCompanyName(companyName);
         setSales(sales);
-    }
-
-
-    public static int getLeadIDCount() {
-        return LeadObject.leadIDCount;
-    }
-
-    public long getId() {
-        return this.id;
-    }
-
-    // Sets id to current leadIDCount, then increments leadIDCount
-    public void setId() {
-        this.id = leadIDCount;
-        leadIDCount++;
     }
 
     public String getContactName() {

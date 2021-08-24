@@ -11,12 +11,9 @@ import org.springframework.stereotype.Service;
 public class ContactService {
 
     private static ContactRepository contactRepository;
-    private static LeadObjectRepository leadObjectRepository;
 
-    public ContactService(ContactRepository contactRepository,
-                          LeadObjectRepository leadObjectRepository) {
+    public ContactService(ContactRepository contactRepository) {
         this.contactRepository = contactRepository;
-        this.leadObjectRepository = leadObjectRepository;
     }
 
     public static Contact createContact(LeadObject leadObjectToConvert) {
@@ -25,11 +22,8 @@ public class ContactService {
         String contactPhoneNumber = leadObjectToConvert.getPhoneNumber();
         String contactEmail = leadObjectToConvert.getEmail();
         String contactCompany = leadObjectToConvert.getCompanyName();
-        SalesRep contactSalesRep = leadObjectToConvert.getSales();
-        Contact contact =  new Contact(contactName, contactPhoneNumber, contactEmail, contactCompany, contactSalesRep);
+        Contact contact =  new Contact(contactName, contactPhoneNumber, contactEmail, contactCompany);
         contactRepository.save(contact);
-        leadObjectToConvert.setContact(contact);
-        leadObjectRepository.save(leadObjectToConvert);
         return contact;
     }
 }

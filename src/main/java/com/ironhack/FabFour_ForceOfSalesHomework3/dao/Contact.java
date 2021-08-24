@@ -14,18 +14,14 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class Contact {
 
-    // Value for the contact ID, automatically incremented on each creation
-    private static long contactIDCount = 5000;
-
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "contact_generator")
+    @SequenceGenerator(name="contact_generator", sequenceName = "contact_seq", allocationSize=50)
     private long id;
     private String contactName;
     private String phoneNumber;
     private String email;
     private String companyName;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    private SalesRep contactSalesRep;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Account account;
@@ -36,22 +32,10 @@ public class Contact {
     public Contact(String contactName,
                    String contactPhoneNumber,
                    String contactEmail,
-                   String contactCompany,
-                   SalesRep contactSalesRep) {
-        setId();
+                   String contactCompany) {
         setContactName(contactName);
         setPhoneNumber(contactPhoneNumber);
         setEmail(contactEmail);
         setCompanyName(contactCompany);
-        setContactSalesRep(contactSalesRep);
-    }
-
-    public static long getContactIDCount() {
-        return contactIDCount;
-    }
-
-    public void setId() {
-        this.id = contactIDCount;
-        contactIDCount++;
     }
 }

@@ -2,8 +2,9 @@ package com.ironhack.FabFour_ForceOfSalesHomework3.enums;
 
 public enum Command {
     NEW_LEAD("NEW LEAD"),
-    NEW_SALES("NEW SALES"),
-    SHOW_SALES("SHOW SALES"),
+    NEW_SALESREP("NEW SALESREP"),
+    SHOW_SALESREPS("SHOW SALESREPS"),
+    LOOKUP_SALESREP("LOOKUP SALESREP"),
     SHOW_LEADS("SHOW LEADS"),
     LOOKUP_LEAD("LOOKUP LEAD"),
     EXPORT_LEADS("EXPORT LEADS"),

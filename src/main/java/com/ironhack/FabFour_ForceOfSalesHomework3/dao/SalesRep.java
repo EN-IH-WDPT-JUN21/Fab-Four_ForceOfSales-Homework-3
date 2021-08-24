@@ -16,8 +16,10 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "sales_rep")
 public class SalesRep {
-    private static long salesIDCount = 6000;
+
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sales_generator")
+    @SequenceGenerator(name="sales_generator", sequenceName = "sales_seq", allocationSize=50)
     private long id;
 
     private String name;
@@ -25,7 +27,7 @@ public class SalesRep {
     @OneToMany
             (
                     mappedBy = "sales",
-                    cascade = CascadeType.ALL,
+                    cascade = CascadeType.MERGE,
                     orphanRemoval = true
             )
     private List<LeadObject> leadList = new ArrayList<>();
@@ -33,7 +35,7 @@ public class SalesRep {
     @OneToMany
             (
                     mappedBy = "sales",
-                    cascade = CascadeType.ALL,
+                    cascade = CascadeType.MERGE,
                     orphanRemoval = true
             )
 
@@ -43,15 +45,9 @@ public class SalesRep {
         this.name = name;
     }
 
-    public long getId() {
-        return salesIDCount;
+    @Override
+    public String toString() {
+        return "SalesRep ID: " + this.getId() + ", SalesRep name: " + this.getName();
     }
-
-    public void setId() {
-        this.id = salesIDCount;
-        salesIDCount++;
-    }
-
-
 }
 
