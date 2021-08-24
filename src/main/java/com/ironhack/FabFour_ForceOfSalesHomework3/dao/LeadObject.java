@@ -17,7 +17,6 @@ import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputServ
 @NoArgsConstructor
 @Entity
 @Table(name = "lead_object")
-@Inheritance(strategy = InheritanceType.JOINED)
 public class LeadObject {
 
     public static final String RED_TEXT = "\033[31m";
