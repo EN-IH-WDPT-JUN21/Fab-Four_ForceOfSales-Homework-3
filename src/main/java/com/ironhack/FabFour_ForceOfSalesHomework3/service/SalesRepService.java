@@ -74,4 +74,16 @@ public class SalesRepService {
             System.out.println(salesRep);
         }
     }
+
+    //MADDY DRAFT
+    public static SalesRep findSalesRep(long id) {
+        Optional<SalesRep> salesRepOptional = salesRepRepository.findById(id);
+        if(!salesRepOptional.isPresent()) {
+            colorMessage("There is no SalesRep with id " + id + ".", RED_TEXT);
+            return null;
+        } else {
+            SalesRep salesRep = salesRepOptional.get();
+            return salesRep;
+        }
+    }
 }
