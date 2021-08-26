@@ -67,6 +67,7 @@ public class SalesRepService {
 
     public static void lookUpSalesRep(long id) {
         Optional<SalesRep> salesRepOptional = salesRepRepository.findById(id);
+
         if(!salesRepOptional.isPresent()) {
             colorMessage("There is no SalesRep with id " + id + ". Please try again.", RED_TEXT);
         } else {
