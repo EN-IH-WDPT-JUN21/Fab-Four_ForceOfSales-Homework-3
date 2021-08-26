@@ -12,10 +12,11 @@ import java.util.Scanner;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.AccountService.addToAccount;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.AccountService.createAccount;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.ContactService.createContact;
-import static com.ironhack.FabFour_ForceOfSalesHomework3.service.DataValidatorService.leadExists;
+import static com.ironhack.FabFour_ForceOfSalesHomework3.service.DataValidatorService.*;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.colorMessage;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.getUserInput;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.OpportunityService.createOpportunity;
+import static com.ironhack.FabFour_ForceOfSalesHomework3.service.SalesRepService.*;
 
 @Service
 public class LeadObjectService {
@@ -33,26 +34,40 @@ public class LeadObjectService {
     }
 
     public static LeadObject createLead() {
-        String tempName;
-        String tempNumber;
-        String tempEmail;
-        String tempCompany;
-        Long tempSalesId;
-        LeadObject tempLeadObject = null;
+        String tempName = null; String tempNumber = null;
+        String tempEmail = null; String tempCompany = null;
+        String tempString;
+        LeadObject tempLeadObject = null; SalesRep sales = null;
         try {
             Scanner aScanner = new Scanner(System.in);
-            System.out.println("Please enter their contact name.");
+            System.out.println("Please enter your SalesRep id.");
+            validateSalesRepLeadConstructor();
+            System.out.println("Please enter the lead's contact name.");
             tempName = aScanner.nextLine();
+            while (tempName == null || tempName.equals("")) {
+                colorMessage("Contact name cannot be blank. Please try again.", RED_TEXT);
+                tempName = aScanner.nextLine();
+            }
             System.out.println("Please enter their phone number, with no spaces.");
-            tempNumber = aScanner.nextLine();
+            while (tempNumber == null) {
+                tempString = aScanner.nextLine();
+                if (validatePhoneNumber(tempString)) { tempNumber = tempString; }
+                else {
+                    colorMessage("Please provide a valid phone number. It must be between 6 and 15 digits, and can have hyphens or +. Spaces are not allowed.",RED_TEXT);
+                }
+            }
             System.out.println("Please enter their email address.");
-            tempEmail = aScanner.nextLine();
+            while (tempEmail == null) {
+                tempString = aScanner.nextLine();
+                if (validateEmail(tempString)) {
+                    tempEmail = tempString;
+                }
+                else {
+                    colorMessage("Please provide a valid email address.",RED_TEXT);
+                }
+            }
             System.out.println("Please enter their company's name");
             tempCompany = aScanner.nextLine();
-            System.out.println("Please enter their SalesRep id.");
-            tempSalesId = aScanner.nextLong();
-            Optional<SalesRep> salesOptional = salesRepRepository.findById(tempSalesId);
-            SalesRep sales = salesOptional.get();
             tempLeadObject = new LeadObject(tempName, tempNumber, tempEmail, tempCompany, sales);
             leadObjectRepository.save(tempLeadObject);
             colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
@@ -61,6 +76,31 @@ public class LeadObjectService {
         }
         catch (Exception e) { System.out.println("Exception: " + e); }
         return tempLeadObject;
+    }
+
+    public static SalesRep validateSalesRepLeadConstructor() {
+        long tempLong; String tempString;
+        SalesRep sales = null;
+        List<SalesRep> salesList = salesRepRepository.findAll();
+        Scanner aScanner = new Scanner(System.in);
+        while (sales == null) {
+            tempLong = aScanner.nextLong();
+            if (salesRepExists(Long.toString(tempLong))) {
+                Optional<SalesRep> salesRep = salesRepRepository.findById(tempLong);
+                sales = salesRep.get();
+            } else if (salesList.size() < 1) {
+                System.out.println("No SalesRep profiles exist. Please create one now.");
+                sales = newSalesRep();
+            } else {
+                showSalesReps();
+                System.out.println("If you would like to create a new profile, type y");
+                if (aScanner.nextLine().equals("y") || aScanner.nextLine().equals("Y")) {
+                    sales = newSalesRep();
+                }
+                System.out.println("Otherwise, please enter a valid SalesRep id.");
+            }
+        }
+        return sales;
     }
 
     public static Account convertLead(long id) {
