@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.w3c.dom.ls.LSOutput;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -64,7 +65,6 @@ public class SalesRepService {
         } else System.out.println("There are no SalesReps! Try to add a new one by typing 'new salesRep'.");
     }
 
-    //TODO: Might need to be updated with a more elegant method
     public static void lookUpSalesRep(long id) {
         Optional<SalesRep> salesRepOptional = salesRepRepository.findById(id);
         if(!salesRepOptional.isPresent()) {
@@ -74,4 +74,5 @@ public class SalesRepService {
             System.out.println(salesRep);
         }
     }
+
 }
