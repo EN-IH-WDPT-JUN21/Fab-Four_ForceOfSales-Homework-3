@@ -83,7 +83,7 @@ public class CommandHandlerService {
                     voidChecker(lookupLead(id));
                     break;
                 case LOOKUP_OPPORTUNITY:
-                    voidChecker(lookUpOpportunity(id));
+                    lookUpOpportunity(id);
                     break;
                 case LOOKUP_ACCOUNT:
                     voidChecker(lookUpAccount(id));

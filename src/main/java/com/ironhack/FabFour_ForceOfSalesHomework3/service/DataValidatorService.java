@@ -3,8 +3,10 @@ package com.ironhack.FabFour_ForceOfSalesHomework3.service;
 import com.ironhack.FabFour_ForceOfSalesHomework3.dao.Account;
 import com.ironhack.FabFour_ForceOfSalesHomework3.dao.LeadObject;
 import com.ironhack.FabFour_ForceOfSalesHomework3.dao.Opportunity;
+import com.ironhack.FabFour_ForceOfSalesHomework3.dao.SalesRep;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.LeadObjectRepository;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.OpportunityRepository;
+import com.ironhack.FabFour_ForceOfSalesHomework3.repository.SalesRepRepository;
 import org.apache.commons.lang.WordUtils;
 import org.springframework.stereotype.Service;
 
@@ -19,11 +21,15 @@ public class DataValidatorService {
 
     private static LeadObjectRepository leadObjectRepository;
     private static OpportunityRepository opportunityRepository;
+    private static SalesRepRepository salesRepRepository;
+
 
     public DataValidatorService(LeadObjectRepository leadObjectRepository,
-                                OpportunityRepository opportunityRepository) {
+                                OpportunityRepository opportunityRepository,
+                                SalesRepRepository salesRepRepository) {
         this.leadObjectRepository = leadObjectRepository;
         this.opportunityRepository = opportunityRepository;
+        this.salesRepRepository = salesRepRepository;
     }
 
     //Method to check if the input for the e-mail address has a correct form
@@ -52,24 +58,35 @@ public class DataValidatorService {
     //Method to check if a lead with a specific ID exists
     public static boolean leadExists(String input) {
         List<LeadObject> listOfLeadObjects = leadObjectRepository.findAll();
-
         long inputAsLong = Long.parseLong(input);
 
         for(LeadObject leadObject : listOfLeadObjects) {
             long leadId = leadObject.getId();
             if(leadId == inputAsLong) return true;
         }
-
         return false;
     }
 
     //Method to check if an opportunity with the specific ID exists
     public static boolean opportunityExists(String input) {
         List<Opportunity> listOfOpportunities = opportunityRepository.findAll();
+        long inputAsLong = Long.parseLong(input);
+
         for(Opportunity opportunity : listOfOpportunities) {
-            if(opportunity != null) {
-                return true;
-            }
+            long opportunityId = opportunity.getId();
+            if(opportunityId == inputAsLong) return true;
+        }
+        return false;
+    }
+
+    //Method to check if a salesRep with the specific ID exists
+    public static boolean salesRepExists(String input) {
+        List<SalesRep> listOfSalesReps = salesRepRepository.findAll();
+        long inputAsLong = Long.parseLong(input);
+
+        for(SalesRep salesRep : listOfSalesReps) {
+            long salesRepId = salesRep.getId();
+            if(salesRepId == inputAsLong) return true;
         }
         return false;
     }

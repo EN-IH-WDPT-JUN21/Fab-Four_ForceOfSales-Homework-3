@@ -1,9 +1,6 @@
 package com.ironhack.FabFour_ForceOfSalesHomework3.service;
 
-import com.ironhack.FabFour_ForceOfSalesHomework3.dao.Account;
-import com.ironhack.FabFour_ForceOfSalesHomework3.dao.Contact;
-import com.ironhack.FabFour_ForceOfSalesHomework3.dao.LeadObject;
-import com.ironhack.FabFour_ForceOfSalesHomework3.dao.Opportunity;
+import com.ironhack.FabFour_ForceOfSalesHomework3.dao.*;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Product;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Status;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.OpportunityRepository;
@@ -11,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+import static com.ironhack.FabFour_ForceOfSalesHomework3.service.AccountService.RED_TEXT;
+import static com.ironhack.FabFour_ForceOfSalesHomework3.service.DataValidatorService.opportunityExists;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.colorMessage;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.getUserInput;
 
@@ -37,6 +36,7 @@ public class OpportunityService {
         return opportunity;
     }
 
+    /*
     public static Opportunity lookUpOpportunity(long id) {
         Optional<Opportunity> opportunityOptional = opportunityRepository.findById(id);
         Opportunity opportunity = opportunityOptional.get();
@@ -47,34 +47,44 @@ public class OpportunityService {
         return opportunity;
     }
 
+     */
+
+    public static void lookUpOpportunity(long id) {
+        Optional<Opportunity> opportunityOptional = opportunityRepository.findById(id);
+        if(!opportunityOptional.isPresent()) {
+            colorMessage("There is no Opportunity with id " + id + ". Please try again.", RED_TEXT);
+        } else {
+            Opportunity opportunity = opportunityOptional.get();
+            System.out.println(opportunity);
+        }
+    }
+
     // Update opportunity status to closed-lost
     public static void updateOpportunityStatusClosedLost(long id) {
-        boolean found = false;
-        Opportunity opportunity = lookUpOpportunity(id);
-        if (opportunity != null) {
+        if (opportunityExists(Long.toString(id))) {
+            Optional<Opportunity> opportunityOptional = opportunityRepository.findById(id);
+            Opportunity opportunity = opportunityOptional.get();
             opportunity.setStatus(Status.CLOSED_LOST);
+            opportunityRepository.save(opportunity);
             colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
             colorMessage("The opportunity status has been set to 'closed-lost'.", GREEN_TEXT);
             colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
-            found = true;
-        }
-        if(!found) {
+        } else {
             System.out.println("There is no opportunity with this ID. Please try again.");
         }
     }
 
     // Update opportunity status to closed-won
     public static void updateOpportunityStatusClosedWin(long id) {
-        boolean found = false;
-        Opportunity opportunity = lookUpOpportunity(id);
-        if (opportunity != null) {
+        if (opportunityExists(Long.toString(id))) {
+            Optional<Opportunity> opportunityOptional = opportunityRepository.findById(id);
+            Opportunity opportunity = opportunityOptional.get();
             opportunity.setStatus(Status.CLOSED_WON);
+            opportunityRepository.save(opportunity);
             colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
             colorMessage("The opportunity status has been set to 'closed-won'.", GREEN_TEXT);
             colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
-            found = true;
-        }
-        if(!found) {
+        } else {
             System.out.println("There is no opportunity with this ID. Please try again.");
         }
     }
