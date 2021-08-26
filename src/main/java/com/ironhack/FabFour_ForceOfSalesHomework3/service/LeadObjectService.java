@@ -16,8 +16,7 @@ import static com.ironhack.FabFour_ForceOfSalesHomework3.service.DataValidatorSe
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.colorMessage;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.getUserInput;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.OpportunityService.createOpportunity;
-import static com.ironhack.FabFour_ForceOfSalesHomework3.service.SalesRepService.findSalesRep;
-import static com.ironhack.FabFour_ForceOfSalesHomework3.service.SalesRepService.lookUpSalesRep;
+import static com.ironhack.FabFour_ForceOfSalesHomework3.service.SalesRepService.*;
 
 @Service
 public class LeadObjectService {
@@ -41,8 +40,27 @@ public class LeadObjectService {
         String tempCompany = null;
         String tempString; long tempLong;
         LeadObject tempLeadObject = null;
+        List<SalesRep> salesList = salesRepRepository.findAll();
         try {
             Scanner aScanner = new Scanner(System.in);
+            System.out.println("Please enter your SalesRep id.");
+            SalesRep sales = findSalesRep(aScanner.nextLong()); // needs a method that returns a SalesRep or null
+            while(sales == null) {
+                colorMessage("That id does not exist. Would you like to create a new SalesRep profile? y/n", RED_TEXT);
+                if (aScanner.nextLine().equals("y") || aScanner.nextLine().equals("Y")) {
+                    newSalesRep();
+                }
+                else if (salesList.size() < 1){
+                    System.out.println("Please create a SalesRep profile.");
+                    newSalesRep();
+                }
+                else {
+                    System.out.println("These are the current Sales Reps.");
+                    showSalesReps();
+                    System.out.println("Please enter a valid SalesRep id.");
+                    sales = findSalesRep(aScanner.nextLong());
+                }
+            }
             System.out.println("Please enter their contact name.");
             tempName = aScanner.nextLine();
             System.out.println("Please enter their phone number, with no spaces.");
@@ -73,12 +91,6 @@ public class LeadObjectService {
             }
             System.out.println("Please enter their company's name");
             tempCompany = aScanner.nextLine();
-            System.out.println("Please enter their SalesRep id.");
-            SalesRep sales = findSalesRep(aScanner.nextLong()); // needs a method that returns a SalesRep or null
-            while(sales == null) {
-                colorMessage("Please enter a different SalesRep id.", RED_TEXT);
-                sales = findSalesRep(aScanner.nextLong());
-            }
             tempLeadObject = new LeadObject(tempName, tempNumber, tempEmail, tempCompany, sales);
             leadObjectRepository.save(tempLeadObject);
             colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
