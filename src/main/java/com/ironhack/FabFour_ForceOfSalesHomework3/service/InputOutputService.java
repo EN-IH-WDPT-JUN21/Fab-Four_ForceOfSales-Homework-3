@@ -131,7 +131,7 @@ public class InputOutputService {
             result = getAccountData();
         } else if ("account".equals(inputType) && ("n".equals(userInput) || "N".equals(userInput))) {
             result = getAccountId();
-        } else if ("accountId".equals(inputType) && !isEmpty(userInput) && lookUpAccount(Long.parseLong(userInput)) != null) {
+        } else if ("accountId".equals(inputType) && !isEmpty(userInput) && accountExists(userInput)) {
             result = userInput;
         }
         else {

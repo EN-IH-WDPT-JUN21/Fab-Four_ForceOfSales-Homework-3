@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import static com.ironhack.FabFour_ForceOfSalesHomework3.service.AccountService.RED_TEXT;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.DataValidatorService.opportunityExists;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.colorMessage;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.getUserInput;
