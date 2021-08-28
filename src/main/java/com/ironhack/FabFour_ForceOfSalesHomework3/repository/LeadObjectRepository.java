@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LeadObjectRepository extends JpaRepository<LeadObject, Long> {
 
-    @Query("SELECT id, COUNT(id) FROM Leads GROUP BY sales_id WHERE sales_id = :salesRepId")
-    long countBySalesRep(@Param("salesRepId") long salesRepId);
+//    @Query("SELECT COUNT(ID) FROM LEAD_OBJECT WHERE SALES_ID = :salesRepId;")
+//    long countBySalesRep(@Param("salesRepId") long salesRepId);
 
 }

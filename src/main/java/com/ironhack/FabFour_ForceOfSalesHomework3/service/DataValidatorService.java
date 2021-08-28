@@ -123,6 +123,15 @@ public class DataValidatorService {
         return matcher.matches();
     }
 
+    //Method to  check if the String contains only numbers
+    public static boolean isNumeric(String input) {
+        final String regex = "[1-9]|[1-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9][0-9][0-9]";
+
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(input);
+        return matcher.matches();
+    }
+
     //Method to check if the String is an ISO country name
     public static boolean validateCountryName(String countryName) {
         List<String> countryList = getCountryList();

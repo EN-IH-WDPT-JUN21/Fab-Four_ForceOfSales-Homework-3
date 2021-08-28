@@ -84,20 +84,29 @@ public class LeadObjectService {
         List<SalesRep> salesList = salesRepRepository.findAll();
         Scanner aScanner = new Scanner(System.in);
         while (sales == null) {
-            tempLong = aScanner.nextLong();
-            if (salesRepExists(Long.toString(tempLong))) {
-                Optional<SalesRep> salesRep = salesRepRepository.findById(tempLong);
-                sales = salesRep.get();
-            } else if (salesList.size() < 1) {
-                System.out.println("No SalesRep profiles exist. Please create one now.");
-                sales = newSalesRep();
-            } else {
-                showSalesReps();
-                System.out.println("If you would like to create a new profile, type y");
-                if (aScanner.nextLine().equals("y") || aScanner.nextLine().equals("Y")) {
+            tempString = aScanner.nextLine();
+            if (isNumeric(tempString)) {
+                tempLong = Long.parseLong(tempString);
+                if (salesRepExists(tempString)) {
+                    Optional<SalesRep> salesRep = salesRepRepository.findById(tempLong);
+                    sales = salesRep.get();
+                } else if (salesList.size() < 1) {
+                    System.out.println("No SalesRep profiles exist. Please create one now.");
                     sales = newSalesRep();
+                } else {
+                    showSalesReps();
+                    System.out.println("If you would like to create a new profile, type y.");
+                    tempString = aScanner.nextLine();
+                    if (tempString.contains("y") || tempString.contains("Y")) {
+                        sales = newSalesRep();
+                    }
+                    else {
+                        System.out.println("Please enter a valid SalesRep id.");
+                    }
                 }
-                System.out.println("Otherwise, please enter a valid SalesRep id.");
+            }
+            else {
+                System.out.println("SalesRep Id can only be a number. Please try again.");
             }
         }
         return sales;

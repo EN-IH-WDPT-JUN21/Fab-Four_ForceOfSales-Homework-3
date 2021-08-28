@@ -19,16 +19,16 @@ public class ReportService {
 //
 //    }
 
-    public static void reportByLeads(List<SalesRep> salesReps) {
-        List<LeadObject> leadObjectList = leadObjectRepository.findAll();
-        String printFormat = "| %-10d | %-25s |%n";
-        System.out.println("Here are the number of leads per SalesRep:" + "\n");
-        System.out.format("+------------+---------------------------+%n");
-        System.out.format("| Name       | Number of Leads           |%n");
-        System.out.format("+------------+---------------------------+%n");
-        for (SalesRep sales : salesReps) {
-            System.out.format(printFormat, sales.getName(), leadObjectRepository.countBySalesRep(sales.getId()));
-        }
-        System.out.format("+------------+---------------------------+%n");
-    }
+//    public static void reportByLeads(List<SalesRep> salesReps) {
+//        List<LeadObject> leadObjectList = leadObjectRepository.findAll();
+//        String printFormat = "| %-10d | %-25s |%n";
+//        System.out.println("Here are the number of leads per SalesRep:" + "\n");
+//        System.out.format("+------------+---------------------------+%n");
+//        System.out.format("| Name       | Number of Leads           |%n");
+//        System.out.format("+------------+---------------------------+%n");
+//        for (SalesRep sales : salesReps) {
+//            System.out.format(printFormat, sales.getName(), leadObjectRepository.countBySalesRep(sales.getId()));
+//        }
+//        System.out.format("+------------+---------------------------+%n");
+//    }
 }
