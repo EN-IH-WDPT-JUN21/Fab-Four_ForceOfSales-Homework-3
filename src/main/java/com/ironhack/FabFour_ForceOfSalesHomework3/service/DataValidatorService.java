@@ -123,7 +123,7 @@ public class DataValidatorService {
         return matcher.matches();
     }
 
-    //Method to  check if the String contains only numbers
+    //Method to  check if the String contains only numbers, from 1 - 9999
     public static boolean isNumeric(String input) {
         final String regex = "[1-9]|[1-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9][0-9][0-9]";
 

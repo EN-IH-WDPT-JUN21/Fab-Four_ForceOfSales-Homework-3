@@ -41,7 +41,7 @@ public class LeadObjectService {
         try {
             Scanner aScanner = new Scanner(System.in);
             System.out.println("Please enter your SalesRep id.");
-            validateSalesRepLeadConstructor();
+            sales = validateSalesRepLeadConstructor();
             System.out.println("Please enter the lead's contact name.");
             tempName = aScanner.nextLine();
             while (tempName == null || tempName.equals("")) {
