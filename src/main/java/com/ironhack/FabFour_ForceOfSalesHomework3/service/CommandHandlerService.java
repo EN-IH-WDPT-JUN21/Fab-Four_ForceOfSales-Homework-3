@@ -86,7 +86,7 @@ public class CommandHandlerService {
                     lookUpOpportunity(id);
                     break;
                 case LOOKUP_ACCOUNT:
-                    voidChecker(lookUpAccount(id));
+                    lookUpAccount(id);
                     break;
                 case EXPORT_OPPORTUNITIES:
                     exportOppInformation();

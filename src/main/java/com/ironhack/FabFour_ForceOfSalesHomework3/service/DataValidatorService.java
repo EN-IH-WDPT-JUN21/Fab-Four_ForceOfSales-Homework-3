@@ -4,6 +4,7 @@ import com.ironhack.FabFour_ForceOfSalesHomework3.dao.Account;
 import com.ironhack.FabFour_ForceOfSalesHomework3.dao.LeadObject;
 import com.ironhack.FabFour_ForceOfSalesHomework3.dao.Opportunity;
 import com.ironhack.FabFour_ForceOfSalesHomework3.dao.SalesRep;
+import com.ironhack.FabFour_ForceOfSalesHomework3.repository.AccountRepository;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.LeadObjectRepository;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.OpportunityRepository;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.SalesRepRepository;
@@ -26,14 +27,17 @@ public class DataValidatorService {
     private static LeadObjectRepository leadObjectRepository;
     private static OpportunityRepository opportunityRepository;
     private static SalesRepRepository salesRepRepository;
+    private static AccountRepository accountRepository;
 
 
     public DataValidatorService(LeadObjectRepository leadObjectRepository,
                                 OpportunityRepository opportunityRepository,
-                                SalesRepRepository salesRepRepository) {
+                                SalesRepRepository salesRepRepository,
+                                AccountRepository accountRepository) {
         this.leadObjectRepository = leadObjectRepository;
         this.opportunityRepository = opportunityRepository;
         this.salesRepRepository = salesRepRepository;
+        this.accountRepository = accountRepository;
     }
 
     //Method to check if the input for the e-mail address has a correct form
@@ -79,6 +83,18 @@ public class DataValidatorService {
         for(Opportunity opportunity : listOfOpportunities) {
             long opportunityId = opportunity.getId();
             if(opportunityId == inputAsLong) return true;
+        }
+        return false;
+    }
+
+    //Method to check if an account with the specific ID exists
+    public static boolean accountExists(String input) {
+        List<Account> listOfAccounts = accountRepository.findAll();
+        long inputAsLong = Long.parseLong(input);
+
+        for(Account account : listOfAccounts) {
+            long accountId = account.getId();
+            if(accountId == inputAsLong) return true;
         }
         return false;
     }

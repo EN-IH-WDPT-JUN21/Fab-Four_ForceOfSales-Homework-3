@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+import static com.ironhack.FabFour_ForceOfSalesHomework3.service.DataValidatorService.accountExists;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.colorMessage;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.getUserInput;
 
@@ -40,13 +41,14 @@ public class AccountService {
         this.leadObjectRepository = leadObjectRepository;
     }
 
-    public static Account lookUpAccount(long id) {
+    public static void lookUpAccount(long id)  {
         Optional<Account> accountOptional = accountRepository.findById(id);
-        Account account = accountOptional.get();
-        if(account == null) {
-            colorMessage("There is no account with id "+id, RED_TEXT);
+        if(!accountOptional.isPresent()) {
+            colorMessage("There is no Account with id " + id + ". Please try again.", RED_TEXT);
+        } else {
+            Account account = accountOptional.get();
+            System.out.println(account);
         }
-        return account;
     }
 
     //getAccountData
@@ -86,23 +88,29 @@ public class AccountService {
     //addToAccount
     public static Account addToAccount(String id, LeadObject lead, Contact contact, Opportunity opportunity) {
         Long accountId = Long.parseLong(id);
-        Account account = lookUpAccount(accountId);
-        contact.setAccount(account);
-        contactRepository.save(contact);
-        opportunity.setAccount(account);
-        opportunityRepository.save(opportunity);
-        List<Contact> newList = account.getContactList();
-        List<Opportunity> newOpp = account.getOpportunityList();
-        newList.add(contact);
-        newOpp.add(opportunity);
-        account.setContactList(newList);
-        account.setOpportunityList(newOpp);
-        accountRepository.save(account);
-        leadObjectRepository.deleteById(lead.getId());
-        colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
-        colorMessage("Account " + account.getId() + " has been updated", GREEN_TEXT);
-        colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
-        return account;
+        if(accountExists(id)) {
+            Optional<Account> accountOptional = accountRepository.findById(accountId);
+            Account account = accountOptional.get();
+            contact.setAccount(account);
+            contactRepository.save(contact);
+            opportunity.setAccount(account);
+            opportunityRepository.save(opportunity);
+            List<Contact> newList = account.getContactList();
+            List<Opportunity> newOpp = account.getOpportunityList();
+            newList.add(contact);
+            newOpp.add(opportunity);
+            account.setContactList(newList);
+            account.setOpportunityList(newOpp);
+            accountRepository.save(account);
+            leadObjectRepository.deleteById(lead.getId());
+            colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
+            colorMessage("Account " + account.getId() + " has been updated", GREEN_TEXT);
+            colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
+            return account;
+        } else {
+            System.out.println("There is no account with this ID. Please try again.");
+        }
+        return null;
     }
     //getAccountId
     public static List<Object> getAccountId() {
