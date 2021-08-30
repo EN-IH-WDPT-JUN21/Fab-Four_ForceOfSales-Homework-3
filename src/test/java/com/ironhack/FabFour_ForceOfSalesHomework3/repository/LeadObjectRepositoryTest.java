@@ -36,9 +36,9 @@ public class LeadObjectRepositoryTest {
         leadObjectRepository.deleteAll();
     }
 
-//    @Test
-//    public void countBySalesRep_ResultsAsExpected() {
-//        var leadCount = leadObjectRepository.countBySalesRep(salesRepTest.getId());
-//        assertEquals(3, leadCount);
-//    }
+    @Test
+    public void countBySalesRep_ResultsAsExpected() {
+        var leadCount = leadObjectRepository.countBySalesRep(salesRepTest.getId());
+        assertEquals(3, leadCount);
+    }
 }
