@@ -60,12 +60,21 @@ public class Account {
         setOpportunityList(opportunityList);
     }
 
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//        com.ironhack.FabFour_ForceOfSalesHomework3.dao.Account account = (com.ironhack.FabFour_ForceOfSalesHomework3.dao.Account) o;
+//        return employeeCount == account.employeeCount && industry == account.industry && city.equals(account.city) && country.equals(account.country) && contactList.equals(account.contactList) && opportunityList.equals(account.opportunityList);
+//    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        com.ironhack.FabFour_ForceOfSalesHomework3.dao.Account account = (com.ironhack.FabFour_ForceOfSalesHomework3.dao.Account) o;
-        return employeeCount == account.employeeCount && industry == account.industry && city.equals(account.city) && country.equals(account.country) && contactList.equals(account.contactList) && opportunityList.equals(account.opportunityList);
+
+        Account that = (Account) o;
+        return this.getIndustry() == that.getIndustry() && this.getEmployeeCount() == that.getEmployeeCount() && this.getCity() == that.getCity() && this.getCountry() == that.getCountry();
     }
 
     @Override //add case for multiple opportunities/contacts
