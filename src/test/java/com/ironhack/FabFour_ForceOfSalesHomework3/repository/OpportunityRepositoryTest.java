@@ -43,6 +43,8 @@ class OpportunityRepositoryTest {
     @AfterEach
     void tearDown() {
         opportunityRepository.deleteAll();
+        contactRepository.deleteAll();
+        salesRepRepository.deleteAll();
     }
 
     @Test

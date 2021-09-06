@@ -35,6 +35,7 @@ class LeadObjectRepositoryTest {
     @AfterEach
     void tearDown() {
         leadObjectRepository.deleteAll();
+        salesRepRepository.deleteAll();
     }
 
     @Test
