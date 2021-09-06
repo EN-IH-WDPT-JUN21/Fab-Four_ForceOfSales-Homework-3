@@ -60,6 +60,7 @@ public class CommandHandlerService {
                                     "\nSHOW ALL DATA PER TYPE\n" +
                                     " > show leads - to show all of leads\n" +
                                     " > show salesReps - to show all the salesReps\n" +
+                                    " > show accounts - to show all the accounts\n" +
 
                                     "\nEXPORT SOME DATA\n" +
                                     " > export leads - to export all current leads\n" +
