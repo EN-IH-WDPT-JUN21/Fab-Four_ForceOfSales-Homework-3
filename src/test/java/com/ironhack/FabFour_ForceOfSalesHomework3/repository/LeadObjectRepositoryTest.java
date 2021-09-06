@@ -41,6 +41,7 @@ public class LeadObjectRepositoryTest {
     void tearDown() {
         salesRepRepository.deleteAll();
         leadObjectRepository.deleteAll();
+        salesRepRepository.deleteAll();
     }
 
     @Test
