@@ -1,9 +1,6 @@
 package com.ironhack.FabFour_ForceOfSalesHomework3.service;
 
-import com.ironhack.FabFour_ForceOfSalesHomework3.dao.Account;
-import com.ironhack.FabFour_ForceOfSalesHomework3.dao.Contact;
-import com.ironhack.FabFour_ForceOfSalesHomework3.dao.LeadObject;
-import com.ironhack.FabFour_ForceOfSalesHomework3.dao.Opportunity;
+import com.ironhack.FabFour_ForceOfSalesHomework3.dao.*;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Industry;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.AccountRepository;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.ContactRepository;
@@ -13,9 +10,11 @@ import org.apache.commons.lang.WordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.DataValidatorService.accountExists;
+import static com.ironhack.FabFour_ForceOfSalesHomework3.service.DataValidatorService.isDuplicateAccount;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.colorMessage;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.getUserInput;
 
@@ -72,51 +71,83 @@ public class AccountService {
         opportunityList.add(opportunity);
         account = new Account((Industry) dataList.get(0), (Integer) dataList.get(1), WordUtils.capitalizeFully((String)dataList.get(2)),
                 WordUtils.capitalizeFully((String) dataList.get(3)), contactList, opportunityList);
-        accountRepository.save(account);
-        contact.setAccount(account);
-        opportunity.setAccount(account);
-        contactRepository.save(contact);
-        opportunityRepository.save(opportunity);
-        leadObjectRepository.deleteById(lead.getId());
-        colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
-        colorMessage("Opportunity created. Opportunity ID: " + opportunity.getId(), GREEN_TEXT);
-        colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
-        colorMessage("Account created. Account ID: " + account.getId(), GREEN_TEXT);
-        colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
-        return account;
-    }
-    //addToAccount
-    public static Account addToAccount(String id, LeadObject lead, Contact contact, Opportunity opportunity) {
-        Long accountId = Long.parseLong(id);
-        if(accountExists(id)) {
-            Optional<Account> accountOptional = accountRepository.findById(accountId);
-            Account account = accountOptional.get();
-            contact.setAccount(account);
-            contactRepository.save(contact);
-            opportunity.setAccount(account);
-            opportunityRepository.save(opportunity);
-            List<Contact> newList = account.getContactList();
-            List<Opportunity> newOpp = account.getOpportunityList();
-            newList.add(contact);
-            newOpp.add(opportunity);
-            account.setContactList(newList);
-            account.setOpportunityList(newOpp);
+        if(!isDuplicateAccount(account)) {
             accountRepository.save(account);
+            contact.setAccount(account);
+            opportunity.setAccount(account);
+            contactRepository.save(contact);
+            opportunityRepository.save(opportunity);
             leadObjectRepository.deleteById(lead.getId());
             colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
-            colorMessage("Account " + account.getId() + " has been updated", GREEN_TEXT);
+            colorMessage("Opportunity created. Opportunity ID: " + opportunity.getId(), GREEN_TEXT);
+            colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
+            colorMessage("Account created. Account ID: " + account.getId(), GREEN_TEXT);
             colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
             return account;
         } else {
-            System.out.println("There is no account with this ID. Please try again.");
+            System.out.println("Account with this information already exists.");
+            showAccounts();
+            colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
+            colorMessage("Terminating convert operation. Your data will not be saved.", GREEN_TEXT);
+            colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
+            return null;
         }
-        return null;
     }
+    //addToAccount
+    public static Account addToAccount(String id, LeadObject lead, Contact contact, Opportunity opportunity) {
+        System.out.println("in addToAccount");
+        Long accountId = Long.parseLong(id);
+        Optional<Account> accountOptional = accountRepository.findById(accountId);
+        Account account = accountOptional.get();
+        contact.setAccount(account);
+        contactRepository.save(contact);
+        opportunity.setAccount(account);
+        opportunityRepository.save(opportunity);
+        List<Contact> newList = account.getContactList();
+        List<Opportunity> newOpp = account.getOpportunityList();
+        newList.add(contact);
+        newOpp.add(opportunity);
+        account.setContactList(newList);
+        account.setOpportunityList(newOpp);
+        accountRepository.save(account);
+        leadObjectRepository.deleteById(lead.getId());
+        colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
+        colorMessage("Account " + account.getId() + " has been updated", GREEN_TEXT);
+        colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
+        return account;
+        }
+
     //getAccountId
     public static List<Object> getAccountId() {
-        System.out.println("Please provide the id of the Account you want to use");
+        System.out.println("Please provide the id of the Account you want to use or type 'go back' to abandon the operation.");
         String accountId = (String) getUserInput("accountId");
-        return Arrays.asList(accountId);
+        if(accountId.equals("no account")) {
+            System.out.println("Checking the list of existing accounts.");
+            showAccounts();
+            return getAccountId();
+        } else if((accountRepository.count() == 0) || accountId.equals("go back")) {
+            showAccounts();
+            colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
+            colorMessage("Terminating convert operation. Your data will not be saved.", GREEN_TEXT);
+            colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
+            removeIncompleteData();
+            return Arrays.asList(0);
+        }  else {
+            return Arrays.asList(accountId);
+        }
+    }
+
+    public static void removeIncompleteData() {
+        for(Opportunity o : opportunityRepository.findAll()) {
+            if(o.getAccount() == null) {
+                opportunityRepository.deleteById(o.getId());
+            }
+        }
+        for(Contact c: contactRepository.findAll()) {
+            if(c.getAccount() == null) {
+                contactRepository.deleteById(c.getId());
+            }
+        }
     }
 
     public static List<String> getCountryList() {
@@ -131,6 +162,22 @@ public class AccountService {
             }
         }
         return countries;
+    }
+
+    public static void showAccounts() {
+        List<Account> accountList = accountRepository.findAll();
+        String printFormat = "| %-10d | %-20s | %-15s | %-25s | %-19s| %n";
+
+        if(accountList.size() > 0) {
+            System.out.println("These are the Accounts logged in our system:" + "\n");
+            System.out.format("+------------+----------------------+-----------------+---------------------------+--------------------+%n");
+            System.out.format("| ID         | Industry             | City            | Country                   | Number of Contacts |%n");
+            System.out.format("+------------+----------------------+-----------------+---------------------------+--------------------+%n");
+            for (Account account : accountList) {
+                System.out.format(printFormat, account.getId(), account.getIndustry(), account.getCity(), account.getCountry(), account.getContactList().size());
+            }
+            System.out.format("+------------+----------------------+-----------------+---------------------------+--------------------+%n");
+        } else System.out.println("There are no Accounts! Try to add a new one by typing 'convert {lead id}'.");
     }
 
 }

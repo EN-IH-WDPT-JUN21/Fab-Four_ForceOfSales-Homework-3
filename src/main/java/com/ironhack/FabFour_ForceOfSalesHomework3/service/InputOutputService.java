@@ -13,7 +13,9 @@ import java.io.FileWriter;
 import java.util.Scanner;
 
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.AccountService.*;
+import static com.ironhack.FabFour_ForceOfSalesHomework3.service.CommandHandlerService.handleCommand;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.DataValidatorService.*;
+import static com.ironhack.FabFour_ForceOfSalesHomework3.service.StartApp.readCommands;
 
 @Service
 public class InputOutputService {
@@ -106,10 +108,10 @@ public class InputOutputService {
                 } else {
                     colorMessage("Please provide the correct value.", RED_TEXT);
                 }
-            } catch (Exception e) {
-                System.out.println("Exception is: " + e);
+            } catch(Exception e){
+                    System.out.println("Exception is: " + e);
+                }
             }
-        }
         return null;
     }
 
@@ -131,10 +133,14 @@ public class InputOutputService {
             result = getAccountData();
         } else if ("account".equals(inputType) && ("n".equals(userInput) || "N".equals(userInput))) {
             result = getAccountId();
-        } else if ("accountId".equals(inputType) && !isEmpty(userInput) && accountExists(userInput)) {
+        } else if ("accountId".equals(inputType) && !isEmpty(userInput) && isLong(userInput) && accountExists(userInput)) {
             result = userInput;
-        }
-        else {
+        } else if ("accountId".equals(inputType) && !isEmpty(userInput) && "go back".equals(userInput)) {
+            result = "go back";
+        } else if ("accountId".equals(inputType) && !isEmpty(userInput) && !accountExists(userInput)) {
+            System.out.println("Account with ID: " + userInput + " doesn't exist.");
+            result = "no account";
+        } else {
             return null;
         }
         return result;
@@ -146,6 +152,16 @@ public class InputOutputService {
             Integer.parseInt(input);
             return true;
         } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    public static boolean isLong(String input) {
+        try {
+            Long.parseLong( input );
+            return true;
+        }
+        catch( Exception e ) {
             return false;
         }
     }

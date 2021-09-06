@@ -4,6 +4,7 @@ import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Command;
 import org.springframework.stereotype.Service;
 
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.AccountService.lookUpAccount;
+import static com.ironhack.FabFour_ForceOfSalesHomework3.service.AccountService.showAccounts;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.*;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.LeadObjectService.*;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.OpportunityService.*;
@@ -30,6 +31,9 @@ public class CommandHandlerService {
                     break;
                 case SHOW_LEADS:
                     showLeads();
+                    break;
+                case SHOW_ACCOUNTS:
+                    showAccounts();
                     break;
                 case EXPORT_LEADS:
                     exportLeadInformation();
