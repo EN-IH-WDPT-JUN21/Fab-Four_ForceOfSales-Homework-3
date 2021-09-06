@@ -11,9 +11,9 @@ import org.springframework.stereotype.Repository;
 public interface LeadObjectRepository extends JpaRepository<LeadObject, Long> {
 
     @Query(
-            value = "SELECT sales_rep.name, COUNT(lead_object.id) FROM lead_object INNER JOIN sales_rep ON sales_rep.id = lead_object.sales_id GROUP BY sales_rep.name",
+            value = "SELECT COUNT(lead_object.id) FROM lead_object INNER JOIN sales_rep ON sales_rep.id = lead_object.sales_id WHERE sales_rep.name = :name",
             nativeQuery = true
     )
-    long countLeadObjectsBySalesRep();
+    long countLeadObjectsBySalesRep(@Param("name")String name);
 
 }

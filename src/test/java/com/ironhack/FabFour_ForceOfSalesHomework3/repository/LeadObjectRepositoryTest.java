@@ -40,8 +40,14 @@ public class LeadObjectRepositoryTest {
     }
 
     @Test
-    public void countBySalesRep_ResultsAsExpected() {
-        var leadCount = leadObjectRepository.countLeadObjectsBySalesRep();
+    public void LeadObjectRepository_CountBySalesRepTest_PositiveResult() {
+        var leadCount = leadObjectRepository.countLeadObjectsBySalesRep("Maddy");
         assertEquals(3, leadCount);
+    }
+
+    @Test
+    public void LeadObjectRepository_CountBySalesRepTest_NegativeResult() {
+        var leadCount = leadObjectRepository.countLeadObjectsBySalesRep("Big");
+        assertEquals(0, leadCount);
     }
 }

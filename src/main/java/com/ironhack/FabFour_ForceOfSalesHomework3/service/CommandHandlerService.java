@@ -7,6 +7,7 @@ import static com.ironhack.FabFour_ForceOfSalesHomework3.service.AccountService.
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.*;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.LeadObjectService.*;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.OpportunityService.*;
+import static com.ironhack.FabFour_ForceOfSalesHomework3.service.ReportService.reportBySalesRep;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.SalesRepService.*;
 
 @Service
