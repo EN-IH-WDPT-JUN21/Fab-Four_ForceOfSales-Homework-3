@@ -16,6 +16,7 @@ public enum Command {
     CONVERT("CONVERT"),
     CLOSE_WON("CLOSE-WON"),
     CLOSE_LOST("CLOSE-LOST"),
+    REPORT("REPORT"),
     HELP("HELP"),
     NONE("");
 
