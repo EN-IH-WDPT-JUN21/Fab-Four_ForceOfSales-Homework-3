@@ -32,6 +32,7 @@ public class LeadObject {
     private String companyName;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="sales_id")
     private SalesRep sales;
 
     public LeadObject(String contactName, String phoneNumber, String email, String companyName, SalesRep sales) {

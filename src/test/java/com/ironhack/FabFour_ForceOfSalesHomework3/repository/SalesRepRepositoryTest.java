@@ -1,5 +1,6 @@
 package com.ironhack.FabFour_ForceOfSalesHomework3.repository;
 
+import com.ironhack.FabFour_ForceOfSalesHomework3.dao.LeadObject;
 import com.ironhack.FabFour_ForceOfSalesHomework3.dao.SalesRep;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

@@ -9,6 +9,8 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Setter
@@ -77,12 +79,27 @@ public class Account {
         return this.getIndustry() == that.getIndustry() && this.getEmployeeCount() == that.getEmployeeCount() && this.getCity() == that.getCity() && this.getCountry() == that.getCountry();
     }
 
-    @Override //add case for multiple opportunities/contacts
+    public String contactIdString(List<Contact> lst) {
+        List<Long> idList = new ArrayList<>();
+        for(Contact c : lst) {
+           idList.add(c.getId());
+        }
+        return Arrays.toString(idList.toArray()).replace("[", "||").replace("]", "||");
+    }
+
+    public String opportunityIdString(List<Opportunity> lst) {
+        List<Long> idList = new ArrayList<>();
+        for(Opportunity o : lst) {
+            idList.add(o.getId());
+        }
+        return Arrays.toString(idList.toArray()).replace("[", "||").replace("]", "||");
+    }
+
+    @Override
     public String toString() {
         return "Account: " + this.getId() + ", Industry: " + this.getIndustry() + ", Number of employees: " +
                 this.getEmployeeCount() + ", City: " + this.getCity() + ", Country: " + this.getCountry() +
-                ", Contact: " + this.getContactList().get(0).getContactName() + ", Company: " + this.getContactList().get(0).getCompanyName() +
-                ", Opportunity ID:" + this.getOpportunityList().get(0).getId();
+                ", Contacts: " + contactIdString(this.getContactList()) + ", Opportunities:" + opportunityIdString(this.getOpportunityList());
         }
     }
 
