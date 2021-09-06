@@ -96,9 +96,14 @@ public class AccountTest {
     public void Account_ToStringTest_ValidateString() {
         String testString = "Account: " + account.getId() + ", Industry: " + account.getIndustry() + ", Number of employees: " +
                 account.getEmployeeCount() + ", City: " + account.getCity() + ", Country: " + account.getCountry()
-                + ", Contact: " + account.getContactList().get(0).getContactName() + ", Company: " + account.getContactList().get(0).getCompanyName()
-                + ", Opportunity ID:" + account.getOpportunityList().get(0).getId();
+                +  ", Contacts: " + account.contactIdString(account.getContactList()) + ", Opportunities:" + account.opportunityIdString(account.getOpportunityList());
+//                + ", Contact: " + account.getContactList().get(0).getContactName() + ", Company: " + account.getContactList().get(0).getCompanyName()
+//                + ", Opportunity ID:" + account.getOpportunityList().get(0).getId();
         assertEquals(testString, account.toString());
     }
+
+    /*
+                ", Contacts: " + contactIdString(this.getContactList()) + ", Opportunities:" + opportunityIdString(this.getOpportunityList());
+     */
 }
 

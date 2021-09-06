@@ -19,19 +19,18 @@ public class LeadObjectRepositoryTest {
     @Autowired
     private SalesRepRepository salesRepRepository;
 
-    private LeadObject leadObject;
+    private LeadObject leadTest1;
+    private LeadObject leadTest2;
+    private LeadObject leadTest3;
 
     @BeforeEach
     void setUp() {
-        SalesRep salesRep = new SalesRep("Jane");
+        SalesRep salesRep = new SalesRep("Maddy");
         salesRepRepository.save(salesRep);
 
-        leadObject = new LeadObject("John", "123456789", "john@gmail.com", "Small Company", salesRep);
-        
-        LeadObject leadTest1 = new LeadObject("Buzz", "0000000","buzz@test.com","A Company Name", salesRep1);
-        LeadObject leadTest2 = new LeadObject("Woody", "000000000", "woody@test.com", "A company name", salesRep1);
-        LeadObject leadTest3 = new LeadObject("Slinky","0000000","slinky@test.com","A company name", salesRep1);
-        leadObjectRepository.save(leadObject);  
+        leadTest1 = new LeadObject("Buzz", "0000000","buzz@test.com","A Company Name", salesRep);
+        leadTest2 = new LeadObject("Woody", "000000000", "woody@test.com", "A company name", salesRep);
+        leadTest3 = new LeadObject("Slinky","0000000","slinky@test.com","A company name", salesRep);
         leadObjectRepository.save(leadTest1);
         leadObjectRepository.save(leadTest2);
         leadObjectRepository.save(leadTest3);
@@ -46,7 +45,7 @@ public class LeadObjectRepositoryTest {
 
     @Test
     void findById_validId_leadObject() {
-        Optional<LeadObject> leadObjectOptional = leadObjectRepository.findById(leadObject.getId());
+        Optional<LeadObject> leadObjectOptional = leadObjectRepository.findById(leadTest1.getId());
         assertTrue(leadObjectOptional.isPresent());
     }
     
