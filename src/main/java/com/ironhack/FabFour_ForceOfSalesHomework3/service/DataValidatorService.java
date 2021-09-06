@@ -121,14 +121,16 @@ public class DataValidatorService {
         return false;
     }
 
-    //Method to check if an opportunity with the same information already exists
-    public static boolean isDuplicateOpportunity(Opportunity inputOpportunity) {
-        List<Opportunity> listOfOpportunities = opportunityRepository.findAll();
-        for(Opportunity opportunity : listOfOpportunities) {
-                if(opportunity.equals(inputOpportunity)) return true;
-            }
+    //Method to check if an account with the same information already exists
+    public static boolean isDuplicateAccount(Account newAccount) {
+        List<Account> listOfAccounts = accountRepository.findAll();
+
+        for(Account account : listOfAccounts) {
+            if(account.equals(newAccount)) return true;
+        }
         return false;
     }
+
 
     //Method to check if the String contains only letters and white spaces
     public static boolean containsOnlyLetters(String input) {

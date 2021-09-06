@@ -13,8 +13,7 @@ import static com.ironhack.FabFour_ForceOfSalesHomework3.service.AccountService.
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.AccountService.createAccount;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.ContactService.createContact;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.DataValidatorService.*;
-import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.colorMessage;
-import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.getUserInput;
+import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.*;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.OpportunityService.createOpportunity;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.SalesRepService.*;
 
@@ -123,9 +122,13 @@ public class LeadObjectService {
             Opportunity opportunity = createOpportunity(lead, contact);
             System.out.println("Would you like to create a new Account? (Y/N)");
             List<Object> dataList = (List) getUserInput("account");
-            Account account = (dataList.size() > 1) ?
-                    createAccount(lead, contact, opportunity, dataList) : addToAccount((String)dataList.get(0), lead, contact, opportunity);
-            return account;
+            if (dataList.get(0).toString().equals("0")) {
+                return null;
+            } else {
+                Account account = (dataList.size() > 1) ?
+                        createAccount(lead, contact, opportunity, dataList) : addToAccount((String) dataList.get(0), lead, contact, opportunity);
+                return account;
+            }
         }
     }
 
