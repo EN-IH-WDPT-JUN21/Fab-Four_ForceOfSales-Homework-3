@@ -15,16 +15,19 @@ public class LeadObjectRepositoryTest {
 
     @Autowired
     LeadObjectRepository leadObjectRepository;
+
+    @Autowired
     SalesRepRepository salesRepRepository;
 
-    SalesRep salesRepTest = new SalesRep("Maddy");
+    SalesRep salesRep1 = null;
 
     @BeforeEach
     public void setUp() {
-        salesRepRepository.save(salesRepTest);
-        LeadObject leadTest1 = new LeadObject("Buzz", "0000000","buzz@test.com","A Company Name", salesRepTest);
-        LeadObject leadTest2 = new LeadObject("Woody", "000000000", "woody@test.com", "A company name", salesRepTest);
-        LeadObject leadTest3 = new LeadObject("Slinky","0000000","slinky@test.com","A company name", salesRepTest);
+        salesRep1 = new SalesRep("Maddy");
+        salesRepRepository.save(salesRep1);
+        LeadObject leadTest1 = new LeadObject("Buzz", "0000000","buzz@test.com","A Company Name", salesRep1);
+        LeadObject leadTest2 = new LeadObject("Woody", "000000000", "woody@test.com", "A company name", salesRep1);
+        LeadObject leadTest3 = new LeadObject("Slinky","0000000","slinky@test.com","A company name", salesRep1);
         leadObjectRepository.save(leadTest1);
         leadObjectRepository.save(leadTest2);
         leadObjectRepository.save(leadTest3);
@@ -38,7 +41,7 @@ public class LeadObjectRepositoryTest {
 
     @Test
     public void countBySalesRep_ResultsAsExpected() {
-        var leadCount = leadObjectRepository.countBySalesRep(salesRepTest.getId());
+        var leadCount = leadObjectRepository.countLeadObjectsBySalesRep();
         assertEquals(3, leadCount);
     }
 }
