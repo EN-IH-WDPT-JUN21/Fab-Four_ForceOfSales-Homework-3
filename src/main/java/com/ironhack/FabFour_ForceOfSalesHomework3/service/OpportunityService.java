@@ -3,6 +3,7 @@ package com.ironhack.FabFour_ForceOfSalesHomework3.service;
 import com.ironhack.FabFour_ForceOfSalesHomework3.dao.*;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Product;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Status;
+import com.ironhack.FabFour_ForceOfSalesHomework3.enums.TextColor;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.OpportunityRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +16,6 @@ import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputServ
 
 @Service
 public class OpportunityService {
-
-    public static final String RED_TEXT = "\033[31m";
-    public static final String GREEN_TEXT = "\u001B[32m";
 
     private static OpportunityRepository opportunityRepository;
 
@@ -52,7 +50,7 @@ public class OpportunityService {
     public static void lookUpOpportunity(long id) {
         Optional<Opportunity> opportunityOptional = opportunityRepository.findById(id);
         if(!opportunityOptional.isPresent()) {
-            colorMessage("There is no Opportunity with id " + id + ". Please try again.", RED_TEXT);
+            colorMessage("There is no Opportunity with id " + id + ". Please try again.", TextColor.RED);
         } else {
             Opportunity opportunity = opportunityOptional.get();
             System.out.println(opportunity);
@@ -66,9 +64,9 @@ public class OpportunityService {
             Opportunity opportunity = opportunityOptional.get();
             opportunity.setStatus(Status.CLOSED_LOST);
             opportunityRepository.save(opportunity);
-            colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
-            colorMessage("The opportunity status has been set to 'closed-lost'.", GREEN_TEXT);
-            colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
+            colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", TextColor.GREEN);
+            colorMessage("The opportunity status has been set to 'closed-lost'.", TextColor.GREEN);
+            colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", TextColor.GREEN);
         } else {
             System.out.println("There is no opportunity with this ID. Please try again.");
         }
@@ -81,9 +79,9 @@ public class OpportunityService {
             Opportunity opportunity = opportunityOptional.get();
             opportunity.setStatus(Status.CLOSED_WON);
             opportunityRepository.save(opportunity);
-            colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
-            colorMessage("The opportunity status has been set to 'closed-won'.", GREEN_TEXT);
-            colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
+            colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", TextColor.GREEN);
+            colorMessage("The opportunity status has been set to 'closed-won'.", TextColor.GREEN);
+            colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", TextColor.GREEN);
         } else {
             System.out.println("There is no opportunity with this ID. Please try again.");
         }

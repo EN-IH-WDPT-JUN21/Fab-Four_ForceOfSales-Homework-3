@@ -3,6 +3,7 @@ package com.ironhack.FabFour_ForceOfSalesHomework3.service;
 import com.ironhack.FabFour_ForceOfSalesHomework3.dao.*;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Industry;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Product;
+import com.ironhack.FabFour_ForceOfSalesHomework3.enums.TextColor;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.AccountRepository;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.LeadObjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,7 +107,7 @@ public class InputOutputService {
                 if (result != null) {
                     return result;
                 } else {
-                    colorMessage("Please provide the correct value.", RED_TEXT);
+                    colorMessage("Please provide the correct value.", TextColor.RED);
                 }
             } catch(Exception e){
                     System.out.println("Exception is: " + e);
@@ -166,10 +167,10 @@ public class InputOutputService {
         }
     }
 
-    public static String colorMessage(String message, String color) {
+    public static String colorMessage(String message, TextColor textColor) {
         //Changes the color of System.output messages
         String resetCode = "\033[0m";   //resets color to the primary one
-        System.out.println(color + message + resetCode);
+        System.out.println(textColor.color + message + resetCode);
         return message;
     }
 }
