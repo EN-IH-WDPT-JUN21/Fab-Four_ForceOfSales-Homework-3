@@ -10,7 +10,8 @@ public class StartApp {
 
     private static void getTitle() {
         clearConsole();
-        System.out.println("  ______                                           __      _____           _              \n" +
+        System.out.println("\n" +
+                "  ______                                           __      _____           _              \n" +
                 " |  ____|                                         / _|    / ____|         | |             \n" +
                 " | |__      ___    _ __    ___    ___      ___   | |_    | (___     __ _  | |   ___   ___ \n" +
                 " |  __|    / _ \\  | '__|  / __|  / _ \\    / _ \\  |  _|    \\___ \\   / _` | | |  / _ \\ / __|\n" +
@@ -51,8 +52,10 @@ public class StartApp {
 
     public static void clearConsole() {
         try {
-            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-
+            new ProcessBuilder("cmd", "/c", "cls")
+                    .inheritIO()
+                    .start()
+                    .waitFor();
         } catch (InterruptedException | IOException e) {
             e.printStackTrace();
         }
