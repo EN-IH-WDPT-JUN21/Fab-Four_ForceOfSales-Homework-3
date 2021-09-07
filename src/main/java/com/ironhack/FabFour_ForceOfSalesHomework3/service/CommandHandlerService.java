@@ -8,10 +8,12 @@ import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputServ
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.LeadObjectService.*;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.OpportunityService.*;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.SalesRepService.*;
+import static com.ironhack.FabFour_ForceOfSalesHomework3.service.ContactService.*;
+import static com.ironhack.FabFour_ForceOfSalesHomework3.service.StatesService.*;
 
 @Service
 public class CommandHandlerService {
-
+    
     public static void handleCommand(String command) {
         String upperCommand = command.trim().toUpperCase(); // delete all spaces around command
         String defaultInfo = "Command not recognised. Try again or type: help"; //default info message
@@ -30,6 +32,48 @@ public class CommandHandlerService {
                     break;
                 case SHOW_LEADS:
                     showLeads();
+                    break;
+                case SHOW_CONTACTS:
+                    showAllContacts();
+                    break;
+                case SHOW_OPPORTUNITIES:
+                    showAllOpportunities();
+                    break;
+                case MEDIAN_EMPLOYEE_COUNT:
+                    printMedianValues(Command.MEDIAN_EMPLOYEE_COUNT.value);
+                    break;
+                case MAX_EMPLOYEE_COUNT:
+                    printMaxValues(Command.MAX_EMPLOYEE_COUNT.value);
+                    break;
+                case MIN_EMPLOYEE_COUNT:
+                    printMinValues(Command.MIN_EMPLOYEE_COUNT.value);
+                    break;
+                case MEAN_EMPLOYEE_COUNT:
+                    printMeanValues(Command.MEAN_EMPLOYEE_COUNT.value);
+                    break;
+                case MEDIAN_QUANTITY:
+                    printMedianValues(Command.MEDIAN_QUANTITY.value);
+                    break;
+                case MAX_QUANTITY:
+                    printMaxValues(Command.MAX_QUANTITY.value);
+                    break;
+                case MIN_QUANTITY:
+                    printMinValues(Command.MIN_QUANTITY.value);
+                    break;
+                case MEAN_QUANTITY:
+                    printMeanValues(Command.MEAN_QUANTITY.value);
+                    break;
+                case MEDIAN_OPPS_PER_ACCOUNT:
+                    printMedianValues(Command.MEDIAN_OPPS_PER_ACCOUNT.value);
+                    break;
+                case MAX_OPPS_PER_ACCOUNT:
+                    printMaxValues(Command.MAX_OPPS_PER_ACCOUNT.value);
+                    break;
+                case MIN_OPPS_PER_ACCOUNT:
+                    printMinValues(Command.MIN_OPPS_PER_ACCOUNT.value);
+                    break;
+                case MEAN_OPPS_PER_ACCOUNT:
+                    printMeanValues(Command.MEAN_OPPS_PER_ACCOUNT.value);
                     break;
                 case EXPORT_LEADS:
                     exportLeadInformation();
@@ -88,6 +132,9 @@ public class CommandHandlerService {
                 case LOOKUP_ACCOUNT:
                     lookUpAccount(id);
                     break;
+                case LOOKUP_CONTACT:
+                    lookUpContact(id);
+                    break;
                 case EXPORT_OPPORTUNITIES:
                     exportOppInformation();
                     break;
@@ -110,8 +157,7 @@ public class CommandHandlerService {
     public static void voidChecker(Object o) {
         if (o == null) {
             System.out.println("Please try again.");
-        }
-        else {
+        } else {
             System.out.println(o);
         }
     }

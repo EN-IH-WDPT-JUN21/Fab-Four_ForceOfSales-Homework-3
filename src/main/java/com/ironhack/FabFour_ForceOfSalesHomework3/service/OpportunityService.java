@@ -6,6 +6,7 @@ import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Status;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.OpportunityRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.DataValidatorService.opportunityExists;
@@ -86,5 +87,26 @@ public class OpportunityService {
         } else {
             System.out.println("There is no opportunity with this ID. Please try again.");
         }
+    }
+
+    // Method prints all opportunities to the screen
+    public static void showAllOpportunities() {
+        List<Opportunity> opportunities = opportunityRepository.findAll();
+
+        if(opportunities.size() >0) {
+            for (Opportunity o: opportunities
+                 ) {
+
+                System.out.println(o);
+                System.out.println(String.format("ID: &d, Product: %s, Quantity: %s, Decision maker: %s, Status: %s, Salesrep: %s.",
+                       o.getId(),
+                        o.getProduct(),
+                        o.getQuantity(),
+                        o.getDecisionMaker()
+                                .getContactName(),
+                        o.getStatus()));
+            }
+        } else System.out.println("There are no opportunities!");
+
     }
 }

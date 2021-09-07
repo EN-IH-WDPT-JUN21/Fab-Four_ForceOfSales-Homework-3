@@ -5,7 +5,11 @@ import com.ironhack.FabFour_ForceOfSalesHomework3.dao.LeadObject;
 import com.ironhack.FabFour_ForceOfSalesHomework3.dao.SalesRep;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.ContactRepository;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.LeadObjectRepository;
+import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.*;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ContactService {
@@ -13,8 +17,10 @@ public class ContactService {
     private static ContactRepository contactRepository;
 
     public ContactService(ContactRepository contactRepository) {
-        this.contactRepository = contactRepository;
+        ContactService.contactRepository = contactRepository;
     }
+
+    public static final String RED_TEXT = "\033[31m";
 
     public static Contact createContact(LeadObject leadObjectToConvert) {
         //Creates Contact object from Lead
@@ -25,5 +31,30 @@ public class ContactService {
         Contact contact =  new Contact(contactName, contactPhoneNumber, contactEmail, contactCompany);
         contactRepository.save(contact);
         return contact;
+    }
+
+    public static void lookUpContact(long id) {
+        Optional<Contact> optionalContact = contactRepository.findById(id);
+
+        if(!optionalContact.isPresent()) {
+            colorMessage("There is no Contact with id " + id + ". Please try again.",RED_TEXT);
+        }
+        else {
+            Contact contact = optionalContact.get();
+            System.out.println(contact);
+        }
+    }
+
+
+    public static void showAllContacts() {
+        List<Contact> contacts = contactRepository.findAll();
+
+        if(contacts.size() >0) {
+            for(Contact c:contacts) {
+
+                System.out.println(String.format("ID: %d, Name: %s, Phone number: %s, Email: %s, Company: %s.",
+                        c.getId(), c.getContactName(), c.getPhoneNumber(), c.getEmail(), c.getCompanyName()));
+            }
+        } else System.out.println("There is no Contacts!");
     }
 }
