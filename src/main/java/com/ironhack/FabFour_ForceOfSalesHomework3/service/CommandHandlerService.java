@@ -4,9 +4,11 @@ import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Command;
 import org.springframework.stereotype.Service;
 
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.AccountService.lookUpAccount;
+import static com.ironhack.FabFour_ForceOfSalesHomework3.service.AccountService.showAccounts;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.*;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.LeadObjectService.*;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.OpportunityService.*;
+import static com.ironhack.FabFour_ForceOfSalesHomework3.service.ReportService.reportBySalesRep;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.SalesRepService.*;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.ContactService.*;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.StatesService.*;
@@ -74,6 +76,8 @@ public class CommandHandlerService {
                     break;
                 case MEAN_OPPS_PER_ACCOUNT:
                     printMeanValues(Command.MEAN_OPPS_PER_ACCOUNT.value);
+                case SHOW_ACCOUNTS:
+                    showAccounts();
                     break;
                 case EXPORT_LEADS:
                     exportLeadInformation();
@@ -99,6 +103,7 @@ public class CommandHandlerService {
                                     "\nSHOW ALL DATA PER TYPE\n" +
                                     " > show leads - to show all of leads\n" +
                                     " > show salesReps - to show all the salesReps\n" +
+                                    " > show accounts - to show all the accounts\n" +
 
                                     "\nEXPORT SOME DATA\n" +
                                     " > export leads - to export all current leads\n" +

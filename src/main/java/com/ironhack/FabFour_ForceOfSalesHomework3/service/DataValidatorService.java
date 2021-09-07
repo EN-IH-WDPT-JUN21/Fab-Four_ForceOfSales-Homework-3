@@ -121,18 +121,29 @@ public class DataValidatorService {
         return false;
     }
 
-    //Method to check if an opportunity with the same information already exists
-    public static boolean isDuplicateOpportunity(Opportunity inputOpportunity) {
-        List<Opportunity> listOfOpportunities = opportunityRepository.findAll();
-        for(Opportunity opportunity : listOfOpportunities) {
-                if(opportunity.equals(inputOpportunity)) return true;
-            }
+    //Method to check if an account with the same information already exists
+    public static boolean isDuplicateAccount(Account newAccount) {
+        List<Account> listOfAccounts = accountRepository.findAll();
+
+        for(Account account : listOfAccounts) {
+            if(account.equals(newAccount)) return true;
+        }
         return false;
     }
+
 
     //Method to check if the String contains only letters and white spaces
     public static boolean containsOnlyLetters(String input) {
         final String regex = "^[ a-zA-Z]+$";
+
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(input);
+        return matcher.matches();
+    }
+
+    //Method to  check if the String contains only numbers, from 1 - 9999
+    public static boolean isNumeric(String input) {
+        final String regex = "[1-9]|[1-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9][0-9][0-9]";
 
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(input);

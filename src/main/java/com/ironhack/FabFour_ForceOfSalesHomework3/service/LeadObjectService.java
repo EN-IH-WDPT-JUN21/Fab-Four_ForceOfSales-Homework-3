@@ -13,8 +13,7 @@ import static com.ironhack.FabFour_ForceOfSalesHomework3.service.AccountService.
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.AccountService.createAccount;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.ContactService.createContact;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.DataValidatorService.*;
-import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.colorMessage;
-import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.getUserInput;
+import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.*;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.OpportunityService.createOpportunity;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.SalesRepService.*;
 
@@ -41,7 +40,7 @@ public class LeadObjectService {
         try {
             Scanner aScanner = new Scanner(System.in);
             System.out.println("Please enter your SalesRep id.");
-            validateSalesRepLeadConstructor();
+            sales = validateSalesRepLeadConstructor();
             System.out.println("Please enter the lead's contact name.");
             tempName = aScanner.nextLine();
             while (tempName == null || tempName.equals("")) {
@@ -84,20 +83,29 @@ public class LeadObjectService {
         List<SalesRep> salesList = salesRepRepository.findAll();
         Scanner aScanner = new Scanner(System.in);
         while (sales == null) {
-            tempLong = aScanner.nextLong();
-            if (salesRepExists(Long.toString(tempLong))) {
-                Optional<SalesRep> salesRep = salesRepRepository.findById(tempLong);
-                sales = salesRep.get();
-            } else if (salesList.size() < 1) {
-                System.out.println("No SalesRep profiles exist. Please create one now.");
-                sales = newSalesRep();
-            } else {
-                showSalesReps();
-                System.out.println("If you would like to create a new profile, type y");
-                if (aScanner.nextLine().equals("y") || aScanner.nextLine().equals("Y")) {
+            tempString = aScanner.nextLine();
+            if (isNumeric(tempString)) {
+                tempLong = Long.parseLong(tempString);
+                if (salesRepExists(tempString)) {
+                    Optional<SalesRep> salesRep = salesRepRepository.findById(tempLong);
+                    sales = salesRep.get();
+                } else if (salesList.size() < 1) {
+                    System.out.println("No SalesRep profiles exist. Please create one now.");
                     sales = newSalesRep();
+                } else {
+                    showSalesReps();
+                    System.out.println("If you would like to create a new profile, type y.");
+                    tempString = aScanner.nextLine();
+                    if (tempString.contains("y") || tempString.contains("Y")) {
+                        sales = newSalesRep();
+                    }
+                    else {
+                        System.out.println("Please enter a valid SalesRep id.");
+                    }
                 }
-                System.out.println("Otherwise, please enter a valid SalesRep id.");
+            }
+            else {
+                System.out.println("SalesRep Id can only be a number. Please try again.");
             }
         }
         return sales;
@@ -114,9 +122,13 @@ public class LeadObjectService {
             Opportunity opportunity = createOpportunity(lead, contact);
             System.out.println("Would you like to create a new Account? (Y/N)");
             List<Object> dataList = (List) getUserInput("account");
-            Account account = (dataList.size() > 1) ?
-                    createAccount(lead, contact, opportunity, dataList) : addToAccount((String)dataList.get(0), lead, contact, opportunity);
-            return account;
+            if (dataList.get(0).toString().equals("0")) {
+                return null;
+            } else {
+                Account account = (dataList.size() > 1) ?
+                        createAccount(lead, contact, opportunity, dataList) : addToAccount((String) dataList.get(0), lead, contact, opportunity);
+                return account;
+            }
         }
     }
 
