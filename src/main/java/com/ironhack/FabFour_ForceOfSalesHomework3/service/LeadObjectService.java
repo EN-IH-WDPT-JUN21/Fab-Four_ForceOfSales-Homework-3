@@ -1,6 +1,7 @@
 package com.ironhack.FabFour_ForceOfSalesHomework3.service;
 
 import com.ironhack.FabFour_ForceOfSalesHomework3.dao.*;
+import com.ironhack.FabFour_ForceOfSalesHomework3.enums.TextColor;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.LeadObjectRepository;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.SalesRepRepository;
 import org.springframework.stereotype.Service;
@@ -19,9 +20,6 @@ import static com.ironhack.FabFour_ForceOfSalesHomework3.service.SalesRepService
 
 @Service
 public class LeadObjectService {
-
-    public static final String RED_TEXT = "\033[31m";
-    public static final String GREEN_TEXT = "\u001B[32m";
 
     private static LeadObjectRepository leadObjectRepository;
     private static SalesRepRepository salesRepRepository;
@@ -44,7 +42,7 @@ public class LeadObjectService {
             System.out.println("Please enter the lead's contact name.");
             tempName = aScanner.nextLine();
             while (tempName == null || tempName.equals("")) {
-                colorMessage("Contact name cannot be blank. Please try again.", RED_TEXT);
+                colorMessage("Contact name cannot be blank. Please try again.", TextColor.RED);
                 tempName = aScanner.nextLine();
             }
             System.out.println("Please enter their phone number, with no spaces.");
@@ -52,7 +50,7 @@ public class LeadObjectService {
                 tempString = aScanner.nextLine();
                 if (validatePhoneNumber(tempString)) { tempNumber = tempString; }
                 else {
-                    colorMessage("Please provide a valid phone number. It must be between 6 and 15 digits, and can have hyphens or +. Spaces are not allowed.",RED_TEXT);
+                    colorMessage("Please provide a valid phone number. It must be between 6 and 15 digits, and can have hyphens or +. Spaces are not allowed.",TextColor.RED);
                 }
             }
             System.out.println("Please enter their email address.");
@@ -62,16 +60,16 @@ public class LeadObjectService {
                     tempEmail = tempString;
                 }
                 else {
-                    colorMessage("Please provide a valid email address.",RED_TEXT);
+                    colorMessage("Please provide a valid email address.",TextColor.RED);
                 }
             }
             System.out.println("Please enter their company's name");
             tempCompany = aScanner.nextLine();
             tempLeadObject = new LeadObject(tempName, tempNumber, tempEmail, tempCompany, sales);
             leadObjectRepository.save(tempLeadObject);
-            colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
-            colorMessage("Lead created. Lead ID: " + tempLeadObject.getId(), GREEN_TEXT);
-            colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
+            colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", TextColor.GREEN);
+            colorMessage("Lead created. Lead ID: " + tempLeadObject.getId(), TextColor.GREEN);
+            colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", TextColor.GREEN);
         }
         catch (Exception e) { System.out.println("Exception: " + e); }
         return tempLeadObject;
@@ -114,7 +112,7 @@ public class LeadObjectService {
     public static Account convertLead(long id) {
         //Wrapper method for converting Lead and setting up the Account object
         if (!leadExists(Long.toString(id))) {
-            colorMessage("Lead doesn't exist. Please provide the correct id.", RED_TEXT);
+            colorMessage("Lead doesn't exist. Please provide the correct id.", TextColor.RED);
             return null;
         } else {
             LeadObject lead = lookupLead(id);
@@ -136,7 +134,7 @@ public class LeadObjectService {
         Optional<LeadObject> leadOptional = leadObjectRepository.findById(id);
         LeadObject lead = leadOptional.get();
         if(lead == null) {
-            colorMessage("There is no lead with id "+id, RED_TEXT);
+            colorMessage("There is no lead with id "+id, TextColor.RED);
         }
 
         return lead;

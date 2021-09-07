@@ -9,14 +9,13 @@ public class StartApp {
 
 
     private static void getTitle() {
-        clearConsole();
-        System.out.println("\n" +
+        System.out.println("\n\n" +
                 "  ______                                           __      _____           _              \n" +
                 " |  ____|                                         / _|    / ____|         | |             \n" +
                 " | |__      ___    _ __    ___    ___      ___   | |_    | (___     __ _  | |   ___   ___ \n" +
                 " |  __|    / _ \\  | '__|  / __|  / _ \\    / _ \\  |  _|    \\___ \\   / _` | | |  / _ \\ / __|\n" +
                 " | |      | (_) | | |    | (__  |  __/   | (_) | | |      ____) | | (_| | | | |  __/ \\__ \\\n" +
-                " |_|       \\___/  |_|     \\___|  \\___|    \\___/  |_|     |_____/   \\__,_| |_|  \\___| |___/\n" +
+                " |_|       \\___/  |_|     \\___|  \\___|    \\___/  |_|     |_____/   \\__,_| |_|  \\___| |___/\n\n" +
                 "                                                                                          ");
     }
 
@@ -40,24 +39,11 @@ public class StartApp {
     }
 
     public static void readCommands(String command) {
-        getTitle();
-
         if (command.toUpperCase().equals("QUIT")) {
             getThankYouScreen();
             isRunning = false;
         } else {
             CommandHandlerService.handleCommand(command);
-        }
-    }
-
-    public static void clearConsole() {
-        try {
-            new ProcessBuilder("cmd", "/c", "cls")
-                    .inheritIO()
-                    .start()
-                    .waitFor();
-        } catch (InterruptedException | IOException e) {
-            e.printStackTrace();
         }
     }
 }

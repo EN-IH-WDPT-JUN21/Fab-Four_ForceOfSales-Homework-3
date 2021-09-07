@@ -1,19 +1,14 @@
 package com.ironhack.FabFour_ForceOfSalesHomework3.service;
 
-import com.ironhack.FabFour_ForceOfSalesHomework3.dao.Account;
-import com.ironhack.FabFour_ForceOfSalesHomework3.dao.LeadObject;
 import com.ironhack.FabFour_ForceOfSalesHomework3.dao.SalesRep;
+import com.ironhack.FabFour_ForceOfSalesHomework3.enums.TextColor;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.SalesRepRepository;
 import org.springframework.stereotype.Service;
-import org.w3c.dom.ls.LSOutput;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Scanner;
 
-import static com.ironhack.FabFour_ForceOfSalesHomework3.service.AccountService.GREEN_TEXT;
-import static com.ironhack.FabFour_ForceOfSalesHomework3.service.AccountService.RED_TEXT;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.DataValidatorService.containsOnlyLetters;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.DataValidatorService.isEmpty;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.colorMessage;
@@ -42,9 +37,9 @@ public class SalesRepService {
         SalesRep sales =  new SalesRep(salesName);
         salesRepRepository.save(sales);
 
-        colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
-        colorMessage("SalesRep created. SalesRep ID: " + sales.getId(), GREEN_TEXT);
-        colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
+        colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", TextColor.GREEN);
+        colorMessage("SalesRep created. SalesRep ID: " + sales.getId(), TextColor.GREEN);
+        colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", TextColor.GREEN);
         return sales;
     }
 
@@ -69,7 +64,7 @@ public class SalesRepService {
         Optional<SalesRep> salesRepOptional = salesRepRepository.findById(id);
 
         if(!salesRepOptional.isPresent()) {
-            colorMessage("There is no SalesRep with id " + id + ". Please try again.", RED_TEXT);
+            colorMessage("There is no SalesRep with id " + id + ". Please try again.", TextColor.RED);
         } else {
             SalesRep salesRep = salesRepOptional.get();
             System.out.println(salesRep);

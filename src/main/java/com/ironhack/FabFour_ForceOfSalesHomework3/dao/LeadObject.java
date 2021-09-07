@@ -1,5 +1,6 @@
 package com.ironhack.FabFour_ForceOfSalesHomework3.dao;
 
+import com.ironhack.FabFour_ForceOfSalesHomework3.enums.TextColor;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,8 +19,6 @@ import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputServ
 @Entity
 @Table(name = "lead_object")
 public class LeadObject {
-
-    public static final String RED_TEXT = "\033[31m";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "lead_generator")
@@ -51,7 +50,7 @@ public class LeadObject {
         Scanner aScanner = new Scanner(System.in);
         String input = this.contactName = name;;
         while (input.isEmpty() || !containsOnlyLetters(input)) {
-            colorMessage("Please provide a valid contact name.", RED_TEXT);
+            colorMessage("Please provide a valid contact name.", TextColor.RED);
             input = aScanner.nextLine();
         }
         this.contactName = input;

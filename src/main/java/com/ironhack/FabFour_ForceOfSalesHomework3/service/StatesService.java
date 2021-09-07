@@ -1,5 +1,6 @@
 package com.ironhack.FabFour_ForceOfSalesHomework3.service;
 
+import com.ironhack.FabFour_ForceOfSalesHomework3.enums.TextColor;
 import com.ironhack.FabFour_ForceOfSalesHomework3.service.impl.EmployeeCountService;
 import com.ironhack.FabFour_ForceOfSalesHomework3.service.impl.OpportunityPerAccountService;
 import com.ironhack.FabFour_ForceOfSalesHomework3.service.impl.ProductQuantityService;
@@ -7,13 +8,12 @@ import com.ironhack.FabFour_ForceOfSalesHomework3.service.interfaces.IAggregateS
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.colorMessage;
 
 @Service
 public class StatesService {
-
-    public static final String RED_TEXT = "\033[31m";
-    public static final String GREEN_TEXT = "\u001B[32m";
 
     private static EmployeeCountService employeeCountService;
 
@@ -28,22 +28,47 @@ public class StatesService {
     }
 
     public static void printMeanValues(String command) {
-        colorMessage("+--- " + command + " =  " + recogniseElement(command).getMeanValue()+" ---+","\u001B[32m");
+        
+        Double meanDouble = recogniseElement(command).getMeanValue();
+        
+        if(meanDouble!=null) {
+            colorMessage("+--- " + command + " = " + meanDouble+" ---+", TextColor.GREEN);
+        } else {
+            colorMessage("+--- There is no data for " + command +" ---+",TextColor.RED);
+        }
     }
 
 
     public static void printMedianValues(String command) {
-        colorMessage("+--- "+command + " =  " + recogniseElement(command).getMedianValue()+" ---+","\u001B[32m");
+
+        Double medianDouble = recogniseElement(command).getMedianValue();
+
+        if(medianDouble!=null) {
+            colorMessage("+--- "+command + " = " + medianDouble+" ---+",TextColor.GREEN);
+        } else {
+            colorMessage("+--- There is no data for " + command +" ---+",TextColor.RED);
+        }
     }
 
     public static void printMaxValues(String command) {
-        colorMessage("+--- "+command + " =  " + recogniseElement(command).getMaxValue()+" ---+","\u001B[32m");
 
+        Integer maxInteger = recogniseElement(command).getMaxValue();
+
+        if(maxInteger!=null) {
+            colorMessage("+--- "+command + " =  " + maxInteger +" ---+",TextColor.GREEN);
+        } else {
+            colorMessage("+--- There is no data for " + command +" ---+",TextColor.RED);
+        }
     }
 
     public static void printMinValues(String command) {
-        colorMessage("+--- "+command + " =  " + recogniseElement(command).getMinValue()+" ---+","\u001B[32m");
+        Integer minInteger = recogniseElement(command).getMaxValue();
 
+        if(minInteger!=null) {
+            colorMessage("+--- "+command + " =  " + minInteger +" ---+",TextColor.GREEN);
+        } else {
+            colorMessage("+--- There is no data for " + command +" ---+",TextColor.RED);
+        }
     }
 
     public static IAggregateService recogniseElement(String command) {

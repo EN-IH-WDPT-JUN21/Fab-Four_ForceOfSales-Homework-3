@@ -2,6 +2,7 @@ package com.ironhack.FabFour_ForceOfSalesHomework3.service;
 
 import com.ironhack.FabFour_ForceOfSalesHomework3.dao.*;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Industry;
+import com.ironhack.FabFour_ForceOfSalesHomework3.enums.TextColor;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.AccountRepository;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.ContactRepository;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.LeadObjectRepository;
@@ -20,9 +21,6 @@ import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputServ
 
 @Service
 public class AccountService {
-
-    public static final String RED_TEXT = "\033[31m";
-    public static final String GREEN_TEXT = "\u001B[32m";
 
     private static AccountRepository accountRepository;
     private static ContactRepository contactRepository;
@@ -43,7 +41,7 @@ public class AccountService {
     public static void lookUpAccount(long id)  {
         Optional<Account> accountOptional = accountRepository.findById(id);
         if(!accountOptional.isPresent()) {
-            colorMessage("There is no Account with id " + id + ". Please try again.", RED_TEXT);
+            colorMessage("There is no Account with id " + id + ". Please try again.", TextColor.RED);
         } else {
             Account account = accountOptional.get();
             System.out.println(account);
@@ -78,18 +76,18 @@ public class AccountService {
             contactRepository.save(contact);
             opportunityRepository.save(opportunity);
             leadObjectRepository.deleteById(lead.getId());
-            colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
-            colorMessage("Opportunity created. Opportunity ID: " + opportunity.getId(), GREEN_TEXT);
-            colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
-            colorMessage("Account created. Account ID: " + account.getId(), GREEN_TEXT);
-            colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
+            colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", TextColor.GREEN);
+            colorMessage("Opportunity created. Opportunity ID: " + opportunity.getId(), TextColor.GREEN);
+            colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", TextColor.GREEN);
+            colorMessage("Account created. Account ID: " + account.getId(), TextColor.GREEN);
+            colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", TextColor.GREEN);
             return account;
         } else {
             System.out.println("Account with this information already exists.");
             showAccounts();
-            colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
-            colorMessage("Terminating convert operation. Your data will not be saved.", GREEN_TEXT);
-            colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
+            colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", TextColor.GREEN);
+            colorMessage("Terminating convert operation. Your data will not be saved.", TextColor.GREEN);
+            colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", TextColor.GREEN);
             return null;
         }
     }
@@ -111,9 +109,9 @@ public class AccountService {
         account.setOpportunityList(newOpp);
         accountRepository.save(account);
         leadObjectRepository.deleteById(lead.getId());
-        colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
-        colorMessage("Account " + account.getId() + " has been updated", GREEN_TEXT);
-        colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
+        colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", TextColor.GREEN);
+        colorMessage("Account " + account.getId() + " has been updated", TextColor.GREEN);
+        colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", TextColor.GREEN);
         return account;
         }
 
@@ -127,9 +125,9 @@ public class AccountService {
             return getAccountId();
         } else if((accountRepository.count() == 0) || accountId.equals("go back")) {
             showAccounts();
-            colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
-            colorMessage("Terminating convert operation. Your data will not be saved.", GREEN_TEXT);
-            colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", GREEN_TEXT);
+            colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", TextColor.GREEN);
+            colorMessage("Terminating convert operation. Your data will not be saved.", TextColor.GREEN);
+            colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", TextColor.GREEN);
             removeIncompleteData();
             return Arrays.asList(0);
         }  else {
