@@ -48,6 +48,14 @@ public class Opportunity {
         setSales(sales);
     }
 
+    public Opportunity(Product product, int quantity, Contact decisionMaker, SalesRep sales, Account account) {
+        this.product = product;
+        this.quantity = quantity;
+        this.decisionMaker = decisionMaker;
+        this.sales = sales;
+        this.account = account;
+    }
+
     public void setStatus(Status status) {
         Status currentStatus = this.getStatus();
         if(currentStatus == Status.CLOSED_LOST || currentStatus == Status.CLOSED_WON && status == Status.OPEN) {
