@@ -20,31 +20,100 @@ public class ReportService {
     private static LeadObjectRepository leadObjectRepository;
     private static OpportunityRepository opportunityRepository;
 
-    public static void reportBySalesRep() {
-        List<SalesRep> salesList = salesRepRepository.findAll();
+    public static void reports() {
         String defaultResponse = "Command not recognised. Try again or type: help";
         try {
             System.out.println("Please enter your required report type:");
             Scanner aScanner = new Scanner(System.in);
-            System.out.println("LEADS, OPPORTUNITY, CLOSED_WON, CLOSED_LOST, OPEN");
-            switch (ReportType.getReportType(aScanner.nextLine().toUpperCase())) {
-                case LEAD:
+            System.out.println(
+                    "Type one of the below statements to execute:\n\n" +
+                            "REPORT BY SALESREP\n" +
+                            " > Report Lead By SalesRep \n" +
+                            " > Report Opportunity By SalesRep \n" +
+                            " > Report CLOSED_WON by SalesRep \n" +
+                            " > Report CLOSED_LOST by SalesRep \n" +
+                            " > Report OPEN by SalesRep \n" +
+
+                            "\nREPORT BY PRODUCT\n" +
+                            " > Report Opportunity by the product \n" +
+                            " > Report CLOSED_WON by the product \n" +
+                            " > Report CLOSED_LOST by the product \n" +
+                            " > Report OPEN by the product \n" +
+
+                            "\nREPORT BY COUNTRY\n" +
+                            " > Report Opportunity by Country \n" +
+                            " > Report CLOSED_WON by Country \n" +
+                            " > Report CLOSED_LOST by Country \n" +
+                            " > Report OPEN by Country \n" +
+
+                            "\nREPORT BY CITY\n" +
+                            " > Report Opportunity by City \n" +
+                            " > Report CLOSED_WON by City \n" +
+                            " > Report CLOSED_LOST by City \n" +
+                            " > Report OPEN by City \n" +
+
+                            "\nREPORT BY INDUSTRY\n" +
+                            " > Report Opportunity by Industry \n" +
+                            " > Report CLOSED-WON by Industry \n" +
+                            " > Report CLOSED-LOST by Industry \n" +
+                            " > Report OPEN by Industry \n" +
+
+                            "\nREPORT BY EMPLOYEE COUNT\n" +
+                            " > Mean EmployeeCount \n" +
+                            " > Median EmployeeCount \n" +
+                            " > Max EmployeeCount \n" +
+                            " > Min EmployeeCount \n" +
+
+                            "\nREPORT BY QUANTITY\n" +
+                            " > Mean Quantity \n" +
+                            " > Median Quantity \n" +
+                            " > Max Quantity \n" +
+                            " > Min Quantity \n" +
+
+                            "\nSHOW ALL DATA PER TYPE\n" +
+                            " > Mean Opps per Account \n" +
+                            " > Median Opps per Account \n" +
+                            " > Max Opps per Account \n" +
+                            " > Min Opps per Account \n" +
+
+                            "\nTO QUIT\n" +
+                            " > quit - to leave this menu"
+            );
+            ReportType userInput = ReportType.getReportType(aScanner.nextLine().toUpperCase());
+            switch (userInput) {
+                case LEADBYSALESREP:
+                case OPPBYSALESREP:
+                case WONBYSALESREP:
+                case LOSTBYSALESREP:
+                case OPENBYSALESREP:
+                    reportBySalesRep(userInput);
+            }
+        }
+        catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+    }
+
+
+    public static void reportBySalesRep(ReportType userInput) {
+        List<SalesRep> salesList = salesRepRepository.findAll();
+        try {
+            switch (userInput) {
+                case LEADBYSALESREP:
                     reportLeadsBySalesRep(salesList);
                     break;
-                case OPPORTUNITY:
+                case OPPBYSALESREP:
                     reportOpportunitiesBySalesRep(salesList);
                     break;
-                case CLOSED_WON:
+                case WONBYSALESREP:
                     reportOpportunitiesBySalesRepAndStatus(salesList,Status.CLOSED_WON);
                     break;
-                case CLOSED_LOST:
+                case LOSTBYSALESREP:
                     reportOpportunitiesBySalesRepAndStatus(salesList,Status.CLOSED_LOST);
                     break;
-                case OPEN:
+                case OPENBYSALESREP:
                     reportOpportunitiesBySalesRepAndStatus(salesList,Status.OPEN);
                     break;
-                default:
-                    System.out.println(defaultResponse);
             }
         }
         catch (Exception e) {

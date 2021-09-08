@@ -82,6 +82,14 @@ public class CommandHandlerService {
                 case EXPORT_LEADS:
                     exportLeadInformation();
                     break;
+                case EXPORT_OPPORTUNITIES:
+                    exportOppInformation();
+                    break;
+                case EXPORT_ACCOUNTS:
+                    exportAccountInformation();
+                    break;
+                case REPORT:
+
                 case HELP:
                     System.out.println(
                             "Type one of below statement to execute:\n\n" +
@@ -107,8 +115,8 @@ public class CommandHandlerService {
 
                                     "\nEXPORT SOME DATA\n" +
                                     " > export leads - to export all current leads\n" +
-                                    " > export opportunities {id} - to export all current opportunities\n" +
-                                    " > export accounts {id} - to export all accounts\n" +
+                                    " > export opportunities - to export all current opportunities\n" +
+                                    " > export accounts - to export all accounts\n" +
 
                                     "\nTO QUIT\n" +
                                     " > quit - to leave the app"
@@ -139,12 +147,6 @@ public class CommandHandlerService {
                     break;
                 case LOOKUP_CONTACT:
                     lookUpContact(id);
-                    break;
-                case EXPORT_OPPORTUNITIES:
-                    exportOppInformation();
-                    break;
-                case EXPORT_ACCOUNTS:
-                    exportAccountInformation();
                     break;
                 case CLOSE_WON:
                     updateOpportunityStatusClosedWin(id);
