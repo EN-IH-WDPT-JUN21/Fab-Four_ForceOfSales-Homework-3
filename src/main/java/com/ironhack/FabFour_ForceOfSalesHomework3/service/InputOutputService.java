@@ -84,7 +84,7 @@ public class InputOutputService {
             csvWriter.write("Company ID,Company Name,Id,Product,Quantity,Decision Maker,Status \n");
             for(Account account : accountRepository.findAll()) {
                 for(Opportunity opp : account.getOpportunityList()) {
-                    csvWriter.write(account.getId() + "," + account.getContactList().get(0).getCompanyName() + "," + opp.getId() + "," + opp.getProduct() + "," + opp.getQuantity() + "," + opp.getDecisionMaker() + "," + opp.getStatus() + "\n");
+                    csvWriter.write(account.getId() + "," + account.getContactList().get(0).getCompanyName() + "," + opp.getId() + "," + opp.getProduct() + "," + opp.getQuantity() + "," + opp.getDecisionMaker().getContactName() + "," + opp.getStatus() + "\n");
                 }
             }
             csvWriter.close();
@@ -93,6 +93,7 @@ public class InputOutputService {
             System.out.println("Error: " + e);
         }
     }
+
     public static Object getUserInput(String inputType) {
         Scanner aScanner = new Scanner(System.in);
         String userInput = "";

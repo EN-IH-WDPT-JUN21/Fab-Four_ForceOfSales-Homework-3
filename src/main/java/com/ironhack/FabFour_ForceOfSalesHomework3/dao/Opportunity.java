@@ -38,7 +38,8 @@ public class Opportunity {
     @ManyToOne(fetch = FetchType.EAGER)
     private SalesRep sales;
 
-    public Opportunity(Product product, int quantity, Contact decisionMaker, SalesRep sales) {
+    public Opportunity(Product product, int quantity,
+                       Contact decisionMaker, SalesRep sales) {
         setProduct(product);
         setQuantity(quantity);
         setDecisionMaker(decisionMaker);
