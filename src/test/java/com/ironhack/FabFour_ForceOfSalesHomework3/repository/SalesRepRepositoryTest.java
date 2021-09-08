@@ -7,12 +7,33 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.stereotype.Repository;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-public class SalesRepRepositoryTest {
+class SalesRepRepositoryTest {
 
+    @Autowired
+    private SalesRepRepository salesRepRepository;
 
+    private SalesRep salesRep;
+
+    @BeforeEach
+    void setUp() {
+        salesRep = new SalesRep("Vivi");
+        salesRepRepository.save(salesRep);
+    }
+
+    @AfterEach
+    void tearDown() {
+        salesRepRepository.deleteAll();
+    }
+
+    @Test
+    void findById_validId_salesRep() {
+        Optional<SalesRep> salesRepOptional = salesRepRepository.findById(salesRep.getId());
+        assertTrue(salesRepOptional.isPresent());
+    }
 }

@@ -12,6 +12,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
@@ -28,27 +31,40 @@ public class OpportunityRepositoryTest {
 
     SalesRep salesRep1 = null;
     Contact contact1 = null;
+    private Opportunity opportunity;
 
     @BeforeEach
     public void setUp() {
+        SalesRep salesRep = new SalesRep("Jane");
         salesRep1 = new SalesRep("Vivi");
+        salesRepRepository.save(salesRep);
         salesRepRepository.save(salesRep1);
+      
         contact1 = new Contact("Buzz", "0000000","buzz@test.com","A Company Name");
+        Contact contact = new Contact("John", "123456789", "john@gmail.com", "Big Company");
+        contactRepository.save(contact);
         contactRepository.save(contact1);
 
         Opportunity opportunityTestOne = new Opportunity(Product.HYBRID,5,contact1,salesRep1);
         Opportunity opportunityTestTwo = new Opportunity(Product.FLATBED,5,contact1,salesRep1);
         Opportunity opportunityTestThree = new Opportunity(Product.BOX,5,contact1,salesRep1);
+        opportunity = new Opportunity(Product.HYBRID, 40, contact, salesRep);
+        opportunityRepository.save(opportunity);  
         opportunityRepository.save(opportunityTestOne);
         opportunityRepository.save(opportunityTestTwo);
         opportunityRepository.save(opportunityTestThree);
     }
 
     @AfterEach
-    public void tearDown(){
+    void tearDown() {
         salesRepRepository.deleteAll();
         contactRepository.deleteAll();
         opportunityRepository.deleteAll();
+    }
+  
+    void findById_validId_opportunity() {
+        Optional<Opportunity> opportunityOptional = opportunityRepository.findById(opportunity.getId());
+        assertTrue(opportunityOptional.isPresent());
     }
 
     @Test
