@@ -1,6 +1,8 @@
 package com.ironhack.FabFour_ForceOfSalesHomework3.service;
 
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Command;
+import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Status;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.AccountService.lookUpAccount;
@@ -8,7 +10,7 @@ import static com.ironhack.FabFour_ForceOfSalesHomework3.service.AccountService.
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.*;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.LeadObjectService.*;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.OpportunityService.*;
-import static com.ironhack.FabFour_ForceOfSalesHomework3.service.ReportService.reportBySalesRep;
+import static com.ironhack.FabFour_ForceOfSalesHomework3.service.ReportService.*;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.SalesRepService.*;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.ContactService.*;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.StatesService.*;
@@ -82,9 +84,30 @@ public class CommandHandlerService {
                 case EXPORT_LEADS:
                     exportLeadInformation();
                     break;
+                case EXPORT_OPPORTUNITIES:
+                    exportOppInformation();
+                    break;
+                case EXPORT_ACCOUNTS:
+                    exportAccountInformation();
+                    break;
+                case LEADBYSALESREP:
+                    reportLeadsBySalesRep();
+                    break;
+                case OPPBYSALESREP:
+                    reportOpportunitiesBySalesRep();
+                    break;
+                case WONBYSALESREP:
+                    reportOpportunitiesBySalesRepAndStatus(Status.CLOSED_WON);
+                    break;
+                case LOSTBYSALESREP:
+                    reportOpportunitiesBySalesRepAndStatus(Status.CLOSED_LOST);
+                    break;
+                case OPENBYSALESREP:
+                    reportOpportunitiesBySalesRepAndStatus(Status.OPEN);
+                    break;
                 case HELP:
                     System.out.println(
-                            "Type one of below statement to execute:\n\n" +
+                            "Type one of the below statements to execute:\n\n" +
                                     "CREATE A NEW DATASET\n" +
                                     " > new lead - " + "to create a new lead\n" +
                                     " > new salesRep - " + "to create a new salesRep\n" +
@@ -107,8 +130,32 @@ public class CommandHandlerService {
 
                                     "\nEXPORT SOME DATA\n" +
                                     " > export leads - to export all current leads\n" +
-                                    " > export opportunities {id} - to export all current opportunities\n" +
-                                    " > export accounts {id} - to export all accounts\n" +
+                                    " > export opportunities - to export all current opportunities\n" +
+                                    " > export accounts - to export all accounts\n" +
+
+                                    "\nGENERATE REPORTS\n" +
+
+                                    " > Report Lead By SalesRep \n" +
+                                    " > Report Opportunity By SalesRep \n" +
+                                    " > Report CLOSED_WON by SalesRep \n" +
+                                    " > Report CLOSED_LOST by SalesRep \n" +
+                                    " > Report OPEN by SalesRep \n" +
+                                    " > Report Opportunity by the product \n" +
+                                    " > Report CLOSED_WON by the product \n" +
+                                    " > Report CLOSED_LOST by the product \n" +
+                                    " > Report OPEN by the product \n" +
+                                    " > Report Opportunity by Country \n" +
+                                    " > Report CLOSED_WON by Country \n" +
+                                    " > Report CLOSED_LOST by Country \n" +
+                                    " > Report OPEN by Country \n" +
+                                    " > Report Opportunity by City \n" +
+                                    " > Report CLOSED_WON by City \n" +
+                                    " > Report CLOSED_LOST by City \n" +
+                                    " > Report OPEN by City \n" +
+                                    " > Report Opportunity by Industry \n" +
+                                    " > Report CLOSED-WON by Industry \n" +
+                                    " > Report CLOSED-LOST by Industry \n" +
+                                    " > Report OPEN by Industry \n" +
 
                                     "\nTO QUIT\n" +
                                     " > quit - to leave the app"
@@ -139,12 +186,6 @@ public class CommandHandlerService {
                     break;
                 case LOOKUP_CONTACT:
                     lookUpContact(id);
-                    break;
-                case EXPORT_OPPORTUNITIES:
-                    exportOppInformation();
-                    break;
-                case EXPORT_ACCOUNTS:
-                    exportAccountInformation();
                     break;
                 case CLOSE_WON:
                     updateOpportunityStatusClosedWin(id);
