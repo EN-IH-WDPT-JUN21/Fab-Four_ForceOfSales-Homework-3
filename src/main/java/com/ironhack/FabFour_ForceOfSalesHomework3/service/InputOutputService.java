@@ -138,7 +138,7 @@ public class InputOutputService {
             result = userInput;
         } else if ("accountId".equals(inputType) && !isEmpty(userInput) && "go back".equals(userInput)) {
             result = "go back";
-        } else if ("accountId".equals(inputType) && !isEmpty(userInput) && !accountExists(userInput)) {
+        } else if ("accountId".equals(inputType) && !isEmpty(userInput) && !accountExists(userInput) || !isLong(userInput)) {
             System.out.println("Account with ID: " + userInput + " doesn't exist.");
             result = "no account";
         } else {
@@ -162,7 +162,7 @@ public class InputOutputService {
             Long.parseLong( input );
             return true;
         }
-        catch( Exception e ) {
+        catch(NumberFormatException e ) {
             return false;
         }
     }
