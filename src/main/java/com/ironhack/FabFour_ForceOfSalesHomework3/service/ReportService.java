@@ -10,21 +10,15 @@ import com.ironhack.FabFour_ForceOfSalesHomework3.repository.AccountRepository;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.LeadObjectRepository;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.OpportunityRepository;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.SalesRepRepository;
-import com.ironhack.FabFour_ForceOfSalesHomework3.service.impl.EmployeeCountService;
-import com.ironhack.FabFour_ForceOfSalesHomework3.service.impl.OpportunityPerAccountService;
-import com.ironhack.FabFour_ForceOfSalesHomework3.service.impl.ProductQuantityService;
-import org.apache.commons.lang.WordUtils;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
-import java.util.function.Function;
 
-import static com.ironhack.FabFour_ForceOfSalesHomework3.enums.Command.*;
-import static com.ironhack.FabFour_ForceOfSalesHomework3.service.AccountService.getCountryList;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.colorMessage;
 
 @Service

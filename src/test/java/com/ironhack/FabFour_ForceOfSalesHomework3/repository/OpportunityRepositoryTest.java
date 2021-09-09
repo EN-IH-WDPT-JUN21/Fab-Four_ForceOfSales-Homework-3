@@ -72,8 +72,6 @@ public class OpportunityRepositoryTest {
         salesRepRepository.deleteAll();
         contactRepository.deleteAll();
         opportunityRepository.deleteAll();
-        contactRepository.deleteAll();
-        salesRepRepository.deleteAll();
     }
 
     void findById_validId_opportunity() {
