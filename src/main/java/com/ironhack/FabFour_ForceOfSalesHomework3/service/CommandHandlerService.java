@@ -1,6 +1,7 @@
 package com.ironhack.FabFour_ForceOfSalesHomework3.service;
 
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Command;
+import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Product;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -95,6 +96,18 @@ public class CommandHandlerService {
                     break;
                 case OPPBYSALESREP:
                     reportOpportunitiesBySalesRep();
+                    break;
+                case OPPSBYPRODUCT:
+                    reportOpportunitiesByProduct();
+                    break;
+                case OPENBYPRODUCT:
+                    reportOpportunitiesByProductStatus(Status.OPEN);
+                    break;
+                case WONBYPRODUCT:
+                    reportOpportunitiesByProductStatus(Status.CLOSED_WON);
+                    break;
+                case LOSTBYPRODUCT:
+                    reportOpportunitiesByProductStatus(Status.CLOSED_LOST);
                     break;
                 case WONBYSALESREP:
                     reportOpportunitiesBySalesRepAndStatus(Status.CLOSED_WON);
