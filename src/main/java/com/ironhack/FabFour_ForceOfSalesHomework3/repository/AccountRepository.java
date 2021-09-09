@@ -2,24 +2,68 @@ package com.ironhack.FabFour_ForceOfSalesHomework3.repository;
 
 import com.ironhack.FabFour_ForceOfSalesHomework3.dao.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
-    /*
-    * A count of all Opportunities by country can be displayed by typing “Report Opportunity by Country”
-A count of all CLOSED_WON Opportunities by country can be displayed by typing “Report CLOSED-WON by Country”
-A count of all CLOSED_LOST Opportunities by country can be displayed by typing “Report CLOSED-LOST by Country”
-A count of all OPEN Opportunities by country can be displayed by typing “Report OPEN by Country”
 
+    //Report by country
+    @Query(
+            value = "SELECT COUNT(opportunity.id) " +
+                    "FROM account " +
+                    "INNER JOIN opportunity ON opportunity.account_id = account.id " +
+                    "WHERE account.country = :country",
+            nativeQuery = true
+    )
+    long countOpportunitiesByCountry(@Param("country") String country);
 
-    A count of all Opportunities by the city can be displayed by typing “Report Opportunity by City”
-    A count of all CLOSED_WON Opportunities by the city can be displayed by typing “Report CLOSED-WON by City”
-    A count of all CLOSED_LOST Opportunities by the city can be displayed by typing “Report CLOSED-LOST by City”
-    A count of all OPEN Opportunities by the city can be displayed by typing “Report OPEN by City
-    *
-    * A count of all Opportunities by industry can be displayed by typing “Report Opportunity by Industry”
-A count of all CLOSED_WON Opportunities by industry can be displayed by typing “Report CLOSED-WON by Industry”
-A count of all CLOSED_LOST Opportunities by industry can be displayed by typing “Report CLOSED-LOST by Industry”
-A count of all OPEN Opportunities by industry can be displayed by typing “Report OPEN by Industry”*/
+    @Query(
+            value = "SELECT COUNT(opportunity.id) " +
+                    "FROM opportunity " +
+                    "INNER JOIN account ON opportunity.account_id = account.id " +
+                    "WHERE account.country = :country AND opportunity.status = :status",
+            nativeQuery = true
+    )
+    long countOpportunitiesByCountryStatus(@Param("country") String country, @Param("status") String status);
+
+    //Report by City
+    @Query(
+            value = "SELECT COUNT(opportunity.id) " +
+                    "FROM opportunity " +
+                    "INNER JOIN account ON opportunity.account_id = account.id " +
+                    "WHERE account.city = :city",
+            nativeQuery = true
+    )
+    long countOpportunitiesByCity(@Param("city") String city);
+
+    @Query(
+            value = "SELECT COUNT(opportunity.id) " +
+                    "FROM opportunity " +
+                    "INNER JOIN account ON opportunity.account_id = account.id " +
+                    "WHERE account.city = :city AND opportunity.status = :status",
+            nativeQuery = true
+    )
+    long countOpportunitiesByCityStatus(@Param("city") String city, @Param("status") String status);
+
+    //Report by Industry
+    @Query(
+            value = "SELECT COUNT(opportunity.id) " +
+                    "FROM opportunity " +
+                    "INNER JOIN account ON opportunity.account_id = account.id " +
+                    "WHERE account.industry = :industry",
+            nativeQuery = true
+    )
+    long countOpportunitiesByIndustry(@Param("industry") String industry);
+
+    @Query(
+            value = "SELECT COUNT(opportunity.id) " +
+                    "FROM opportunity " +
+                    "INNER JOIN account ON opportunity.account_id = account.id " +
+                    "WHERE account.industry = :industry AND opportunity.status = :status",
+            nativeQuery = true
+    )
+    long countOpportunitiesByIndustryStatus(@Param("industry") String country, @Param("status") String status);
+
 }

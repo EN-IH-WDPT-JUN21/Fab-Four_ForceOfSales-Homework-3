@@ -1,9 +1,7 @@
 package com.ironhack.FabFour_ForceOfSalesHomework3.service;
 
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Command;
-import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Product;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Status;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.AccountService.lookUpAccount;
@@ -108,6 +106,42 @@ public class CommandHandlerService {
                     break;
                 case LOSTBYPRODUCT:
                     reportOpportunitiesByProductStatus(Status.CLOSED_LOST);
+                    break;
+                case OPPBYCOUNTRY:
+                    reportOpportunitiesByCountry();
+                    break;
+                case WONBYCOUNTRY:
+                    reportOpportunitiesByCountryStatus(Status.CLOSED_WON);
+                    break;
+                case LOSTBYCOUNTRY:
+                    reportOpportunitiesByCountryStatus(Status.CLOSED_LOST);
+                    break;
+                case OPENBYCOUNTRY:
+                    reportOpportunitiesByCountryStatus(Status.OPEN);
+                    break;
+                case OPPBYCITY:
+                    reportOpportunitiesByCity();
+                    break;
+                case WONBYCITY:
+                    reportOpportunitiesByCityStatus(Status.CLOSED_WON);
+                    break;
+                case LOSTBYCITY:
+                    reportOpportunitiesByCityStatus(Status.CLOSED_LOST);
+                    break;
+                case OPENBYCITY:
+                    reportOpportunitiesByCityStatus(Status.OPEN);
+                    break;
+                case OPPBYINDUSTRY:
+                    reportOpportunitiesByIndustry();
+                    break;
+                case WONBYINDUSTRY:
+                    reportOpportunitiesByIndustryStatus(Status.CLOSED_WON);
+                    break;
+                case LOSTBYINDUSTRY:
+                    reportOpportunitiesByIndustryStatus(Status.CLOSED_LOST);
+                    break;
+                case OPENBYINDUSTRY:
+                    reportOpportunitiesByIndustryStatus(Status.OPEN);
                     break;
                 case WONBYSALESREP:
                     reportOpportunitiesBySalesRepAndStatus(Status.CLOSED_WON);
