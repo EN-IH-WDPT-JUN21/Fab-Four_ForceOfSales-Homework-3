@@ -1,4 +1,4 @@
-package com.ironhack.FabFour_ForceOfSalesHomework3.service.impl;
+package com.ironhack.FabFour_ForceOfSalesHomework3.service;
 
 import com.ironhack.FabFour_ForceOfSalesHomework3.dao.Opportunity;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Product;
