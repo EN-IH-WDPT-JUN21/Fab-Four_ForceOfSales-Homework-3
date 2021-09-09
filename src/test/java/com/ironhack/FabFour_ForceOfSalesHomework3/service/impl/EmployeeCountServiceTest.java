@@ -3,6 +3,7 @@ package com.ironhack.FabFour_ForceOfSalesHomework3.service.impl;
 import com.ironhack.FabFour_ForceOfSalesHomework3.dao.Account;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Industry;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.AccountRepository;
+import com.ironhack.FabFour_ForceOfSalesHomework3.service.EmployeeCountService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,12 +1,9 @@
 package com.ironhack.FabFour_ForceOfSalesHomework3.service.impl;
 
-import com.ironhack.FabFour_ForceOfSalesHomework3.dao.Account;
 import com.ironhack.FabFour_ForceOfSalesHomework3.dao.Opportunity;
-import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Industry;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Product;
-import com.ironhack.FabFour_ForceOfSalesHomework3.repository.AccountRepository;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.OpportunityRepository;
-import com.ironhack.FabFour_ForceOfSalesHomework3.repository.ProductQuantityRepository;
+import com.ironhack.FabFour_ForceOfSalesHomework3.service.ProductQuantityService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

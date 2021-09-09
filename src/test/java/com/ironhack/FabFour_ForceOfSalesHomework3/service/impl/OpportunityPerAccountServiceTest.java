@@ -5,17 +5,14 @@ import com.ironhack.FabFour_ForceOfSalesHomework3.dao.Opportunity;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Industry;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Product;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.AccountRepository;
-import com.ironhack.FabFour_ForceOfSalesHomework3.repository.OpportunityPerAccountRepository;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.OpportunityRepository;
+import com.ironhack.FabFour_ForceOfSalesHomework3.service.OpportunityPerAccountService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
