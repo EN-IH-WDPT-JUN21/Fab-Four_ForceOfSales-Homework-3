@@ -1,14 +1,8 @@
 package com.ironhack.FabFour_ForceOfSalesHomework3.service;
 
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.TextColor;
-import com.ironhack.FabFour_ForceOfSalesHomework3.service.impl.EmployeeCountService;
-import com.ironhack.FabFour_ForceOfSalesHomework3.service.impl.OpportunityPerAccountService;
-import com.ironhack.FabFour_ForceOfSalesHomework3.service.impl.ProductQuantityService;
 import com.ironhack.FabFour_ForceOfSalesHomework3.service.interfaces.IAggregateService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.colorMessage;
 

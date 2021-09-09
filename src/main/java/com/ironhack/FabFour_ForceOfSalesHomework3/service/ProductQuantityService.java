@@ -1,4 +1,4 @@
-package com.ironhack.FabFour_ForceOfSalesHomework3.service.impl;
+package com.ironhack.FabFour_ForceOfSalesHomework3.service;
 
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.ProductQuantityRepository;
 import com.ironhack.FabFour_ForceOfSalesHomework3.service.interfaces.IAggregateService;

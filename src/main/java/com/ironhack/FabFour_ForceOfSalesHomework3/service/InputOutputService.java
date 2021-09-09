@@ -118,34 +118,38 @@ public class InputOutputService {
     }
 
     public static Object validateInput(String userInput, String inputType) {
-        Object result;
-        if (inputType.equals("product") && !isEmpty(userInput) && Product.getProduct(userInput) != null) {
-            result = Product.getProduct(userInput);
-        } else if ("industry".equals(inputType) && !isEmpty(userInput) && Industry.getIndustry(userInput) != null) {
-            result = Industry.getIndustry(userInput);
-        } else if ("quantity".equals(inputType) && !isEmpty(userInput) && isInteger(userInput) && Integer.parseInt(userInput) > 0 && Integer.parseInt(userInput) <= 300) {
-            result = Integer.parseInt(userInput);
-        } else if ("employees".equals(inputType) && !isEmpty(userInput) && isInteger(userInput) && Integer.parseInt(userInput) > 0 && Integer.parseInt(userInput) <= 30000000) {
-            result = Integer.parseInt(userInput);
-        } else if ("city".equals(inputType) && !isEmpty(userInput) && containsOnlyLetters(userInput)) {
-            result = userInput;
-        } else if ("country".equals(inputType) && !isEmpty(userInput) && validateCountryName(userInput) && containsOnlyLetters(userInput)) {
-            result = userInput;
-        } else if ("account".equals(inputType) && ("y".equals(userInput) || "Y".equals(userInput))) {
-            result = getAccountData();
-        } else if ("account".equals(inputType) && ("n".equals(userInput) || "N".equals(userInput))) {
-            result = getAccountId();
-        } else if ("accountId".equals(inputType) && !isEmpty(userInput) && isLong(userInput) && accountExists(userInput)) {
-            result = userInput;
-        } else if ("accountId".equals(inputType) && !isEmpty(userInput) && "go back".equals(userInput)) {
-            result = "go back";
-        } else if ("accountId".equals(inputType) && !isEmpty(userInput) && !accountExists(userInput) || !isLong(userInput)) {
-            System.out.println("Account with ID: " + userInput + " doesn't exist.");
-            result = "no account";
-        } else {
-            return null;
+        try {
+            if (inputType.equals("product") && !isEmpty(userInput) && Product.getProduct(userInput) != null) {
+                return Product.getProduct(userInput);
+            } else if ("industry".equals(inputType) && !isEmpty(userInput) && Industry.getIndustry(userInput) != null) {
+                return Industry.getIndustry(userInput);
+            } else if ("quantity".equals(inputType) && !isEmpty(userInput) && isInteger(userInput) && Integer.parseInt(userInput) > 0 && Integer.parseInt(userInput) <= 300) {
+                return Integer.parseInt(userInput);
+            } else if ("employees".equals(inputType) && !isEmpty(userInput) && isInteger(userInput) && Integer.parseInt(userInput) > 0 && Integer.parseInt(userInput) <= 30000000) {
+                return Integer.parseInt(userInput);
+            } else if ("city".equals(inputType) && !isEmpty(userInput) && containsOnlyLetters(userInput)) {
+                return userInput;
+            } else if ("country".equals(inputType) && !isEmpty(userInput) && validateCountryName(userInput) && containsOnlyLetters(userInput)) {
+                return userInput;
+            } else if ("account".equals(inputType) && ("y".equals(userInput) || "Y".equals(userInput))) {
+                return getAccountData();
+            } else if ("account".equals(inputType) && ("n".equals(userInput) || "N".equals(userInput))) {
+                return getAccountId();
+            } else if ("accountId".equals(inputType) && !isLong(userInput) && !"go back".equals(userInput)) {
+                System.out.println("Incorrect id format provided.");
+                return "bad input";
+            } else if ("accountId".equals(inputType) && !isEmpty(userInput) && "go back".equals(userInput)) {
+                return "go back";
+            } else if ("accountId".equals(inputType) && !isEmpty(userInput) && isLong(userInput) && accountExists(userInput)) {
+                return userInput;
+            } else if ("accountId".equals(inputType) && !isEmpty(userInput) && isLong(userInput) && !accountExists(userInput)) {
+                System.out.println("Account with ID " + userInput + " doesn't exist.");
+                return "no account";
+            }
+        } catch (Exception e) {
+            System.out.println(e.getStackTrace());
         }
-        return result;
+        return null;
     }
 
     public static boolean isInteger(String input) {
