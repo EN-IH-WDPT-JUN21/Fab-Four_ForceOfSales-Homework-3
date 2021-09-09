@@ -11,10 +11,14 @@ public class ContactTest {
     private static Contact testContactOne = null;
     private static Contact testContactTwo = null;
 
+    private static Account testAccount = null;
+
     @BeforeAll
     public static void setUp() {
+        testAccount = new Account();
+
         testContactOne = new Contact("Marie","012345678","marie@email.com","A New Company");
-        testContactTwo = new Contact("Barry", "079492222", "barry@test.com","Another Company");
+        testContactTwo = new Contact("Barry", "079492222", "barry@test.com","Another Company", testAccount);
     }
 
     @Test
@@ -40,4 +44,11 @@ public class ContactTest {
     public void ContactTest_CompanyNameTest_SetAsExpected() {
         assertEquals("A New Company",testContactOne.getCompanyName());
     }
+
+    @Test
+    @DisplayName("Test: Contact Constructor. Account set as expected.")
+    public void ContactTest_AccountTest_SetAsExpected() {
+        assertEquals(testAccount.getId(),testContactTwo.getAccount().getId());
+    }
+    
 }
