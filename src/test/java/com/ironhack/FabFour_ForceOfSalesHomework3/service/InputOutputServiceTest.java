@@ -2,13 +2,11 @@ package com.ironhack.FabFour_ForceOfSalesHomework3.service;
 
 import com.ironhack.FabFour_ForceOfSalesHomework3.dao.*;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Industry;
+import com.ironhack.FabFour_ForceOfSalesHomework3.enums.TextColor;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.AccountRepository;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.LeadObjectRepository;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.SalesRepRepository;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -19,6 +17,8 @@ import java.util.ArrayList;
 
 import static com.ironhack.FabFour_ForceOfSalesHomework3.enums.Product.BOX;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.enums.Product.HYBRID;
+import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -26,52 +26,49 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class InputOutputServiceTest {
 
     @Autowired
-    static
     LeadObjectRepository leadObjectRepository;
 
     @Autowired
-    static
     AccountRepository accountRepository;
 
     @Autowired
-    static
     SalesRepRepository salesRepRepository;
 
-    static SalesRep salesRep1 = null;
-    static LeadObject testLeadOne = null;
-    static LeadObject testLeadTwo = null;
-    static LeadObject testLeadThree = null;
-    static Account testAccountOne = null;
-    static Account testAccountTwo = null;
+    SalesRep salesRep1 = null;
+    LeadObject testLeadOne = null;
+    LeadObject testLeadTwo = null;
+    LeadObject testLeadThree = null;
+    Account testAccountOne = null;
+    Account testAccountTwo = null;
 
 
-    @BeforeAll
-    public static void setup() {
+    @BeforeEach
+    public void setup() {
         salesRep1 = new SalesRep("Maddy");
         salesRepRepository.save(salesRep1);
 
-        testLeadOne = new LeadObject("Test One","02030104","test@one.com","A test company",salesRep1);
-        testLeadTwo = new LeadObject("Test Two","09080706","test@two.com","A test company",salesRep1);
-        testLeadThree = new LeadObject("Test Three","11111111","test@three.com","A test company",salesRep1);
+        testLeadOne = new LeadObject("Test One", "02030104", "test@one.com", "A test company", salesRep1);
+        testLeadTwo = new LeadObject("Test Two", "09080706", "test@two.com", "A test company", salesRep1);
+        testLeadThree = new LeadObject("Test Three", "11111111", "test@three.com", "A test company", salesRep1);
         leadObjectRepository.save(testLeadOne);
         leadObjectRepository.save(testLeadTwo);
         leadObjectRepository.save(testLeadThree);
 
-        testAccountOne = new Account(Industry.OTHER,50,"Berlin","Germany",new ArrayList<>(),new ArrayList<>());
-        testAccountTwo = new Account(Industry.MEDICAL,300,"London","UK",new ArrayList<>(),new ArrayList<>());
+        testAccountOne = new Account(Industry.OTHER, 50, "Berlin", "Germany", new ArrayList<>(), new ArrayList<>());
+        testAccountTwo = new Account(Industry.MEDICAL, 300, "London", "UK", new ArrayList<>(), new ArrayList<>());
 
-        testAccountOne.getContactList().add(new Contact("Contact One","02030104","contact@one.com","A test company"));
-        testAccountTwo.getContactList().add(new Contact("Contact One","02030104","contact@one.com","A test company"));
+        testAccountOne.getContactList().add(new Contact("Contact One", "02030104", "contact@one.com", "A test company"));
+        testAccountTwo.getContactList().add(new Contact("Contact One", "02030104", "contact@one.com", "A test company"));
 
-        testAccountOne.getOpportunityList().add(new Opportunity(BOX,50,testAccountOne.getContactList().get(0),salesRep1));
-        testAccountTwo.getOpportunityList().add(new Opportunity(HYBRID,50,testAccountTwo.getContactList().get(0),salesRep1));
+        testAccountOne.getOpportunityList().add(new Opportunity(BOX, 50, testAccountOne.getContactList().get(0), salesRep1));
+        testAccountTwo.getOpportunityList().add(new Opportunity(HYBRID, 50, testAccountTwo.getContactList().get(0), salesRep1));
 
         accountRepository.save(testAccountOne);
         accountRepository.save(testAccountTwo);
     }
 
-    @AfterAll
-    public static void tearDown() {
+    @AfterEach
+    public void tearDown() {
         leadObjectRepository.deleteAll();
         accountRepository.deleteAll();
     }
@@ -158,5 +155,40 @@ public class InputOutputServiceTest {
         assertTrue(tempFileOne.exists());
         File tempFileTwo = new File("OppTestTwo.txt");
         assertFalse(tempFileTwo.exists());
+    }
+
+    @Test
+    @DisplayName("Test: isInteger(). Return correct boolean value.")
+    public void InputOutput_isInteger_CorrectValueReturned() {
+        InputStream in = new ByteArrayInputStream("11".getBytes());
+        System.setIn(in);
+        assertTrue(isInteger("11"));
+        in = new ByteArrayInputStream("hello".getBytes());
+        System.setIn(in);
+        assertFalse(isInteger("hello"));
+    }
+
+    @Test
+    @DisplayName("Test: isLong(). Return correct boolean value.")
+    public void InputOutput_isLong_CorrectValueReturned() {
+        InputStream in = new ByteArrayInputStream("11".getBytes());
+        System.setIn(in);
+        assertTrue(isLong("11"));
+        in = new ByteArrayInputStream("hello".getBytes());
+        System.setIn(in);
+        assertFalse(isLong("hello"));
+    }
+
+    @Test
+    @DisplayName("Test: errorMessage(). Method runs as expected.")
+    public void InputOutput_errorMessage_MessagePrinted() {
+        assertEquals("This is a message", colorMessage("This is a message", TextColor.RED));
+    }
+//
+    @Test
+    @DisplayName("Test: validateInput(). Method runs as expected.")
+    public void InputOutput_validateInput_CorrectValueReturned() {
+        Object testObject = validateInput("555555", "accountId");
+        assertEquals("no account", testObject);
     }
 }

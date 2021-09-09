@@ -38,4 +38,12 @@ public class Contact {
         setEmail(contactEmail);
         setCompanyName(contactCompany);
     }
+
+    public Contact(String contactName, String phoneNumber, String email, String companyName, Account account) {
+        this.contactName = contactName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.companyName = companyName;
+        this.account = account;
+    }
 }

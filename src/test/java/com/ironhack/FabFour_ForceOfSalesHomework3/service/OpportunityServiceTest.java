@@ -1,11 +1,13 @@
 package com.ironhack.FabFour_ForceOfSalesHomework3.service;
 
 import com.ironhack.FabFour_ForceOfSalesHomework3.dao.Contact;
+import com.ironhack.FabFour_ForceOfSalesHomework3.dao.LeadObject;
 import com.ironhack.FabFour_ForceOfSalesHomework3.dao.Opportunity;
 import com.ironhack.FabFour_ForceOfSalesHomework3.dao.SalesRep;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Product;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Status;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.ContactRepository;
+import com.ironhack.FabFour_ForceOfSalesHomework3.repository.LeadObjectRepository;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.OpportunityRepository;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.SalesRepRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -15,9 +17,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.List;
 
+import static com.ironhack.FabFour_ForceOfSalesHomework3.service.AccountService.getAccountData;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.OpportunityService.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -33,18 +39,27 @@ class OpportunityServiceTest {
     @Autowired
     private SalesRepRepository salesRepRepository;
 
+    @Autowired
+    private LeadObjectRepository leadObjectRepository;
+
     private Opportunity opportunity;
+    private LeadObject lead;
+    private Contact contact;
 
     private final PrintStream standardOut = System.out;
     private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
 
     @BeforeEach
     void setUp() {
-        Contact contact = new Contact("John", "123456789", "john@gmail.com", "Big Company");
+
+        contact = new Contact("John", "123456789", "john@gmail.com", "Big Company");
         contactRepository.save(contact);
 
         SalesRep salesRep = new SalesRep("Jane");
         salesRepRepository.save(salesRep);
+
+        lead = new LeadObject("John", "123456789", "john@gmail.com", "Big Company", salesRep);
+        leadObjectRepository.save(lead);
 
         opportunity = new Opportunity(Product.HYBRID, 40, contact, salesRep);
         opportunityRepository.save(opportunity);
@@ -57,6 +72,7 @@ class OpportunityServiceTest {
         opportunityRepository.deleteAll();
         contactRepository.deleteAll();
         salesRepRepository.deleteAll();
+        leadObjectRepository.deleteAll();
 
         System.setOut(standardOut);
     }

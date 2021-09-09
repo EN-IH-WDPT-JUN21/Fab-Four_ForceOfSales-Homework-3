@@ -53,7 +53,7 @@ public class AccountService {
         System.out.println("Please provide the industry name.\nPossible choices are: PRODUCE, ECOMMERCE, MANUFACTURING, MEDICAL, OTHER");
         Industry industry = (Industry) getUserInput("industry");
         System.out.println("Please provide the number of company employees");
-        int employees  = (Integer) getUserInput("employees");
+        int employees  = (int) getUserInput("employees");
         System.out.println("Please provide the city name");
         String city = (String) getUserInput("city");
         System.out.println("Please provide the full country name (e.g. United Kingdom, Germany)");
@@ -93,7 +93,6 @@ public class AccountService {
     }
     //addToAccount
     public static Account addToAccount(String id, LeadObject lead, Contact contact, Opportunity opportunity) {
-        System.out.println("in addToAccount");
         Long accountId = Long.parseLong(id);
         Optional<Account> accountOptional = accountRepository.findById(accountId);
         Account account = accountOptional.get();
