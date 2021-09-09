@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface OpportunityRepository extends JpaRepository<Opportunity, Long> {
 
@@ -13,11 +15,24 @@ public interface OpportunityRepository extends JpaRepository<Opportunity, Long> 
             value = "SELECT COUNT(opportunity.id) FROM opportunity INNER JOIN sales_rep ON sales_rep.id = opportunity.sales_id WHERE sales_rep.name = :name",
             nativeQuery = true
     )
-    long countOpportunitiesBySalesRep(@Param("name")String name);
+    long countOpportunitiesBySalesRep(@Param("name") String name);
 
     @Query(
             value = "SELECT COUNT(opportunity.id) FROM opportunity INNER JOIN sales_rep ON sales_rep.id = opportunity.sales_id WHERE sales_rep.name = :name AND opportunity.status = :status",
             nativeQuery = true
     )
-    long countOpportunitiesBySalesRepAndStatus(@Param("name")String name, @Param("status")String status);
+    long countOpportunitiesBySalesRepAndStatus(@Param("name") String name, @Param("status") String status);
+
+    @Query(
+            value = "SELECT COUNT(opportunity.id) FROM opportunity WHERE opportunity.product = :product",
+            nativeQuery = true
+    )
+    long countOpportunitiesByProduct(@Param("product") String product);
+
+    @Query(
+            value = "SELECT COUNT(opportunity.id) FROM opportunity WHERE opportunity.product = :product AND opportunity.status = :status",
+            nativeQuery = true
+    )
+    long countOpportunitiesByProductStatus(@Param("product") String product, @Param("status") String status);
+
 }

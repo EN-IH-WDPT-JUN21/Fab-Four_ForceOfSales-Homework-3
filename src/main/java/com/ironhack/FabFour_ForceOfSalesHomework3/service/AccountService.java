@@ -11,10 +11,8 @@ import org.apache.commons.lang.WordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
-import static com.ironhack.FabFour_ForceOfSalesHomework3.service.DataValidatorService.accountExists;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.DataValidatorService.isDuplicateAccount;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.colorMessage;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.getUserInput;
@@ -117,21 +115,18 @@ public class AccountService {
     //getAccountId
     public static List<Object> getAccountId() {
         System.out.println("Please provide the id of the Account you want to use or type 'go back' to abandon the operation.");
-        String accountId = (String) getUserInput("accountId");
-        if(accountId.equals("no account")) {
-            System.out.println("Checking the list of existing accounts.");
-            showAccounts();
-            return getAccountId();
-        } else if((accountRepository.count() == 0) || accountId.equals("go back")) {
+        Object accountId =  getUserInput("accountId");
+        if((accountRepository.count() == 0) || accountId.equals("go back")) {
             showAccounts();
             colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", TextColor.GREEN);
             colorMessage("Terminating convert operation. Your data will not be saved.", TextColor.GREEN);
             colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", TextColor.GREEN);
             removeIncompleteData();
             return Arrays.asList(0);
-        }  else {
-            return Arrays.asList(accountId);
+        } else if(accountId.equals("bad input") || accountId.equals("no account")){
+            return getAccountId();
         }
+        return Arrays.asList(accountId);
     }
 
     public static void removeIncompleteData() {

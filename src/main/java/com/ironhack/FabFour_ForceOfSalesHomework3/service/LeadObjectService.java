@@ -124,7 +124,7 @@ public class LeadObjectService {
                 return null;
             } else {
                 Account account = (dataList.size() > 1) ?
-                        createAccount(lead, contact, opportunity, dataList) : addToAccount((String) dataList.get(0), lead, contact, opportunity);
+                        createAccount(lead, contact, opportunity, dataList) : addToAccount(String.valueOf(dataList.get(0)), lead, contact, opportunity);
                 return account;
             }
         }

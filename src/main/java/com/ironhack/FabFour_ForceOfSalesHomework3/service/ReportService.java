@@ -4,6 +4,7 @@ import com.ironhack.FabFour_ForceOfSalesHomework3.dao.LeadObject;
 import com.ironhack.FabFour_ForceOfSalesHomework3.dao.Opportunity;
 import com.ironhack.FabFour_ForceOfSalesHomework3.dao.SalesRep;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Command;
+import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Product;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Status;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.TextColor;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.LeadObjectRepository;
@@ -15,6 +16,8 @@ import com.ironhack.FabFour_ForceOfSalesHomework3.service.impl.ProductQuantitySe
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -90,6 +93,44 @@ public class ReportService {
                 System.out.format(printFormat, sales.getName().toUpperCase(), opportunityRepository.countOpportunitiesBySalesRepAndStatus(sales.getName(), convStatus));
             }
             System.out.format("+------------+---------------------------+%n");
+        }
+    }
+
+    public static void reportOpportunitiesByProduct() {
+        List<Product> productList = Arrays.asList(Product.HYBRID, Product.BOX, Product.FLATBED);
+        List<Opportunity> opportunityList = opportunityRepository.findAll();
+        if (opportunityList.size() < 1) {
+            colorMessage("+--- There are no Opportunities in the system ---+", TextColor.RED);
+        }
+        else {
+            String printFormat = "| %-10s | %-25d |%n";
+            System.out.format("+------------+---------------------------+%n");
+            System.out.format("| Product    | Number of Opportunities   |%n");
+            System.out.format("+------------+---------------------------+%n");
+            for (Product product : productList) {
+                System.out.format(printFormat, product.productType, opportunityRepository.countOpportunitiesByProduct(product.productType));
+            }
+            System.out.format("+------------+---------------------------+%n");
+        }
+    }
+
+    public static void reportOpportunitiesByProductStatus(Status status) {
+        List<Product> productList = Arrays.asList(Product.HYBRID, Product.BOX, Product.FLATBED);
+        List<Opportunity> opportunityList = opportunityRepository.findAll();
+        if (opportunityList.size() < 1) {
+            colorMessage("+--- There are no Opportunities in the system ---+", TextColor.RED);
+        }
+        else {
+            String convStatus = status.name();
+            System.out.println(String.format("Here are the number of %b opportunities per SalesRep: \n", convStatus));
+            String printFormat = "| %-10s | %-25d |%n";
+            System.out.format("+------------+--------------------------------------+%n");
+            System.out.format("| Product    | Number of Opportunities   |%n");
+            System.out.format("+------------+--------------------------------------+%n");
+            for (Product product : productList) {
+                System.out.format(printFormat, product.productType, opportunityRepository.countOpportunitiesByProductStatus(product.productType, convStatus));
+            }
+            System.out.format("+------------+--------------------------------------+%n");
         }
     }
 }
