@@ -75,7 +75,7 @@ public class AccountServiceTest {
         contact2 = new Contact("Jane", "111333", "jane@gmail.com", "Jane's");
         contactRepository.save(contact2);
 
-        contact3 = new Contact("Janette", "111333", "jane@gmail.com", "Jane's", null);
+        contact3 = new Contact("Janette", "111333", "jane@gmail.com", "Jane's",null);
         contactRepository.save(contact3);
 
         opportunity = new Opportunity(Product.HYBRID, 40, contact, salesRep);
