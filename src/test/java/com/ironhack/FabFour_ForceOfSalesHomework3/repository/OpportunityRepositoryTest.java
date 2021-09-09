@@ -1,8 +1,10 @@
 package com.ironhack.FabFour_ForceOfSalesHomework3.repository;
 
+import com.ironhack.FabFour_ForceOfSalesHomework3.dao.Account;
 import com.ironhack.FabFour_ForceOfSalesHomework3.dao.Contact;
 import com.ironhack.FabFour_ForceOfSalesHomework3.dao.Opportunity;
 import com.ironhack.FabFour_ForceOfSalesHomework3.dao.SalesRep;
+import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Industry;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Product;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Status;
 import org.aspectj.lang.annotation.Before;
@@ -12,6 +14,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,8 +33,11 @@ public class OpportunityRepositoryTest {
     @Autowired
     ContactRepository contactRepository;
 
-    SalesRep salesRep1 = null;
-    Contact contact1 = null;
+    @Autowired
+    AccountRepository accountRepository;
+
+    SalesRep salesRep1;
+    Contact contact1;
     private Opportunity opportunity;
 
     @BeforeEach
@@ -53,6 +60,11 @@ public class OpportunityRepositoryTest {
         opportunityRepository.save(opportunityTestOne);
         opportunityRepository.save(opportunityTestTwo);
         opportunityRepository.save(opportunityTestThree);
+
+        List<Opportunity> opportunityList = Arrays.asList(opportunityTestOne, opportunityTestTwo);
+        List<Contact> contactList = Arrays.asList(contact, contact1);
+        Account accountTestOne = new Account(Industry.ECOMMERCE, 100, "Paris", "France", contactList, opportunityList);
+        accountRepository.save(accountTestOne);
     }
 
     @AfterEach
@@ -100,7 +112,7 @@ public class OpportunityRepositoryTest {
     }
 
     @Test
-    void OpportunityRepository_CountByProduct() {
+    void OpportunityRepository_CountByProduct_PositiveResult() {
         var oppCount = opportunityRepository.countOpportunitiesByProduct("BOX");
         assertEquals(1, oppCount);
         Opportunity opportunityTestFour = new Opportunity(Product.BOX, 5, contact1, salesRep1);
@@ -111,34 +123,28 @@ public class OpportunityRepositoryTest {
     }
 
     @Test
-    void OpportunityRepository_CountByProductStatus_ClosedWon() {
-        var oppCount = opportunityRepository.countOpportunitiesByProductStatus("BOX", "CLOSED_WON");
+    void OpportunityRepository_CountByProduct_NegativeResult() {
+        var oppCount = opportunityRepository.countOpportunitiesByProduct("SEDAN");
         assertEquals(0, oppCount);
+    }
+
+    @Test
+    void OpportunityRepository_CountByProductStatus_PositiveResult() {
         Opportunity opportunityTestFour = new Opportunity(Product.BOX,5,contact1,salesRep1);
         opportunityTestFour.setStatus(Status.CLOSED_WON);
         opportunityRepository.save(opportunityTestFour);
-        oppCount = opportunityRepository.countOpportunitiesByProductStatus("BOX", "CLOSED_WON");
+        var oppCount = opportunityRepository.countOpportunitiesByProductStatus("BOX", "CLOSED_WON");
         assertEquals(1, oppCount);
-    }
 
-    @Test
-    void OpportunityRepository_CountByProductStatus_ClosedLost() {
-        var oppCount = opportunityRepository.countOpportunitiesByProductStatus("HYBRID", "CLOSED_LOST");
-        assertEquals(0, oppCount);
-        Opportunity opportunityTestFour = new Opportunity(Product.HYBRID,5,contact1,salesRep1);
-        opportunityTestFour.setStatus(Status.CLOSED_LOST);
-        opportunityRepository.save(opportunityTestFour);
-        oppCount = opportunityRepository.countOpportunitiesByProductStatus("HYBRID", "CLOSED_LOST");
-        assertEquals(1, oppCount);
-    }
-
-    @Test
-    void OpportunityRepository_CountByProductOpen() {
-        var oppCount = opportunityRepository.countOpportunitiesByProductStatus("BOX", "OPEN");
-        assertEquals(1, oppCount);
-        Opportunity opportunityTestFour = new Opportunity(Product.BOX,5,contact1,salesRep1);
-        opportunityRepository.save(opportunityTestFour);
+        Opportunity opportunityTestFive = new Opportunity(Product.BOX,5,contact1,salesRep1);
+        opportunityRepository.save(opportunityTestFive);
         oppCount = opportunityRepository.countOpportunitiesByProductStatus("BOX", "OPEN");
         assertEquals(2, oppCount);
+    }
+
+    @Test
+    void OpportunityRepository_CountByProductStatus_NegativeResult() {
+        var oppCount = opportunityRepository.countOpportunitiesByProductStatus("BOX", "CLOSED_WON");
+        assertEquals(0, oppCount);
     }
 }
