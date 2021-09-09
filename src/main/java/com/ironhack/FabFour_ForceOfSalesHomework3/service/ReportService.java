@@ -3,15 +3,11 @@ package com.ironhack.FabFour_ForceOfSalesHomework3.service;
 import com.ironhack.FabFour_ForceOfSalesHomework3.dao.LeadObject;
 import com.ironhack.FabFour_ForceOfSalesHomework3.dao.Opportunity;
 import com.ironhack.FabFour_ForceOfSalesHomework3.dao.SalesRep;
-import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Command;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Status;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.TextColor;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.LeadObjectRepository;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.OpportunityRepository;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.SalesRepRepository;
-import com.ironhack.FabFour_ForceOfSalesHomework3.service.impl.EmployeeCountService;
-import com.ironhack.FabFour_ForceOfSalesHomework3.service.impl.OpportunityPerAccountService;
-import com.ironhack.FabFour_ForceOfSalesHomework3.service.impl.ProductQuantityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
