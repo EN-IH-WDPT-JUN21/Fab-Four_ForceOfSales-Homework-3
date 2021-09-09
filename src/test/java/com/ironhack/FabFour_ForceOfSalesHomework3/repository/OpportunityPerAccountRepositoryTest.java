@@ -4,7 +4,6 @@ import com.ironhack.FabFour_ForceOfSalesHomework3.dao.Account;
 import com.ironhack.FabFour_ForceOfSalesHomework3.dao.Opportunity;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Industry;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Product;
-import com.ironhack.FabFour_ForceOfSalesHomework3.service.impl.ProductQuantityService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
