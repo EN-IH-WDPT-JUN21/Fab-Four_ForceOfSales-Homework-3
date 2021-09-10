@@ -19,8 +19,7 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Optional;
 
-import static com.ironhack.FabFour_ForceOfSalesHomework3.service.LeadObjectService.createLead;
-import static com.ironhack.FabFour_ForceOfSalesHomework3.service.LeadObjectService.validateSalesRepLeadConstructor;
+import static com.ironhack.FabFour_ForceOfSalesHomework3.service.LeadObjectService.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -109,4 +108,45 @@ public class LeadObjectServiceTest {
 //        assertTrue(outputStreamCaptor.toString()
 //                .trim().contains("SalesRep Id can only be a number. Please try again."));
 //    }
+
+    @Test
+    @DisplayName("Test: lookupLead(). Lead found.")
+    public void LeadObjectService_LookupLeadTest_LeadFound(){
+        Optional<LeadObject> foundLead = Optional.of(lookupLead(1));
+        assertTrue(foundLead.isPresent());
+    }
+
+    @Test
+    @DisplayName("Test: removeLead(). Lead Removed.")
+    public void LeadObjectService_RemoveLeadTest_LeadRemoved(){
+        var leadCount = leadObjectRepository.count();
+        removeLead(1);
+        var leadCountAfterMethod = leadObjectRepository.count();
+        assertEquals(leadCountAfterMethod, leadCount - 1);
+    }
+
+    @Test
+    @DisplayName("Test: countLeads(). Returns expected Lead Count")
+    public void LeadObjectService_CountLeadsTest_PositiveResult() {
+        var leadCount = leadObjectRepository.count();
+        var leadCountFromMethod = countLeads();
+        assertEquals(leadCount,leadCountFromMethod);
+    }
+
+    @Test
+    @DisplayName("Test: showLeads(). Returns leads as expected.")
+    public void LeadObjectService_ShowLeadsTest_LeadsAsExpected() {
+        showLeads();
+        assertTrue(outputStreamCaptor.toString()
+                .trim().contains("Lead ID: 1, Contact Name: " + testLead.getContactName() + "."));
+    }
+
+    @Test
+    @DisplayName("Test: showLeads(). No Leads.")
+    public void LeadObjectService_ShowLeadsTest_NoLeads() {
+        leadObjectRepository.deleteAll();
+        showLeads();
+        assertTrue(outputStreamCaptor.toString()
+                .trim().contains("There are no leads! Try to add some with the 'new lead' command."));
+    }
 }
