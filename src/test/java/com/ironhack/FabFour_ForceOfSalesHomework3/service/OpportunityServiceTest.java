@@ -21,9 +21,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.util.List;
 
-import static com.ironhack.FabFour_ForceOfSalesHomework3.service.AccountService.getAccountData;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.OpportunityService.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,21 +29,22 @@ import static org.junit.jupiter.api.Assertions.*;
 class OpportunityServiceTest {
 
     @Autowired
-    private OpportunityRepository opportunityRepository;
+    OpportunityRepository opportunityRepository;
 
     @Autowired
-    private ContactRepository contactRepository;
+    ContactRepository contactRepository;
 
     @Autowired
-    private SalesRepRepository salesRepRepository;
+    SalesRepRepository salesRepRepository;
 
     @Autowired
-    private LeadObjectRepository leadObjectRepository;
+    LeadObjectRepository leadObjectRepository;
 
     private Opportunity opportunity;
     private LeadObject lead;
     private Contact contact;
 
+    private InputStream standardIn;
     private final PrintStream standardOut = System.out;
     private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
 
@@ -64,6 +63,7 @@ class OpportunityServiceTest {
         opportunity = new Opportunity(Product.HYBRID, 40, contact, salesRep);
         opportunityRepository.save(opportunity);
 
+        standardIn = System.in;
         System.setOut(new PrintStream(outputStreamCaptor));
     }
 
@@ -73,7 +73,7 @@ class OpportunityServiceTest {
         contactRepository.deleteAll();
         salesRepRepository.deleteAll();
         leadObjectRepository.deleteAll();
-
+        System.setIn(standardIn);
         System.setOut(standardOut);
     }
 
@@ -119,4 +119,18 @@ class OpportunityServiceTest {
         updateOpportunityStatusClosedWin(123456);
         assertTrue(outputStreamCaptor.toString().trim().contains("There is no opportunity with this ID. Please try again."));
     }
+
+    @Test
+    @DisplayName("Test: createOpportunity(). Opportunity created as expected.")
+    void createOpportunity_PositiveTest() {
+        opportunityRepository.deleteAll();
+        String product = "HYBRID"; String quantity = "13";
+        String simulatedInput = product + System.getProperty("line.separator") + quantity + System.getProperty("line.separator");
+        InputStream savedStandardInputStream = System.in;
+        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
+        Opportunity newOpportunity = createOpportunity(lead, contact);
+        System.setIn(savedStandardInputStream);
+        assertEquals(1, opportunityRepository.count());
+        assertEquals("HYBRID", newOpportunity.getProduct().toString());
+        }
 }
