@@ -60,8 +60,6 @@ class EmployeeCountServiceTest {
         assertEquals(12,employeeCountService.getMinValue());
     }
 
-
-
     @Test
     void EmployeeCountService_getMedian_oddEmployeeCountList() {
         accountRepository.save(new Account(Industry.ECOMMERCE, 78, "Paris", "France", null, null));
