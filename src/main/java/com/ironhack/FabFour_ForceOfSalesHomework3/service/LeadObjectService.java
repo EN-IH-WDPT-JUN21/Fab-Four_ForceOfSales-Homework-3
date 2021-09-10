@@ -155,6 +155,6 @@ public class LeadObjectService {
             for (LeadObject leadObject : leadList) {
                 System.out.println("Lead ID: " + leadObject.getId() + ", Contact Name: " + leadObject.getContactName() + ".\n");
             }
-        } else System.out.println("There are no leads! Try to add some with the 'new lead' command");
+        } else System.out.println("There are no leads! Try to add some with the 'new lead' command.");
     }
 }
