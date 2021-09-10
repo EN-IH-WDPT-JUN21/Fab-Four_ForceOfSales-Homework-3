@@ -16,7 +16,7 @@ public class Contact {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "contact_generator")
-    @SequenceGenerator(name="contact_generator", sequenceName = "contact_seq", allocationSize=50)
+    @SequenceGenerator(name="contact_generator", sequenceName = "contact_seq")
     private long id;
     private String contactName;
     private String phoneNumber;
@@ -39,11 +39,11 @@ public class Contact {
         setCompanyName(contactCompany);
     }
 
-    public Contact(String contactName, String phoneNumber, String email, String companyName, Account account) {
-        this.contactName = contactName;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.companyName = companyName;
-        this.account = account;
+    public Contact(String contactName, String contactPhoneNumber, String contactEmail, String contactCompany, Account account) {
+        setContactName(contactName);
+        setPhoneNumber(contactPhoneNumber);
+        setEmail(contactEmail);
+        setCompanyName(contactCompany);
+        setAccount(account);
     }
 }

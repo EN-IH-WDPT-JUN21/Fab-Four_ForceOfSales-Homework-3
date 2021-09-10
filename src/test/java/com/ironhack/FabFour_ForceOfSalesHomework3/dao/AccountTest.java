@@ -84,11 +84,10 @@ public class AccountTest {
     public void Account_equals_areEqual(){
         account = new Account(Industry.ECOMMERCE, 12, "Paris", "France", contactList, opportunityList);
         Account equalAccount = new Account(Industry.ECOMMERCE, 12, "Paris", "France", contactList, opportunityList);
-        Object nullObject = null;
         assertEquals(account, account);
         assertEquals(equalAccount, equalAccount);
-        assertEquals(account, (Account) equalAccount);
-        assertNotEquals(account, nullObject);
+        assertEquals(account, equalAccount);
+        assertNotEquals(account, null);
     }
 
     @Test
@@ -96,14 +95,8 @@ public class AccountTest {
     public void Account_ToStringTest_ValidateString() {
         String testString = "Account: " + account.getId() + ", Industry: " + account.getIndustry() + ", Number of employees: " +
                 account.getEmployeeCount() + ", City: " + account.getCity() + ", Country: " + account.getCountry()
-                +  ", Contacts: " + account.contactIdString(account.getContactList()) + ", Opportunities:" + account.opportunityIdString(account.getOpportunityList());
-//                + ", Contact: " + account.getContactList().get(0).getContactName() + ", Company: " + account.getContactList().get(0).getCompanyName()
-//                + ", Opportunity ID:" + account.getOpportunityList().get(0).getId();
+                +  ", Contacts: " + account.printIds("contact") + ", Opportunities:" + account.printIds("opportunity");
         assertEquals(testString, account.toString());
     }
-
-    /*
-                ", Contacts: " + contactIdString(this.getContactList()) + ", Opportunities:" + opportunityIdString(this.getOpportunityList());
-     */
 }
 

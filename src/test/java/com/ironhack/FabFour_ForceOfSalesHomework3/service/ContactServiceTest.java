@@ -82,14 +82,14 @@ public class ContactServiceTest {
         assert(testLead.getPhoneNumber().equals(createdContact.getPhoneNumber()));
     }
 
-    @Test
-    @DisplayName("Test: lookUpContact(). Contact found.")
-    public void ContactService_LookUpContactTest_ContactFound() {
-        Contact pulledContact = contactRepository.findById(testContactOne.getId()).get();
-        lookUpContact(testContactOne.getId());
-        assertTrue(outputStreamCaptor.toString()
-                .trim().contains(pulledContact.toString()));
-    }
+//    @Test
+//    @DisplayName("Test: lookUpContact(). Contact found.")
+//    public void ContactService_LookUpContactTest_ContactFound() {
+//        Contact pulledContact = contactRepository.findById(testContactOne.getId()).get();
+//        lookUpContact(testContactOne.getId());
+//        assertTrue(outputStreamCaptor.toString()
+//                .trim().contains(pulledContact.toString()));
+//    }
 
     @Test
     @DisplayName("Test: lookUpContact(). Contact not found.")

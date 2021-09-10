@@ -23,18 +23,18 @@ import static org.junit.jupiter.api.Assertions.*;
 class AccountRepositoryTest {
 
     @Autowired
-    private AccountRepository accountRepository;
+    AccountRepository accountRepository;
 
     @Autowired
-    private ContactRepository contactRepository;
+    ContactRepository contactRepository;
 
     @Autowired
-    private OpportunityRepository opportunityRepository;
+    OpportunityRepository opportunityRepository;
 
     @Autowired
-    private SalesRepRepository salesRepRepository;
+    SalesRepRepository salesRepRepository;
 
-    private Account account;
+    Account account;
     SalesRep salesRep;
     Contact contact;
     Opportunity opportunity;

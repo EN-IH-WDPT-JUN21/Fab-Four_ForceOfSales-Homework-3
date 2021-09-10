@@ -12,14 +12,10 @@ import org.apache.commons.lang.WordUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.AccountService.getCountryList;
-import static com.ironhack.FabFour_ForceOfSalesHomework3.service.SalesRepService.newSalesRep;
-import static com.ironhack.FabFour_ForceOfSalesHomework3.service.SalesRepService.showSalesReps;
 
 @Service
 public class DataValidatorService {
@@ -131,7 +127,6 @@ public class DataValidatorService {
         return false;
     }
 
-
     //Method to check if the String contains only letters and white spaces
     public static boolean containsOnlyLetters(String input) {
         final String regex = "^[ a-zA-Z]+$";
@@ -162,6 +157,5 @@ public class DataValidatorService {
         }
         return check;
     }
-
 }
 
