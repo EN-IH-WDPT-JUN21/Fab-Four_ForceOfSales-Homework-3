@@ -48,10 +48,15 @@ public class AccountService {
 
     //getAccountData
     public static List<Object> getAccountData() {
+        int employees = 0;
         System.out.println("Please provide the industry name.\nPossible choices are: PRODUCE, ECOMMERCE, MANUFACTURING, MEDICAL, OTHER");
         Industry industry = (Industry) getUserInput("industry");
         System.out.println("Please provide the number of company employees");
-        int employees  = (int) getUserInput("employees");
+        try {
+            employees = (Integer) getUserInput("employees");
+        } catch(NullPointerException e) {
+            System.out.println(e);
+        }
         System.out.println("Please provide the city name");
         String city = (String) getUserInput("city");
         System.out.println("Please provide the full country name (e.g. United Kingdom, Germany)");

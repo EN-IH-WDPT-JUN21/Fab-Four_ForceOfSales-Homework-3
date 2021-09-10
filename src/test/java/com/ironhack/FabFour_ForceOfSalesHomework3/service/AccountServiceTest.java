@@ -25,35 +25,35 @@ import static org.junit.jupiter.api.Assertions.*;
 public class AccountServiceTest {
 
     @Autowired
-    private AccountRepository accountRepository;
+    AccountRepository accountRepository;
 
     @Autowired
-    private ContactRepository contactRepository;
+    ContactRepository contactRepository;
 
     @Autowired
-    private OpportunityRepository opportunityRepository;
+    OpportunityRepository opportunityRepository;
 
     @Autowired
-    private SalesRepRepository salesRepRepository;
+    SalesRepRepository salesRepRepository;
 
     @Autowired
-    private LeadObjectRepository leadObjectRepository;
+    LeadObjectRepository leadObjectRepository;
 
-    private Account account;
-    private Contact contact;
-    private Contact contact2;
-    private Contact contact3;
-    private SalesRep salesRep;
-    private Opportunity opportunity;
-    private Opportunity opportunity2;
-    private Opportunity opportunity3;
-    private LeadObject lead;
-    private LeadObject lead2;
-    private InputStream standardIn;
-    private List<Contact> contactList = new ArrayList<>();
-    private List<Opportunity> opportunityList = new ArrayList<>();
-    private final PrintStream standardOut = System.out;
-    private static final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
+    Account account;
+    Contact contact;
+    Contact contact2;
+    Contact contact3;
+    SalesRep salesRep;
+    Opportunity opportunity;
+    Opportunity opportunity2;
+    Opportunity opportunity3;
+    LeadObject lead;
+    LeadObject lead2;
+    InputStream standardIn;
+    List<Contact> contactList = new ArrayList<>();
+    List<Opportunity> opportunityList = new ArrayList<>();
+    final PrintStream standardOut = System.out;
+    final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
 
     @BeforeEach
     public void setUp() {
@@ -123,18 +123,18 @@ public class AccountServiceTest {
         assertTrue(outputStreamCaptor.toString().trim().contains("There is no Account with id 55555. Please try again."));
     }
 
-//    @Test
-//    @DisplayName("Test: getAccountData(). List of Account details returned as expected.")
-//    public void Account_getAccountData_AccountDataPrintedOut(){
-//        String industry = "other"; String numOfEmployees = "12"; String city = "Paris"; String country = "France";
-//        String simulatedInput = industry + System.getProperty("line.separator") + numOfEmployees + System.getProperty("line.separator") + city
-//                + System.getProperty("line.separator") + country + System.getProperty("line.separator");
-//        InputStream savedStandardInputStream = System.in;
-//        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
-//        List<Object> dataList = getAccountData();
-//        System.setIn(savedStandardInputStream);
-//        assertEquals("other", dataList.get(0));
-//    }
+    @Test
+    @DisplayName("Test: getAccountData(). List of Account details returned as expected.")
+    public void Account_getAccountData_AccountDataPrintedOut(){
+        String industry = "other"; String numOfEmployees = "12"; String city = "Paris"; String country = "France";
+        String simulatedInput = industry + System.getProperty("line.separator") + numOfEmployees + System.getProperty("line.separator") + city
+                + System.getProperty("line.separator") + country + System.getProperty("line.separator");
+        InputStream savedStandardInputStream = System.in;
+        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
+        List<Object> dataList = getAccountData();
+        System.setIn(savedStandardInputStream);
+        assertEquals(Industry.OTHER, dataList.get(0));
+    }
 
     @Test
     @DisplayName("Test: getAccountId(). Account id returned as expected.")
@@ -153,23 +153,24 @@ public class AccountServiceTest {
         assertNull(convertLead(1000000));
     }
 
-//    @Test
-//    @DisplayName("Test: convertLead(). Lead converted as expected.")
-//    public void Account_convertLead_LeadConverted() {
-//        long leadId = lead.getId();
-//        String newProduct = "hybrid"; String numOfTrucks = "200"; String industry = "other";
-//        String numOfEmployees = "12"; String city = "Paris"; String country = "France";
-//        String simulatedInput = newProduct + System.getProperty("line.separator") + numOfTrucks + System.getProperty("line.separator")
-//                + "y" + System.getProperty("line.separator")
-//                + industry + System.getProperty("line.separator") + numOfEmployees + System.getProperty("line.separator") + city
-//                + System.getProperty("line.separator") + country + System.getProperty("line.separator");
-//        InputStream savedStandardInputStream = System.in;
-//        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
-//        Account acc = convertLead(leadId);
-//        System.setIn(savedStandardInputStream);
-//        assertEquals("Mick", acc.getContactList().get(0).getContactName());
-//        assertEquals("Stones", acc.getContactList().get(0).getCompanyName());
-//    }
+    @Test
+    @DisplayName("Test: convertLead(). Lead converted as expected.")
+    public void Account_convertLead_LeadConverted() {
+        long leadId = lead.getId();
+        String newProduct = "hybrid"; String numOfTrucks = "200"; String industry = "other";
+        String numOfEmployees = "12"; String city = "Paris"; String country = "France";
+        String userInput = "y";
+        String simulatedInput = newProduct + System.getProperty("line.separator") + numOfTrucks + System.getProperty("line.separator")
+                + userInput + System.getProperty("line.separator")
+                + industry + System.getProperty("line.separator") + numOfEmployees + System.getProperty("line.separator") + city
+                + System.getProperty("line.separator") + country + System.getProperty("line.separator");
+        InputStream savedStandardInputStream = System.in;
+        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
+        Account acc = convertLead(leadId);
+        System.setIn(savedStandardInputStream);
+        assertEquals("Mick", acc.getContactList().get(0).getContactName());
+        assertEquals("Stones", acc.getContactList().get(0).getCompanyName());
+    }
 
 
     @Test
@@ -220,4 +221,10 @@ public class AccountServiceTest {
         assertEquals("Berlin", newAccount.getCity());
         assertEquals(++beforeCreateAccount, afterCreateAccount);
     }
+
+//    @Test //isDuplicate
+//    @DisplayName("Test: createAccount(). Returns correct result.")
+//    public void Account_createAccount_ConvertTerminated() {
+//        assertTrue(outputStreamCaptor.toString().trim().contains("Account with this information already exists."));
+//    }
 }
