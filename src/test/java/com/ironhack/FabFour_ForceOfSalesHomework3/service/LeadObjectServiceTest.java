@@ -13,9 +13,16 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.Optional;
+
+import static com.ironhack.FabFour_ForceOfSalesHomework3.service.LeadObjectService.createLead;
+import static com.ironhack.FabFour_ForceOfSalesHomework3.service.LeadObjectService.validateSalesRepLeadConstructor;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 public class LeadObjectServiceTest {
@@ -59,10 +66,47 @@ public class LeadObjectServiceTest {
         System.setOut(standardOut);
     }
 
+    @Test
+    @DisplayName("Test: createLead(). Created, SalesRep exists.")
+    public void LeadObjectService_CreateLeadTest_CreatedSalesRepExists() {
+        var leadCountBeforeTest = leadObjectRepository.count();
+        String simulatedInput = "1" + System.getProperty("line.separator") +
+                "Buzz" +  System.getProperty("line.separator") +
+                "02020202" + System.getProperty("line.separator") +
+                "buzz@test.com" +  System.getProperty("line.separator") +
+                "A company" +  System.getProperty("line.separator");
+        InputStream savedStandardInputStream = System.in;
+        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
+        createLead();
+        System.setIn(savedStandardInputStream);
+        var leadCountAfterTest = leadObjectRepository.count();
+
+        assertEquals(leadCountAfterTest,leadCountBeforeTest + 1);
+    }
+
+    @Test
+    @DisplayName("Test: validateSalesRepLeadConstructor(). Sales Rep Exists")
+    public void LeadObjectService_ValidateSalesRepLeadConstructorTest_SalesRepExists() {
+        String simulatedInput = "1";
+        InputStream savedStandardInputStream = System.in;
+        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
+        Optional<SalesRep> validatedSalesRep = Optional.ofNullable(validateSalesRepLeadConstructor());
+        System.setIn(savedStandardInputStream);
+
+        assertTrue(validatedSalesRep.isPresent());
+    }
+
 //    @Test
-//    @DisplayName("Test: createLead(). Created, SalesRep exists.")
-//    public void LeadObjectService_CreateLeadTest_CreatedSalesRepExists() {
-//        var leadCountBeforeTest = leadObjectRepository.count();
+//    @DisplayName("Test: validateSalesRepLeadConstructor(). Invalid Input")
+//    public void LeadObjectService_ValidateSalesRepLeadConstructorTest_InvalidInput() {
+//        salesRepRepository.deleteAll();
+//        String simulatedInput = "What is my id?";
+//        InputStream savedStandardInputStream = System.in;
+//        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
+//        validateSalesRepLeadConstructor();
+//        System.setIn(savedStandardInputStream);
 //
+//        assertTrue(outputStreamCaptor.toString()
+//                .trim().contains("SalesRep Id can only be a number. Please try again."));
 //    }
 }
