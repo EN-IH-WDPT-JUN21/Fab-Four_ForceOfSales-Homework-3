@@ -22,7 +22,7 @@ public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_generator")
-    @SequenceGenerator(name="account_generator", sequenceName = "account_seq", allocationSize=50)
+    @SequenceGenerator(name="account_generator", sequenceName = "account_seq")
     private long id;
 
     @Enumerated(EnumType.STRING)
@@ -66,7 +66,7 @@ public class Account {
 //    public boolean equals(Object o) {
 //        if (this == o) return true;
 //        if (o == null || getClass() != o.getClass()) return false;
-//        com.ironhack.FabFour_ForceOfSalesHomework3.dao.Account account = (com.ironhack.FabFour_ForceOfSalesHomework3.dao.Account) o;
+//        Account account =  o;
 //        return employeeCount == account.employeeCount && industry == account.industry && city.equals(account.city) && country.equals(account.country) && contactList.equals(account.contactList) && opportunityList.equals(account.opportunityList);
 //    }
 
@@ -76,21 +76,20 @@ public class Account {
         if (o == null || getClass() != o.getClass()) return false;
 
         Account that = (Account) o;
-        return this.getIndustry() == that.getIndustry() && this.getEmployeeCount() == that.getEmployeeCount() && this.getCity() == that.getCity() && this.getCountry() == that.getCountry();
+        return this.getIndustry().equals(that.getIndustry()) && this.getEmployeeCount() == that.getEmployeeCount() && this.getCity().equals(that.getCity()) && this.getCountry().equals(that.getCountry());
     }
 
-    public String contactIdString(List<Contact> lst) {
+    //Format contactList and opportunityList output: || 1, 4 ||
+    public String printIds(String listType) {
         List<Long> idList = new ArrayList<>();
-        for(Contact c : lst) {
-           idList.add(c.getId());
-        }
-        return Arrays.toString(idList.toArray()).replace("[", "||").replace("]", "||");
-    }
-
-    public String opportunityIdString(List<Opportunity> lst) {
-        List<Long> idList = new ArrayList<>();
-        for(Opportunity o : lst) {
-            idList.add(o.getId());
+        if(listType.equals("contact")) {
+            for (Contact c : this.getContactList()) {
+                idList.add(c.getId());
+            }
+        } else if(listType.equals("opportunity")) {
+            for(Opportunity o : this.getOpportunityList()) {
+                idList.add(o.getId());
+            }
         }
         return Arrays.toString(idList.toArray()).replace("[", "||").replace("]", "||");
     }
@@ -99,7 +98,7 @@ public class Account {
     public String toString() {
         return "Account: " + this.getId() + ", Industry: " + this.getIndustry() + ", Number of employees: " +
                 this.getEmployeeCount() + ", City: " + this.getCity() + ", Country: " + this.getCountry() +
-                ", Contacts: " + contactIdString(this.getContactList()) + ", Opportunities:" + opportunityIdString(this.getOpportunityList());
+                ", Contacts: " + printIds("contact") + ", Opportunities:" + printIds("opportunity");
         }
     }
 

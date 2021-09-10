@@ -112,8 +112,8 @@ public class AccountServiceTest {
     public void Account_lookupAccount_AccountDataPrintedOut(){
         String testString =  "Account: " + account.getId() + ", Industry: " + account.getIndustry() + ", Number of employees: " +
                         account.getEmployeeCount() + ", City: " + account.getCity() + ", Country: " + account.getCountry() +
-                      ", Contacts: " + account.contactIdString(account.getContactList()) + ", Opportunities:" +
-                      account.opportunityIdString(account.getOpportunityList());
+                      ", Contacts: " + account.printIds("contact") + ", Opportunities:" +
+                      account.printIds("opportunity");
         assertEquals(testString, account.toString());
     }
 

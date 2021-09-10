@@ -1,3 +1,3 @@
 Id,Industry,Employee Count,City,Country,Number of Opportunities 
-35,OTHER,50,Berlin,Germany,0
-36,MEDICAL,300,London,UK,0
+132,OTHER,50,Berlin,Germany,0
+133,MEDICAL,300,London,UK,0

@@ -22,7 +22,7 @@ public class LeadObject {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "lead_generator")
-    @SequenceGenerator(name="lead_generator", sequenceName = "lead_seq", allocationSize=50)
+    @SequenceGenerator(name="lead_generator", sequenceName = "lead_seq")
     protected long id;
 
     private String contactName;
@@ -48,7 +48,7 @@ public class LeadObject {
 
     public void setContactName(String name) {
         Scanner aScanner = new Scanner(System.in);
-        String input = this.contactName = name;;
+        String input = this.contactName = name;
         while (input.isEmpty() || !containsOnlyLetters(input)) {
             colorMessage("Please provide a valid contact name.", TextColor.RED);
             input = aScanner.nextLine();
