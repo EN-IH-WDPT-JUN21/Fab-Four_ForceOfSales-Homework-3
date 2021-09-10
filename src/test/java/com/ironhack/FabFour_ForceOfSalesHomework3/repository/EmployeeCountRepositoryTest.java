@@ -42,30 +42,29 @@ class EmployeeCountRepositoryTest {
     }
 
     @Test
-    public void AccountRepository_getMeanEmployeeCount() {
+    public void EmployeeCountRepository_getMeanEmployeeCount() {
         Double avg = employeeCountRepository.getMeanEmployeeCount();
 
         assertEquals(36.75, avg, 0);
     }
 
     @Test
-    public void AccountRepository_getMaxEmployeeCount() {
+    public void EmployeeCountRepository_getMaxEmployeeCount() {
         Integer max = employeeCountRepository.getMaxEmployeeCount();
 
         assertEquals(54, max);
     }
 
     @Test
-    public void AccountRepository_getMinEmployeeCount() {
+    public void EmployeeCountRepository_getMinEmployeeCount() {
         Integer min = employeeCountRepository.getMinEmployeeCount();
 
         assertEquals(12, min);
     }
 
     @Test
-    public void AccountRepository_getEmployeeCountList() {
+    public void EmployeeCountRepository_getEmployeeCountList() {
         List<Integer> employeeCounts = employeeCountRepository.getEmployeeCountList();
-
         assertEquals(4, employeeCounts.size());
     }
 }
