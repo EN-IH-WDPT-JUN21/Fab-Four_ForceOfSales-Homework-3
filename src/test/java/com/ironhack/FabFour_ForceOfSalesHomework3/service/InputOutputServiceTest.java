@@ -184,11 +184,32 @@ public class InputOutputServiceTest {
     public void InputOutput_errorMessage_MessagePrinted() {
         assertEquals("This is a message", colorMessage("This is a message", TextColor.RED));
     }
-//
+
     @Test
     @DisplayName("Test: validateInput(). Method runs as expected.")
-    public void InputOutput_validateInput_CorrectValueReturned() {
+    public void InputOutput_validateInput_NoAccount() {
         Object testObject = validateInput("555555", "accountId");
         assertEquals("no account", testObject);
+    }
+
+    @Test
+    @DisplayName("Test: validateInput(). Method runs as expected.")
+    public void InputOutput_validateInput_BadIdFormat() {
+        Object testObject = validateInput("accountId", "accountId");
+        assertEquals("bad input", testObject);
+    }
+
+    @Test
+    @DisplayName("Test: validateInput(). Method runs as expected.")
+    public void InputOutput_validateInput_GoBack() {
+        Object testObject = validateInput("go back", "accountId");
+        assertEquals("go back", testObject);
+    }
+
+    @Test
+    @DisplayName("Test: validateInput(). Method runs as expected.")
+    public void InputOutput_validateInput_Industry() {
+        Object testObject = validateInput("other", "industry");
+        assertEquals(Industry.OTHER, testObject);
     }
 }

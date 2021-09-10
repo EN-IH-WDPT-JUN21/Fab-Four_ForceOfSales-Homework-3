@@ -3,7 +3,6 @@ package com.ironhack.FabFour_ForceOfSalesHomework3.service;
 import com.ironhack.FabFour_ForceOfSalesHomework3.dao.*;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Industry;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Product;
-import com.ironhack.FabFour_ForceOfSalesHomework3.enums.TextColor;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.*;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,8 +111,8 @@ public class AccountServiceTest {
     public void Account_lookupAccount_AccountDataPrintedOut(){
         String testString =  "Account: " + account.getId() + ", Industry: " + account.getIndustry() + ", Number of employees: " +
                         account.getEmployeeCount() + ", City: " + account.getCity() + ", Country: " + account.getCountry() +
-                      ", Contacts: " + account.contactIdString(account.getContactList()) + ", Opportunities:" +
-                      account.opportunityIdString(account.getOpportunityList());
+                      ", Contacts: " + account.printIds("contact") + ", Opportunities:" +
+                      account.printIds("opportunity");
         assertEquals(testString, account.toString());
     }
 

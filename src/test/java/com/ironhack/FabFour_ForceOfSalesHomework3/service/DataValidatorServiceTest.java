@@ -21,27 +21,26 @@ import static org.junit.jupiter.api.Assertions.*;
 class DataValidatorServiceTest {
 
     @Autowired
-    private LeadObjectRepository leadObjectRepository;
+    LeadObjectRepository leadObjectRepository;
 
     @Autowired
-    private SalesRepRepository salesRepRepository;
+    SalesRepRepository salesRepRepository;
 
     @Autowired
-    private AccountRepository accountRepository;
+    AccountRepository accountRepository;
 
     @Autowired
-    private OpportunityRepository opportunityRepository;
+    OpportunityRepository opportunityRepository;
 
     @Autowired
-    private ContactRepository contactRepository;
+    ContactRepository contactRepository;
 
     private SalesRep salesRep;
     private LeadObject leadObject;
     private Account account;
-    private List<Contact> contactList = new ArrayList<>();
-    private List<Opportunity> opportunityList = new ArrayList<>();
+    private final List<Contact> contactList = new ArrayList<>();
+    private final List<Opportunity> opportunityList = new ArrayList<>();
     private Opportunity opportunity;
-    private Contact contact;
 
     @BeforeEach
     void setUp() {

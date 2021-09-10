@@ -14,9 +14,7 @@ import java.io.FileWriter;
 import java.util.Scanner;
 
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.AccountService.*;
-import static com.ironhack.FabFour_ForceOfSalesHomework3.service.CommandHandlerService.handleCommand;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.DataValidatorService.*;
-import static com.ironhack.FabFour_ForceOfSalesHomework3.service.StartApp.readCommands;
 
 @Service
 public class InputOutputService {
@@ -97,6 +95,7 @@ public class InputOutputService {
         }
     }
 
+    //Obtain and process user input
     public static Object getUserInput(String inputType) {
         Scanner aScanner = new Scanner(System.in);
         String userInput = "";
@@ -104,7 +103,7 @@ public class InputOutputService {
         while (aScanner.hasNextLine()) {
             try {
                 userInput = aScanner.nextLine();
-                result = validateInput(userInput, inputType);
+                result = validateInput(userInput, inputType); //validate user input
                 if (result != null) {
                     return result;
                 } else {
@@ -117,6 +116,7 @@ public class InputOutputService {
         return null;
     }
 
+    //Validate user input
     public static Object validateInput(String userInput, String inputType) {
         try {
             if (inputType.equals("product") && !isEmpty(userInput) && Product.getProduct(userInput) != null) {
@@ -136,24 +136,24 @@ public class InputOutputService {
             } else if ("account".equals(inputType) && ("n".equals(userInput) || "N".equals(userInput))) {
                 return getAccountId();
             } else if ("accountId".equals(inputType) && !isLong(userInput) && !"go back".equals(userInput)) {
-                System.out.println("Incorrect id format provided.");
+                colorMessage("Incorrect id format provided.", TextColor.RED);
                 return "bad input";
             } else if ("accountId".equals(inputType) && !isEmpty(userInput) && "go back".equals(userInput)) {
                 return "go back";
             } else if ("accountId".equals(inputType) && !isEmpty(userInput) && isLong(userInput) && accountExists(userInput)) {
                 return userInput;
             } else if ("accountId".equals(inputType) && !isEmpty(userInput) && isLong(userInput) && !accountExists(userInput)) {
-                System.out.println("Account with ID " + userInput + " doesn't exist.");
+                colorMessage("Account with ID " + userInput + " doesn't exist.", TextColor.RED);
                 return "no account";
             }
         } catch (Exception e) {
-            System.out.println(e.getStackTrace());
+            System.out.println("Something went wrong.");
         }
         return null;
     }
 
+    // Checks if the input String can be parsed into Integer
     public static boolean isInteger(String input) {
-        //Checks if the input String can be parsed into Integer
         try {
             Integer.parseInt(input);
             return true;
@@ -162,9 +162,10 @@ public class InputOutputService {
         }
     }
 
+    // Checks if the input String can be parsed into Long
     public static boolean isLong(String input) {
         try {
-            Long.parseLong( input );
+            Long.parseLong(input);
             return true;
         }
         catch(NumberFormatException e ) {
@@ -172,8 +173,8 @@ public class InputOutputService {
         }
     }
 
+    // Change the color of System.output messages
     public static String colorMessage(String message, TextColor textColor) {
-        //Changes the color of System.output messages
         String resetCode = "\033[0m";   //resets color to the primary one
         System.out.println(textColor.color + message + resetCode);
         return message;

@@ -82,6 +82,7 @@ public class ContactServiceTest {
         assert(testLead.getPhoneNumber().equals(createdContact.getPhoneNumber()));
     }
 
+
     @Test
     @DisplayName("Test: lookUpContact(). Contact found.")
     public void ContactService_LookUpContactTest_ContactFound() {

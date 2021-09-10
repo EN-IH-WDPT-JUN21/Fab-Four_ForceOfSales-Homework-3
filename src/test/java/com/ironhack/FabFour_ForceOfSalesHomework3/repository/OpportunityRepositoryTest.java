@@ -7,7 +7,6 @@ import com.ironhack.FabFour_ForceOfSalesHomework3.dao.SalesRep;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Industry;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Product;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Status;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -72,8 +71,6 @@ public class OpportunityRepositoryTest {
         salesRepRepository.deleteAll();
         contactRepository.deleteAll();
         opportunityRepository.deleteAll();
-        contactRepository.deleteAll();
-        salesRepRepository.deleteAll();
     }
 
     void findById_validId_opportunity() {

@@ -1,7 +1,6 @@
 package com.ironhack.FabFour_ForceOfSalesHomework3.service;
 
 import com.ironhack.FabFour_ForceOfSalesHomework3.dao.Account;
-import com.ironhack.FabFour_ForceOfSalesHomework3.dao.LeadObject;
 import com.ironhack.FabFour_ForceOfSalesHomework3.dao.Opportunity;
 import com.ironhack.FabFour_ForceOfSalesHomework3.dao.SalesRep;
 
@@ -18,35 +17,31 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
-import java.util.function.Function;
 
-import static com.ironhack.FabFour_ForceOfSalesHomework3.enums.Command.*;
-import static com.ironhack.FabFour_ForceOfSalesHomework3.service.AccountService.getCountryList;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.colorMessage;
 
 @Service
 public class ReportService {
 
-    private static SalesRepRepository salesRepRepository;
-    private static LeadObjectRepository leadObjectRepository;
-    private static OpportunityRepository opportunityRepository;
-    private static AccountRepository accountRepository;
+    @Autowired
+    static
+    SalesRepRepository salesRepRepository;
 
     @Autowired
-    public ReportService(SalesRepRepository salesRepRepository,
-                         LeadObjectRepository leadObjectRepository,
-                         OpportunityRepository opportunityRepository,
-                         AccountRepository accountRepository) {
-        this.salesRepRepository = salesRepRepository;
-        this.leadObjectRepository = leadObjectRepository;
-        this.opportunityRepository = opportunityRepository;
-        this.accountRepository = accountRepository;
-    }
+    static
+    LeadObjectRepository leadObjectRepository;
 
+    @Autowired
+    static
+    OpportunityRepository opportunityRepository;
+
+    @Autowired
+    static
+    AccountRepository accountRepository;
+
+    //Report Leads by the SalesRep
     public static void reportLeadsBySalesRep() {
         List<SalesRep> salesReps = salesRepRepository.findAll();
-        List<LeadObject> leadObjectList = leadObjectRepository.findAll();
         if (salesReps.size() < 1) {
             colorMessage("+--- There are no SalesReps in the system ---+", TextColor.RED);
         }
@@ -63,9 +58,9 @@ public class ReportService {
         }
     }
 
+    //Report Leads with a given status by the SalesRep
     public static void reportOpportunitiesBySalesRep() {
         List<SalesRep> salesReps = salesRepRepository.findAll();
-        List<Opportunity> opportunityList = opportunityRepository.findAll();
         if (salesReps.size() < 1) {
             colorMessage("+--- There are no SalesReps in the system ---+", TextColor.RED);
         }
@@ -82,16 +77,16 @@ public class ReportService {
         }
     }
 
+    //Report Opportunities with a given status by the SalesRep
     public static void reportOpportunitiesBySalesRepAndStatus(Status status) {
         List<SalesRep> salesReps = salesRepRepository.findAll();
-        List<Opportunity> opportunityList = opportunityRepository.findAll();
         if (salesReps.size() < 1) {
             colorMessage("+--- There are no SalesReps in the system ---+", TextColor.RED);
         }
         else {
             String convStatus = status.name();
             String printFormat = "| %-10s | %-25d |%n";
-            System.out.println(String.format("Here are the number of %b opportunities per SalesRep: \n", convStatus));
+            System.out.printf("Here are the number of %b opportunities per SalesRep: \n%n", convStatus);
             System.out.format("+------------+---------------------------+%n");
             System.out.format("| Name       | Number of Opportunities   |%n");
             System.out.format("+------------+---------------------------+%n");
@@ -102,8 +97,9 @@ public class ReportService {
         }
     }
 
+    //Report Opportunities by the Product
     public static void reportOpportunitiesByProduct() {
-        List<String> productList = Arrays.asList("HYBRID", "BOX", "FLATBED");
+        List<String> productList = getEnumNames("product");
         String printFormat = printReports();
         for (String product : productList) {
             System.out.format(printFormat, product, opportunityRepository.countOpportunitiesByProduct(product));
@@ -111,8 +107,9 @@ public class ReportService {
         System.out.format("+------------+---------------------------+%n");
     }
 
+    //Report Opportunities with a given status by the Product
     public static void reportOpportunitiesByProductStatus(Status status) {
-        List<String> productList = Arrays.asList("HYBRID", "BOX", "FLATBED");
+        List<String> productList = getEnumNames("product");
         String printFormat = printReports();
         String convStatus = status.name();
         for (String product : productList) {
@@ -121,12 +118,9 @@ public class ReportService {
         System.out.format("+------------+---------------------------+%n");
     }
 
+    //Report Opportunities by the Country
     public static void reportOpportunitiesByCountry() {
-        List<Account> accountList = accountRepository.findAll();
-        List<String> countryList = new ArrayList<>();
-        for(Account account: accountList) {
-            countryList.add(account.getCountry());
-        }
+        List<String> countryList = accountLoop("country");
         String printFormat = printReports();
         for(String country: countryList) {
             System.out.format(printFormat, country, accountRepository.countOpportunitiesByCountry(country));
@@ -134,13 +128,10 @@ public class ReportService {
         System.out.format("+------------+---------------------------+%n");
     }
 
+    //Report Opportunities with a given status by the Country
     public static void reportOpportunitiesByCountryStatus(Status status) {
-        List<Account> accountList = accountRepository.findAll();
-        List<String> countryList = new ArrayList<>();
+        List<String> countryList = accountLoop("country");
         String convStatus = status.name();
-        for(Account account: accountList) {
-            countryList.add(account.getCountry());
-        }
         String printFormat = printReports();
         for(String country: countryList) {
             System.out.format(printFormat, country, accountRepository.countOpportunitiesByCountryStatus(country, convStatus));
@@ -148,12 +139,9 @@ public class ReportService {
         System.out.format("+------------+---------------------------+%n");
     }
 
+    //Report Opportunities by the City
     public static void reportOpportunitiesByCity() {
-        List<Account> accountList = accountRepository.findAll();
-        List<String> cityList = new ArrayList<>();
-        for(Account account: accountList) {
-            cityList.add(account.getCity());
-        }
+        List<String> cityList = accountLoop("city");
         String printFormat = printReports();
         for(String city: cityList) {
             System.out.format(printFormat, city, accountRepository.countOpportunitiesByCity(city));
@@ -161,13 +149,10 @@ public class ReportService {
         System.out.format("+------------+---------------------------+%n");
     }
 
+    //Report Opportunities with a given status by the City
     public static void reportOpportunitiesByCityStatus(Status status) {
-        List<Account> accountList = accountRepository.findAll();
-        List<String> cityList = new ArrayList<>();
+        List<String> cityList = accountLoop("city");
         String convStatus = status.name();
-        for(Account account: accountList) {
-            cityList.add(account.getCity());
-        }
         String printFormat = printReports();
         for(String city: cityList) {
             System.out.format(printFormat, city, accountRepository.countOpportunitiesByCityStatus(city, convStatus));
@@ -175,8 +160,9 @@ public class ReportService {
         System.out.format("+------------+---------------------------+%n");
     }
 
+    //Report Opportunities by the Industry
     public static void reportOpportunitiesByIndustry() {
-        List<String> industryList = Arrays.asList("ECOMMERCE", "OTHER","MANUFACTURING", "MEDICAL", "PRODUCE");
+        List<String> industryList = getEnumNames("industry");
         String printFormat = printReports();
         for(String industry: industryList) {
             System.out.format(printFormat, industry, accountRepository.countOpportunitiesByIndustry(industry));
@@ -184,8 +170,9 @@ public class ReportService {
         System.out.format("+------------+---------------------------+%n");
     }
 
+    //Report Opportunities with a given status by the Industry
     public static void reportOpportunitiesByIndustryStatus(Status status) {
-        List<String> industryList = Arrays.asList("ECOMMERCE", "OTHER","MANUFACTURING", "MEDICAL", "PRODUCE");
+        List<String> industryList = getEnumNames("industry");
         String printFormat = printReports();
         String convStatus = status.name();
         for(String industry: industryList) {
@@ -194,6 +181,7 @@ public class ReportService {
         System.out.format("+------------+---------------------------+%n");
     }
 
+    //Format reporting output
     public static String printReports() {
         List<Opportunity> opportunityList = opportunityRepository.findAll();
         if (opportunityList.size() < 1) {
@@ -207,5 +195,37 @@ public class ReportService {
             return printFormat;
         }
         return "";
+    }
+
+    //Loop through Accounts and add all available Cities or Countries to the elementList
+    public static List<String> accountLoop(String listType) {
+        List<Account> accountList = accountRepository.findAll();
+        List<String> elementList = new ArrayList<>();
+        if (listType.equals("city")) {
+            for (Account account : accountList) {
+                elementList.add(account.getCity());
+            }
+        } else if (listType.equals("country")) {
+            for (Account account : accountList) {
+                elementList.add(account.getCountry());
+            }
+        }
+        return elementList;
+    }
+
+    //Return the list of enum values toString()
+    public static List<String> getEnumNames(String enumType) {
+        List<String> enumNames = new ArrayList<>();
+        List<Enum> enumValues = new ArrayList<>();
+        switch(enumType) {
+            case "product":
+                enumValues =  Arrays.asList(Product.values());
+                break;
+            case "industry":
+                enumValues = Arrays.asList(Industry.values());
+                break;
+        }
+        List.of(enumValues).forEach(enumValue -> enumNames.add(enumValue.toString()));
+        return enumNames;
     }
 }

@@ -23,29 +23,21 @@ public class OpportunityService {
         this.opportunityRepository = opportunityRepository;
     }
 
+    // Obtain account data from user input and Contact object to create new Opportunity
     public static Opportunity createOpportunity(LeadObject lead, Contact contact) {
-        //Obtains account data from user input and Contact object
+        int quantity = 0;
         System.out.println("Please provide the type of the product you're interested in.\nPossible choices are: HYBRID, FLATBED, BOX");
         Product newProduct = (Product) getUserInput("product");
         System.out.println("Please provide the number of trucks you're interested in.\nMaximum amount: 300");
-        int quantity = (Integer) getUserInput("quantity");
+        try {
+            quantity = (Integer) getUserInput("quantity");
+        } catch(NullPointerException e) {
+            System.out.println(e); }
         Opportunity opportunity = new Opportunity(newProduct, quantity, contact, lead.getSales());
         opportunityRepository.save(opportunity);
         return opportunity;
     }
 
-    /*
-    public static Opportunity lookUpOpportunity(long id) {
-        Optional<Opportunity> opportunityOptional = opportunityRepository.findById(id);
-        Opportunity opportunity = opportunityOptional.get();
-        if(opportunity == null) {
-            colorMessage("There is no opportunity with id "+id, RED_TEXT);
-        }
-
-        return opportunity;
-    }
-
-     */
 
     public static void lookUpOpportunity(long id) {
         Optional<Opportunity> opportunityOptional = opportunityRepository.findById(id);

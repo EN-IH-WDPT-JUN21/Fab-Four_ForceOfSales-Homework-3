@@ -20,7 +20,7 @@ public class Opportunity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "opportunity_generator")
-    @SequenceGenerator(name="opportunity_generator", sequenceName = "opportunity_seq", allocationSize=50)
+    @SequenceGenerator(name="opportunity_generator", sequenceName = "opportunity_seq")
     private long id;
 
     @Enumerated(EnumType.STRING)
@@ -50,11 +50,12 @@ public class Opportunity {
     }
 
     public Opportunity(Product product, int quantity, Contact decisionMaker, SalesRep sales, Account account) {
-        this.product = product;
-        this.quantity = quantity;
-        this.decisionMaker = decisionMaker;
-        this.sales = sales;
-        this.account = account;
+        setProduct(product);
+        setQuantity(quantity);
+        setDecisionMaker(decisionMaker);
+        setStatus(Status.OPEN);
+        setSales(sales);
+        setAccount(account);
     }
 
     public void setStatus(Status status) {
