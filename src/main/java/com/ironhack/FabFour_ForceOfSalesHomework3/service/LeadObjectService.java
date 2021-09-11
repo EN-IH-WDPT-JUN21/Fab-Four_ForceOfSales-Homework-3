@@ -10,8 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-import static com.ironhack.FabFour_ForceOfSalesHomework3.service.AccountService.addToAccount;
-import static com.ironhack.FabFour_ForceOfSalesHomework3.service.AccountService.createAccount;
+import static com.ironhack.FabFour_ForceOfSalesHomework3.service.AccountService.*;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.ContactService.createContact;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.DataValidatorService.*;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.*;

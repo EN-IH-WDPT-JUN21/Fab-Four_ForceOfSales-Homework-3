@@ -182,4 +182,23 @@ public class LeadObjectServiceTest {
         assertTrue(outputStreamCaptor.toString()
                 .trim().contains("There are no leads! Try to add some with the 'new lead' command."));
     }
+
+    //    @Test
+//    @DisplayName("Test: convertLead(). Lead converted as expected.")
+//    public void Account_convertLead_LeadConverted() {
+//        long leadId = lead.getId();
+//        String newProduct = "hybrid"; String numOfTrucks = "200"; String industry = "other";
+//        String numOfEmployees = "12"; String city = "Paris"; String country = "France";
+//        String userInput = "y";
+//        String simulatedInput = newProduct + System.getProperty("line.separator") + numOfTrucks + System.getProperty("line.separator")
+//                + userInput + System.getProperty("line.separator")
+//                + industry + System.getProperty("line.separator") + numOfEmployees + System.getProperty("line.separator") + city
+//                + System.getProperty("line.separator") + country + System.getProperty("line.separator");
+//        InputStream savedStandardInputStream = System.in;
+//        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
+//        Account acc = convertLead(leadId);
+//        System.setIn(savedStandardInputStream);
+//        assertEquals("Mick", acc.getContactList().get(0).getContactName());
+//        assertEquals("Stones", acc.getContactList().get(0).getCompanyName());
+//    }
 }

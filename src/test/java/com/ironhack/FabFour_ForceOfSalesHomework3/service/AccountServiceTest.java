@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Locale;
 
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.AccountService.*;
-import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.getUserInput;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.LeadObjectService.convertLead;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,35 +24,35 @@ import static org.junit.jupiter.api.Assertions.*;
 public class AccountServiceTest {
 
     @Autowired
-    private AccountRepository accountRepository;
+    AccountRepository accountRepository;
 
     @Autowired
-    private ContactRepository contactRepository;
+    ContactRepository contactRepository;
 
     @Autowired
-    private OpportunityRepository opportunityRepository;
+    OpportunityRepository opportunityRepository;
 
     @Autowired
-    private SalesRepRepository salesRepRepository;
+    SalesRepRepository salesRepRepository;
 
     @Autowired
-    private LeadObjectRepository leadObjectRepository;
+    LeadObjectRepository leadObjectRepository;
 
-    private Account account;
-    private Contact contact;
-    private Contact contact2;
-    private Contact contact3;
-    private SalesRep salesRep;
-    private Opportunity opportunity;
-    private Opportunity opportunity2;
-    private Opportunity opportunity3;
-    private LeadObject lead;
-    private LeadObject lead2;
-    private InputStream standardIn;
-    private List<Contact> contactList = new ArrayList<>();
-    private List<Opportunity> opportunityList = new ArrayList<>();
-    private final PrintStream standardOut = System.out;
-    private static final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
+    Account account;
+    Contact contact;
+    Contact contact2;
+    Contact contact3;
+    SalesRep salesRep;
+    Opportunity opportunity;
+    Opportunity opportunity2;
+    Opportunity opportunity3;
+    LeadObject lead;
+    LeadObject lead2;
+    InputStream standardIn;
+    List<Contact> contactList = new ArrayList<>();
+    List<Opportunity> opportunityList = new ArrayList<>();
+    final PrintStream standardOut = System.out;
+    final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
 
     @BeforeEach
     public void setUp() {
@@ -123,22 +122,52 @@ public class AccountServiceTest {
         assertTrue(outputStreamCaptor.toString().trim().contains("There is no Account with id 55555. Please try again."));
     }
 
-//    @Test
-//    @DisplayName("Test: getAccountData(). List of Account details returned as expected.")
-//    public void Account_getAccountData_AccountDataPrintedOut(){
-//        String industry = "other"; String numOfEmployees = "12"; String city = "Paris"; String country = "France";
-//        String simulatedInput = industry + System.getProperty("line.separator") + numOfEmployees + System.getProperty("line.separator") + city
-//                + System.getProperty("line.separator") + country + System.getProperty("line.separator");
-//        InputStream savedStandardInputStream = System.in;
-//        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
-//        List<Object> dataList = getAccountData();
-//        System.setIn(savedStandardInputStream);
-//        assertEquals("other", dataList.get(0));
-//    }
+    @Test
+    @DisplayName("Test: getAccountData(). List of Account details returned as expected.")
+    public void Account_getAccountData_AccountDataPReturned(){
+        String industry = "other"; String numOfEmployees = "12"; String city = "Paris"; String country = "France";
+        String simulatedInput = industry + System.getProperty("line.separator") + numOfEmployees + System.getProperty("line.separator") + city
+                + System.getProperty("line.separator") + country + System.getProperty("line.separator");
+        InputStream savedStandardInputStream = System.in;
+        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
+        List<Object> dataList = getAccountData();
+        System.setIn(savedStandardInputStream);
+        assertEquals(Industry.OTHER, dataList.get(0));
+    }
+
+    @Test
+    @DisplayName("Test: addToAccount(). Account returned as expected.")
+    public void Account_addToAccount_AccountReturned(){
+        String accountId = String.valueOf(account.getId());
+        Account newAccount = addToAccount(accountId, lead, contact, opportunity);
+        accountRepository.save(newAccount);
+        assertEquals(Product.HYBRID, account.getOpportunityList().get(0).getProduct());
+    }
 
     @Test
     @DisplayName("Test: getAccountId(). Account id returned as expected.")
-    public void Account_getAccountId_AccountIdReturned(){}
+    public void Account_getAccountId_AccountIdReturned(){
+        String accountId = String.valueOf(account.getId());
+        String simulatedInput = accountId + System.getProperty("line.separator");
+        InputStream savedStandardInputStream = System.in;
+        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
+        List<Object> idList = getAccountId();
+        System.setIn(savedStandardInputStream);
+        assertEquals(accountId, idList.get(0));
+    }
+
+    @Test
+    @DisplayName("Test: getAccountId(). Account id not found as expected.")
+    public void Account_getAccountId_AccountNotFound(){
+        accountRepository.deleteAll();
+        String accountId = "1";
+        String simulatedInput = accountId + System.getProperty("line.separator");
+        InputStream savedStandardInputStream = System.in;
+        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
+        List<Object> idList = getAccountId();
+        System.setIn(savedStandardInputStream);
+        assertEquals(0, idList.get(0));
+    }
 
     @Test
     @DisplayName("Test: getCountryList(). Return list of countries as expected.")
@@ -151,53 +180,6 @@ public class AccountServiceTest {
     @DisplayName("Test: convertLead(). Lead not converted as it doesn't exist.")
     public void Account_convertLead_LeadNotConvertedNoSuchLead() {
         assertNull(convertLead(1000000));
-    }
-
-//    @Test
-//    @DisplayName("Test: convertLead(). Lead converted as expected.")
-//    public void Account_convertLead_LeadConverted() {
-//        long leadId = lead.getId();
-//        String newProduct = "hybrid"; String numOfTrucks = "200"; String industry = "other";
-//        String numOfEmployees = "12"; String city = "Paris"; String country = "France";
-//        String simulatedInput = newProduct + System.getProperty("line.separator") + numOfTrucks + System.getProperty("line.separator")
-//                + "y" + System.getProperty("line.separator")
-//                + industry + System.getProperty("line.separator") + numOfEmployees + System.getProperty("line.separator") + city
-//                + System.getProperty("line.separator") + country + System.getProperty("line.separator");
-//        InputStream savedStandardInputStream = System.in;
-//        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
-//        Account acc = convertLead(leadId);
-//        System.setIn(savedStandardInputStream);
-//        assertEquals("Mick", acc.getContactList().get(0).getContactName());
-//        assertEquals("Stones", acc.getContactList().get(0).getCompanyName());
-//    }
-
-
-    @Test
-    @DisplayName("Test: getUserInput(). Return correct enum value as expected.")
-    public void Account_GetUSerInput_EnumReturned() {
-        InputStream in = new ByteArrayInputStream("box".getBytes());
-        System.setIn(in);
-        assertEquals(Product.BOX, getUserInput("product"));
-        in = new ByteArrayInputStream("other".getBytes());
-        System.setIn(in);
-        assertEquals(Industry.OTHER, getUserInput("industry"));
-    }
-
-    @Test
-    @DisplayName("Test: getUserInput(). Return correct value as expected.")
-    public void Account_GetUSerInput_IntegerReturned() {
-        InputStream in = new ByteArrayInputStream("12".getBytes());
-        System.setIn(in);
-        assertEquals(12, getUserInput("employees"));
-    }
-
-
-    @Test
-    @DisplayName("Test: getUserInput(). Doesn't return correct as invalid input provided.")
-    public void Account_GetUserInput_NullReturned() {
-        InputStream in = new ByteArrayInputStream("semi".getBytes());
-        System.setIn(in);
-        assertNull(getUserInput("product"));
     }
 
     @Test
@@ -219,5 +201,12 @@ public class AccountServiceTest {
         long afterCreateAccount = accountRepository.count();
         assertEquals("Berlin", newAccount.getCity());
         assertEquals(++beforeCreateAccount, afterCreateAccount);
+    }
+
+    @Test
+    @DisplayName("Test: showAccount(). Prints out correct message as expected.")
+    public void Account_showAccounts_MessagePrinted() {
+        showAccounts();
+        assertTrue(outputStreamCaptor.toString().contains("These are the Accounts logged in our system:"));
     }
 }
