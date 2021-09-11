@@ -88,7 +88,7 @@ public class ContactServiceTest {
     public void ContactService_LookUpContactTest_ContactFound() {
         lookUpContact(Long.valueOf(1));
         assertTrue(outputStreamCaptor.toString()
-                .trim().contains("com.ironhack.FabFour_ForceOfSalesHomework3.dao.Contact@"));
+                .trim().contains("Contact: 1"));
     }
 
     @Test

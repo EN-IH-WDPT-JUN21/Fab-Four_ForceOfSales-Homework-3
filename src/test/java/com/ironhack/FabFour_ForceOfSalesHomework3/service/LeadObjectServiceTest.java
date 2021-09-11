@@ -67,25 +67,6 @@ public class LeadObjectServiceTest {
         System.setOut(standardOut);
     }
 
-//    @Test
-//    @DisplayName("Test: createLead(). Created, SalesRep exists.")
-//    public void LeadObjectService_CreateLeadTest_CreatedSalesRepExists() {
-//        String salesRepId = Long.toString(testSalesRep.getId());
-//        var leadCountBeforeTest = leadObjectRepository.count();
-//        String simulatedInput = salesRepId + System.getProperty("line.separator") +
-//                "Buzz" +  System.getProperty("line.separator") +
-//                "02020202" + System.getProperty("line.separator") +
-//                "buzz@test.com" +  System.getProperty("line.separator") +
-//                "A company" +  System.getProperty("line.separator");
-//        InputStream savedStandardInputStream = System.in;
-//        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
-//        Optional<LeadObject> createdLead = Optional.ofNullable(createLead());
-//        System.setIn(savedStandardInputStream);
-//        var leadCountAfterTest = leadObjectRepository.count();
-//
-//        assertTrue(createdLead.isPresent());
-//    }
-
     @Test
     @DisplayName("Test: validateSalesRepLeadConstructor(). Sales Rep Exists")
     public void LeadObjectService_ValidateSalesRepLeadConstructorTest_SalesRepExists() {
@@ -98,34 +79,6 @@ public class LeadObjectServiceTest {
 
         assertTrue(validatedSalesRep.isPresent());
     }
-
-//    @Test
-//    @DisplayName("Test: validateSalesRepLeadConstructor(). Sales Rep Does Not Exists")
-//    public void LeadObjectService_ValidateSalesRepLeadConstructorTest_SalesRepNotExists() {
-//        String salesRepId = Long.toString(testSalesRep.getId());
-//        String simulatedInput = "55" + System.getProperty("line.separator") + salesRepId;
-//        InputStream savedStandardInputStream = System.in;
-//        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
-//        Optional<SalesRep> validatedSalesRep = Optional.ofNullable(validateSalesRepLeadConstructor());
-//        System.setIn(savedStandardInputStream);
-//
-//        assertTrue(outputStreamCaptor.toString()
-//                .trim().contains("Please enter a valid SalesRep id."));
-//        assertFalse(validatedSalesRep.isPresent());
-//    }
-//
-//    @Test
-//    @DisplayName("Test: convertLead(). Account created")
-//    public void LeadObjectService_ConvertLeadTest_AccountCreated() {
-//        Long testLeadId = testLead.getId();
-//        String simulatedInput = Long.toString(testLeadId);
-//        InputStream savedStandardInputStream = System.in;
-//        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
-//        Optional<Account> createdAccount = Optional.ofNullable(convertLead(testLeadId));
-//        System.setIn(savedStandardInputStream);
-//
-//        assertTrue(createdAccount.isPresent());
-//    }
 
     @Test
     @DisplayName("Test: lookupLead(). Lead found.")
@@ -167,7 +120,11 @@ public class LeadObjectServiceTest {
         long testLeadId = testLead.getId();
         showLeads();
         assertTrue(outputStreamCaptor.toString()
-                .trim().contains("Lead ID: " + testLeadId + ", Contact Name: " + testLead.getContactName() + "."));
+                .trim().contains("Here are the current leads:"));
+        assertTrue(outputStreamCaptor.toString()
+                .trim().contains("Lead ID    | Contact Name"));
+        assertTrue(outputStreamCaptor.toString()
+                .trim().contains(Long.toString(testLeadId)));
     }
 
     @Test
