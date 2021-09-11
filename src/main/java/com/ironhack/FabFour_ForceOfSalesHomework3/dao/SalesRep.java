@@ -45,6 +45,12 @@ public class SalesRep {
         this.name = name;
     }
 
+    public SalesRep(String name, List<LeadObject> leadList, List<Opportunity> opportunityList) {
+        this.name = name;
+        this.leadList = leadList;
+        this.opportunityList = opportunityList;
+    }
+
     @Override
     public String toString() {
         return "SalesRep ID: " + this.getId() + ", SalesRep name: " + this.getName();
