@@ -187,6 +187,10 @@ public class CommandHandlerService {
                                     " > Report CLOSED-WON by <reportType> : 'SalesRep', 'the product', 'Country', 'City' or 'Industry' \n" +
                                     " > Report CLOSED-LOST by <reportType> : 'SalesRep', 'the product', 'Country', 'City' or 'Industry' \n" +
                                     " > Report OPEN by <reportType> : 'SalesRep', 'the product', 'Country', 'City' or 'Industry' \n" +
+                                    " > Mean <reportType>: 'EmployeeCount', 'Quantity', 'Opps per Account' \n" +
+                                    " > Median <reportType>: 'EmployeeCount', 'Quantity', 'Opps per Account' \n" +
+                                    " > Max <reportType>: 'EmployeeCount', 'Quantity', 'Opps per Account' \n" +
+                                    " > Min <reportType>: 'EmployeeCount', 'Quantity', 'Opps per Account' \n" +
 
                                     "\nTO QUIT\n" +
                                     " > quit - to leave the app"
