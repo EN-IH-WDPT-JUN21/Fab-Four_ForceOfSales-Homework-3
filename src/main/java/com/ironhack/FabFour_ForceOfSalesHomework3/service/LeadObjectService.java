@@ -132,12 +132,13 @@ public class LeadObjectService {
 
     public static LeadObject lookupLead(long id) {
         Optional<LeadObject> leadOptional = leadObjectRepository.findById(id);
-        LeadObject lead = leadOptional.get();
-        if(lead == null) {
-            colorMessage("There is no lead with id "+id, TextColor.RED);
+        if (leadOptional.isPresent()) {
+            return leadOptional.get();
         }
-
-        return lead;
+        else {
+            colorMessage("There is no lead with id "+id, TextColor.RED);
+            return null;
+        }
     }
 
     public static void removeLead(long id) {
