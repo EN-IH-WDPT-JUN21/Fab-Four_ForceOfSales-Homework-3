@@ -46,4 +46,10 @@ public class Contact {
         setCompanyName(contactCompany);
         setAccount(account);
     }
+
+    @Override
+    public String toString() {
+        return "Contact: " + this.getId() + ", Contact: " + this.getContactName() +
+                ", Account: " + this.getCompanyName();
+    }
 }
