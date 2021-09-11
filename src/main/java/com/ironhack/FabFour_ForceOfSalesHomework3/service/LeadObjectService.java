@@ -132,9 +132,7 @@ public class LeadObjectService {
 
     public static LeadObject lookupLead(long id) {
         Optional<LeadObject> leadOptional = leadObjectRepository.findById(id);
-        if (leadOptional.isPresent()) {
-            return leadOptional.get();
-        }
+        if (leadOptional.isPresent()) { return leadOptional.get(); }
         else {
             colorMessage("There is no lead with id "+id, TextColor.RED);
             return null;
