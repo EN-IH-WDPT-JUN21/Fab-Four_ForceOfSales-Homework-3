@@ -11,11 +11,14 @@ public class ContactTest {
     private static Contact testContactOne = null;
     private static Contact testContactTwo = null;
 
+    private static Opportunity testOpportunity = null;
+
     private static Account testAccount = null;
 
     @BeforeAll
     public static void setUp() {
         testAccount = new Account();
+        testOpportunity = new Opportunity();
 
         testContactOne = new Contact("Marie","012345678","marie@email.com","A New Company");
         testContactTwo = new Contact("Barry", "079492222", "barry@test.com","Another Company", testAccount);
@@ -49,6 +52,13 @@ public class ContactTest {
     @DisplayName("Test: Contact Constructor. Account set as expected.")
     public void ContactTest_AccountTest_SetAsExpected() {
         assertEquals(testAccount.getId(),testContactTwo.getAccount().getId());
+    }
+
+    @Test
+    @DisplayName("Test: SetOpportunity(). Opp can set.")
+    public void ContactTest_SetOpportunity_SetAsExpected() {
+        testContactOne.setOpportunity(testOpportunity);
+        assertEquals(testContactOne.getOpportunity(),testOpportunity);
     }
     
 }

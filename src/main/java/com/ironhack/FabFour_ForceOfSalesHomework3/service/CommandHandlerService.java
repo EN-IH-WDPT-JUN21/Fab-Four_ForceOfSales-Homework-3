@@ -183,26 +183,10 @@ public class CommandHandlerService {
                                     "\nGENERATE REPORTS\n" +
 
                                     " > Report Lead By SalesRep \n" +
-                                    " > Report Opportunity By SalesRep \n" +
-                                    " > Report CLOSED_WON by SalesRep \n" +
-                                    " > Report CLOSED_LOST by SalesRep \n" +
-                                    " > Report OPEN by SalesRep \n" +
-                                    " > Report Opportunity by the product \n" +
-                                    " > Report CLOSED_WON by the product \n" +
-                                    " > Report CLOSED_LOST by the product \n" +
-                                    " > Report OPEN by the product \n" +
-                                    " > Report Opportunity by Country \n" +
-                                    " > Report CLOSED_WON by Country \n" +
-                                    " > Report CLOSED_LOST by Country \n" +
-                                    " > Report OPEN by Country \n" +
-                                    " > Report Opportunity by City \n" +
-                                    " > Report CLOSED_WON by City \n" +
-                                    " > Report CLOSED_LOST by City \n" +
-                                    " > Report OPEN by City \n" +
-                                    " > Report Opportunity by Industry \n" +
-                                    " > Report CLOSED-WON by Industry \n" +
-                                    " > Report CLOSED-LOST by Industry \n" +
-                                    " > Report OPEN by Industry \n" +
+                                    " > Report Opportunity By <reportType> : 'SalesRep', 'the product', 'Country', 'City' or 'Industry' \n" +
+                                    " > Report CLOSED-WON by <reportType> : 'SalesRep', 'the product', 'Country', 'City' or 'Industry' \n" +
+                                    " > Report CLOSED-LOST by <reportType> : 'SalesRep', 'the product', 'Country', 'City' or 'Industry' \n" +
+                                    " > Report OPEN by <reportType> : 'SalesRep', 'the product', 'Country', 'City' or 'Industry' \n" +
 
                                     "\nTO QUIT\n" +
                                     " > quit - to leave the app"
