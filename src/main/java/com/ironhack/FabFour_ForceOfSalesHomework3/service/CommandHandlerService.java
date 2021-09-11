@@ -4,8 +4,7 @@ import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Command;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Status;
 import org.springframework.stereotype.Service;
 
-import static com.ironhack.FabFour_ForceOfSalesHomework3.service.AccountService.lookUpAccount;
-import static com.ironhack.FabFour_ForceOfSalesHomework3.service.AccountService.showAccounts;
+import static com.ironhack.FabFour_ForceOfSalesHomework3.service.AccountService.*;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.*;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.LeadObjectService.*;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.OpportunityService.*;
@@ -152,6 +151,9 @@ public class CommandHandlerService {
                 case OPENBYSALESREP:
                     reportOpportunitiesBySalesRepAndStatus(Status.OPEN);
                     break;
+                case SHOWCOUNTRY:
+                    showCountryList();
+                    break;
                 case HELP:
                     System.out.println(
                             "Type one of the below statements to execute:\n\n" +
@@ -232,7 +234,7 @@ public class CommandHandlerService {
                     System.out.println(defaultInfo);
             }
         }
-        System.out.println("--------------------------------------------------");
+        System.out.println("---------------------------------------------------");
     }
 
     public static void voidChecker(Object o) {

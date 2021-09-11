@@ -147,7 +147,7 @@ public class DataValidatorService {
 
     //Method to check if the String is an ISO country name
     public static boolean validateCountryName(String countryName) {
-        List<String> countryList = getCountryList();
+        List<String> countryList = getCountryList()[0];
         boolean check = false;
         for(String country: countryList) {
             if(WordUtils.capitalizeFully(countryName).equals(country)) {

@@ -83,7 +83,7 @@ public class Account {
                 idList.add(o.getId());
             }
         }
-        return Arrays.toString(idList.toArray()).replace("[", "||").replace("]", "||");
+        return Arrays.toString(idList.toArray()).replace("[", "|| ").replace("]", " ||");
     }
 
     @Override
