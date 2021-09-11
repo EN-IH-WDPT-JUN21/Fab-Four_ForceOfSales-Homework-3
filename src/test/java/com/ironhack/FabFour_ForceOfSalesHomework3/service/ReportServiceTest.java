@@ -3,6 +3,7 @@ package com.ironhack.FabFour_ForceOfSalesHomework3.service;
 import com.ironhack.FabFour_ForceOfSalesHomework3.dao.*;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Industry;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Product;
+import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Status;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,8 +18,6 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
-//import static com.ironhack.FabFour_ForceOfSalesHomework3.service.ReportService.getEnumNames;
-import static com.ironhack.FabFour_ForceOfSalesHomework3.service.AccountService.lookUpAccount;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.ReportService.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -109,12 +108,16 @@ class ReportServiceTest {
 
     @Test
     @DisplayName("Test: reportLeadsBySalesRep(). Leads reported as expected.")
-    public void Report_reportLeadsBySalesRep_LeadsReported() {
+    public void Report_reportLeadsBySalesRep() {
+        reportLeadsBySalesRep();
+        assertTrue(outputStreamCaptor.toString().trim().contains("| Name       | Number of Leads           |"));
     }
 
     @Test
     @DisplayName("Test: reportOpportunitiesBySalesRep(). Opportunities reported as expected.")
-    public void Report_reportOpportunitiesBySalesRep_OpportunitiesReported() {
+    public void Report_reportOpportunitiesBySalesRep() {
+        reportOpportunitiesBySalesRep();
+        assertTrue(outputStreamCaptor.toString().trim().contains("| Name    | Number of Opportunities   |"));
     }
 
     @Test
@@ -124,7 +127,9 @@ class ReportServiceTest {
 
     @Test
     @DisplayName("Test: reportOpportunitiesByProduct(). Opportunities reported as expected.")
-    public void reportOpportunitiesByProduct() {
+    public void Report_reportOpportunitiesByProduct() {
+        reportOpportunitiesByProduct();
+        assertTrue(outputStreamCaptor.toString().trim().contains("| Product    | Number of Opportunities   |"));
     }
 
     @Test
@@ -134,7 +139,9 @@ class ReportServiceTest {
 
     @Test
     @DisplayName("Test: reportOpportunitiesByCountry(). Opportunities reported as expected.")
-    public void reportOpportunitiesByCountry() {
+    public void Report_reportOpportunitiesByCountry() {
+        reportOpportunitiesByCountry();
+        assertTrue(outputStreamCaptor.toString().trim().contains("| Country    | Number of Opportunities   |"));
     }
 
     @Test
@@ -144,7 +151,9 @@ class ReportServiceTest {
 
     @Test
     @DisplayName("Test: reportOpportunitiesByCity(). Opportunities reported as expected.")
-    public void reportOpportunitiesByCity() {
+    public void Report_reportOpportunitiesByCity() {
+        reportOpportunitiesByCity();
+        assertTrue(outputStreamCaptor.toString().trim().contains("| City    | Number of Opportunities   |"));
     }
 
     @Test
@@ -154,28 +163,33 @@ class ReportServiceTest {
 
     @Test
     @DisplayName("Test: reportOpportunitiesByIndustry(). Opportunities reported as expected.")
-    public void reportOpportunitiesByIndustry() {
+    public void Report_reportOpportunitiesByIndustry() {
+        reportOpportunitiesByIndustry();
+        assertTrue(outputStreamCaptor.toString().trim().contains("| Industry    | Number of Opportunities   |"));
     }
 
     @Test
     @DisplayName("Test: reportOpportunitiesByIndustryStatus(). Opportunities reported as expected.")
-    public void reportOpportunitiesByIndustryStatus() {
+    public void Report_reportOpportunitiesByIndustryStatus_StatusOpen() {
+        reportOpportunitiesByIndustryStatus(Status.OPEN);
+        assertTrue(outputStreamCaptor.toString().trim().contains("| Industry    | Number of Opportunities   |"));
+//        assertTrue(outputStreamCaptor.toString().trim().contains("| ECOMMERCE    | 1                         |"));
+
     }
 
     @Test
     @DisplayName("Test: printReports(). Message printed out as expected.")
     public void Report_printReports_NoOpportunities() {
         opportunityRepository.deleteAll();
-        printReports();
+        printReports("City");
         assertTrue(outputStreamCaptor.toString().trim().contains("+--- There are no Opportunities in the system ---+"));
     }
 
     @Test
     @DisplayName("Test: printReports(). Message printed out as expected.")
     public void Report_printReports_OpportunitiesExist() {
-        opportunityRepository.deleteAll();
-        printReports();
-        assertTrue(outputStreamCaptor.toString().trim().contains("+--- There are no Opportunities in the system ---+"));
+        printReports("City");
+        assertTrue(outputStreamCaptor.toString().trim().contains("+------------+---------------------------+"));
     }
 
     @Test
