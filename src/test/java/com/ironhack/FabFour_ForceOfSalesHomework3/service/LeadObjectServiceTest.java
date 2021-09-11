@@ -167,7 +167,11 @@ public class LeadObjectServiceTest {
         long testLeadId = testLead.getId();
         showLeads();
         assertTrue(outputStreamCaptor.toString()
-                .trim().contains("Lead ID: " + testLeadId + ", Contact Name: " + testLead.getContactName() + "."));
+                .trim().contains("Here are the current leads:"));
+        assertTrue(outputStreamCaptor.toString()
+                .trim().contains("Lead ID    | Contact Name"));
+        assertTrue(outputStreamCaptor.toString()
+                .trim().contains(Long.toString(testLeadId)));
     }
 
     @Test

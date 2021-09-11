@@ -151,9 +151,14 @@ public class LeadObjectService {
     public static void showLeads() {
         List<LeadObject> leadList = leadObjectRepository.findAll();
         if(countLeads() > 0) {
+            String printFormat = "| %-10d | %-25s |%n";
+            System.out.printf("Here are the current leads: \n%n");
+            System.out.format("+------------+---------------------------+%n");
+            System.out.format("| Lead ID    | Contact Name              |%n");
+            System.out.format("+------------+---------------------------+%n");
             for (LeadObject leadObject : leadList) {
-                System.out.println("Lead ID: " + leadObject.getId() + ", Contact Name: " + leadObject.getContactName() + ".\n");
+                System.out.format(printFormat,leadObject.getId(), leadObject.getContactName().toUpperCase() + ".\n");
             }
-        } else System.out.println("There are no leads! Try to add some with the 'new lead' command.");
+        } else colorMessage("+--- There are no leads! Try to add some with the 'new lead' command. ---+", TextColor.RED);
     }
 }
