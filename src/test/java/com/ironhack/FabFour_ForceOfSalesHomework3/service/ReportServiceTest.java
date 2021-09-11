@@ -171,6 +171,14 @@ class ReportServiceTest {
     }
 
     @Test
+    @DisplayName("Test: printReports(). Message printed out as expected.")
+    public void Report_printReports_OpportunitiesExist() {
+        opportunityRepository.deleteAll();
+        printReports();
+        assertTrue(outputStreamCaptor.toString().trim().contains("+--- There are no Opportunities in the system ---+"));
+    }
+
+    @Test
     @DisplayName("Test: accountLoop(). Correct values returned as expected.")
     public void  Report_accountLoop_CityListReturned() {
         List<String> cityList = accountLoop("city");
