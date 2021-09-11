@@ -173,7 +173,7 @@ public class AccountServiceTest {
     @DisplayName("Test: getCountryList(). Return list of countries as expected.")
     public void Account_getCountryList_CountryListReturned() {
         String[] isoCountries = Locale.getISOCountries();
-        assertEquals(isoCountries.length, getCountryList().size());
+        assertEquals(isoCountries.length, getCountryList()[0].size());
     }
 
     @Test

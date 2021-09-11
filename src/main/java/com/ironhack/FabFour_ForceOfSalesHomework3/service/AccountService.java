@@ -58,7 +58,7 @@ public class AccountService {
         } catch(NullPointerException e) { System.out.println("Something went wrong."); }
         System.out.println("Please provide the city name");
         String city = (String) getUserInput("city");
-        System.out.println("Please provide the full country name (e.g. United Kingdom, Germany)");
+        System.out.println("Please provide the full country name (e.g. United Kingdom, Germany) or type 'show countries'");
         String country = (String) getUserInput("country");
         return Arrays.asList(industry, employees, city, country);
     }
@@ -80,6 +80,9 @@ public class AccountService {
             opportunityRepository.save(opportunity);
             leadObjectRepository.deleteById(lead.getId());
             colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", TextColor.GREEN);
+            colorMessage("Lead with ID: " + lead.getId() + " has been deleted", TextColor.GREEN);
+            colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", TextColor.GREEN);
+
             colorMessage("Opportunity created. Opportunity ID: " + opportunity.getId(), TextColor.GREEN);
             colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", TextColor.GREEN);
             colorMessage("Account created. Account ID: " + account.getId(), TextColor.GREEN);
@@ -144,34 +147,59 @@ public class AccountService {
     }
 
     // Obtain list of ISO country names
-    public static List<String> getCountryList() {
-        List<String> countries = new ArrayList<>();
+    public static List[] getCountryList() {
+        List<String> countryNames = new ArrayList<>();
+        List<String> countryCodes = new ArrayList<>();
         Locale.setDefault(Locale.forLanguageTag("en-GB")); //set Locale for English
         String[] isoCountries = Locale.getISOCountries(); //obtain ISO country list
         for (String country : isoCountries) {
             Locale locale = new Locale("en", country);
-            String name = locale.getDisplayCountry();
-            if ( !"".equals(name)) {
-                countries.add(name); //store country name in list
+            String countryName = locale.getDisplayCountry();
+            String countryCode = locale.getCountry();
+            if ( !"".equals(countryName)) {
+                countryNames.add(countryName); //store country name in list
+                countryCodes.add(countryCode); //store country code in list
             }
         }
-        return countries;
+        return new List[] {countryNames, countryCodes};
+    }
+
+    public static String getCountryCode(String countryName) {
+        List<String> names = getCountryList()[0];
+        List<String> codes = getCountryList()[1];
+        String code = "";
+        for(String name : names) {
+            if(name.equals(countryName)) {
+                code = codes.get(names.indexOf(name));
+            }
+        }
+        return code;
+    }
+
+    public static String showCountryList() {
+        List<String> names = getCountryList()[0];
+        for(String countryDetail : names) {
+                System.out.printf("Country name: %s", countryDetail + "\n");
+        }
+        System.out.println("Please provide the full country name (e.g. United Kingdom, Germany) or type 'show countries'");
+        String country = (String) getUserInput("country");
+        return country;
     }
 
     // Print out information on all existing Accounts
     public static void showAccounts() {
         List<Account> accountList = accountRepository.findAll();
-        String printFormat = "| %-10d | %-20s | %-15s | %-35s | %-19s| %n";
+        String printFormat = "| %-10d | %-20s | %-15s | %-13s | %-19s| %n";
 
         if(accountList.size() > 0) {
             System.out.println("These are the Accounts logged in our system:" + "\n");
-            System.out.format("+------------+----------------------+-----------------+--------------------------------------------+--------------------+%n");
-            System.out.format("| ID         | Industry             | City            | Country                                    | Number of Contacts |%n");
-            System.out.format("+------------+----------------------+-----------------+--------------------------------------------+--------------------+%n");
+            System.out.format("+------------+----------------------+-----------------+---------------+--------------------+%n");
+            System.out.format("| ID         | Industry             | City            | Country       | Number of Contacts |%n");
+            System.out.format("+------------+----------------------+-----------------+---------------+--------------------+%n");
             for (Account account : accountList) {
-                System.out.format(printFormat, account.getId(), account.getIndustry(), account.getCity(), account.getCountry(), account.getContactList().size());
+                System.out.format(printFormat, account.getId(), account.getIndustry(), account.getCity(), getCountryCode(account.getCountry()), account.getContactList().size());
             }
-            System.out.format("+------------+----------------------+-----------------+--------------------------------------------+--------------------+%n");
+            System.out.format("+------------+----------------------+-----------------+---------------+--------------------+%n");
         } else System.out.println("There are no Accounts! Try to add a new one by typing 'convert {lead id}'.");
     }
 }

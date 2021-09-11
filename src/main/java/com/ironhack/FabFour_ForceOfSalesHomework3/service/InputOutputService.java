@@ -131,6 +131,8 @@ public class InputOutputService {
                 return userInput;
             } else if ("country".equals(inputType) && !isEmpty(userInput) && validateCountryName(userInput) && containsOnlyLetters(userInput)) {
                 return userInput;
+            } else if ("country".equals(inputType) && !isEmpty(userInput) && "show countries".equals(userInput)) {
+                return showCountryList();
             } else if ("account".equals(inputType) && ("y".equals(userInput) || "Y".equals(userInput))) {
                 return getAccountData();
             } else if ("account".equals(inputType) && ("n".equals(userInput) || "N".equals(userInput))) {
@@ -139,7 +141,7 @@ public class InputOutputService {
                 colorMessage("Incorrect id format provided.", TextColor.RED);
                 return "bad input";
             } else if ("accountId".equals(inputType) && !isEmpty(userInput) && "go back".equals(userInput)) {
-                return "go back";
+                return userInput;
             } else if ("accountId".equals(inputType) && !isEmpty(userInput) && isLong(userInput) && accountExists(userInput)) {
                 return userInput;
             } else if ("accountId".equals(inputType) && !isEmpty(userInput) && isLong(userInput) && !accountExists(userInput)) {

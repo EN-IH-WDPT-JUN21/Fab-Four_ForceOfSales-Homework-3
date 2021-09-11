@@ -117,64 +117,71 @@ class ReportServiceTest {
     @DisplayName("Test: reportOpportunitiesBySalesRep(). Opportunities reported as expected.")
     public void Report_reportOpportunitiesBySalesRep() {
         reportOpportunitiesBySalesRep();
-        assertTrue(outputStreamCaptor.toString().trim().contains("| Name    | Number of Opportunities   |"));
+        assertTrue(outputStreamCaptor.toString().trim().contains("| Name                  | Number of Opportunities  |"));
     }
 
     @Test
     @DisplayName("Test: reportOpportunitiesBySalesRepAndStatus(). Opportunities reported as expected.")
-    public void reportOpportunitiesBySalesRepAndStatus() {
+    public void Report_reportOpportunitiesBySalesRepAndStatus() {
+        reportOpportunitiesBySalesRepAndStatus(Status.OPEN);
+        assertTrue(outputStreamCaptor.toString().trim().contains("| Name                  | Number of Opportunities  |"));
     }
 
     @Test
     @DisplayName("Test: reportOpportunitiesByProduct(). Opportunities reported as expected.")
     public void Report_reportOpportunitiesByProduct() {
         reportOpportunitiesByProduct();
-        assertTrue(outputStreamCaptor.toString().trim().contains("| Product    | Number of Opportunities   |"));
+        assertTrue(outputStreamCaptor.toString().trim().contains("| Product               | Number of Opportunities  |"));
     }
 
     @Test
     @DisplayName("Test: reportOpportunitiesByProductStatus(). Opportunities reported as expected.")
-    public void reportOpportunitiesByProductStatus() {
+    public void Report_reportOpportunitiesByProductStatus() {
+        reportOpportunitiesByProductStatus(Status.OPEN);
+        assertTrue(outputStreamCaptor.toString().trim().contains("| BOX                   | 1                        |"));
+        //| HYBRID                | 0                        |
     }
 
     @Test
     @DisplayName("Test: reportOpportunitiesByCountry(). Opportunities reported as expected.")
     public void Report_reportOpportunitiesByCountry() {
         reportOpportunitiesByCountry();
-        assertTrue(outputStreamCaptor.toString().trim().contains("| Country    | Number of Opportunities   |"));
+        assertTrue(outputStreamCaptor.toString().trim().contains("| Country               | Number of Opportunities  |"));
     }
 
     @Test
     @DisplayName("Test: reportOpportunitiesByCountryStatus(). Opportunities reported as expected.")
-    public void reportOpportunitiesByCountryStatus() {
+    public void Report_reportOpportunitiesByCountryStatus() {
+        reportOpportunitiesByCountryStatus(Status.OPEN);
+        assertTrue(outputStreamCaptor.toString().trim().contains("| Country               | Number of Opportunities  |"));
     }
 
     @Test
     @DisplayName("Test: reportOpportunitiesByCity(). Opportunities reported as expected.")
     public void Report_reportOpportunitiesByCity() {
         reportOpportunitiesByCity();
-        assertTrue(outputStreamCaptor.toString().trim().contains("| City    | Number of Opportunities   |"));
+        assertTrue(outputStreamCaptor.toString().trim().contains("| City                  | Number of Opportunities  |"));
     }
 
     @Test
     @DisplayName("Test: reportOpportunitiesByCityStatus(). Opportunities reported as expected.")
-    public void reportOpportunitiesByCityStatus() {
+    public void Report_reportOpportunitiesByCityStatus() {
+        reportOpportunitiesByCityStatus(Status.OPEN);
+        assertTrue(outputStreamCaptor.toString().trim().contains("| City                  | Number of Opportunities  |"));
     }
 
     @Test
     @DisplayName("Test: reportOpportunitiesByIndustry(). Opportunities reported as expected.")
     public void Report_reportOpportunitiesByIndustry() {
         reportOpportunitiesByIndustry();
-        assertTrue(outputStreamCaptor.toString().trim().contains("| Industry    | Number of Opportunities   |"));
+        assertTrue(outputStreamCaptor.toString().trim().contains("| Industry              | Number of Opportunities  |"));
     }
 
     @Test
     @DisplayName("Test: reportOpportunitiesByIndustryStatus(). Opportunities reported as expected.")
     public void Report_reportOpportunitiesByIndustryStatus_StatusOpen() {
         reportOpportunitiesByIndustryStatus(Status.OPEN);
-        assertTrue(outputStreamCaptor.toString().trim().contains("| Industry    | Number of Opportunities   |"));
-//        assertTrue(outputStreamCaptor.toString().trim().contains("| ECOMMERCE    | 1                         |"));
-
+        assertTrue(outputStreamCaptor.toString().trim().contains("| Industry              | Number of Opportunities  |"));
     }
 
     @Test
@@ -189,7 +196,7 @@ class ReportServiceTest {
     @DisplayName("Test: printReports(). Message printed out as expected.")
     public void Report_printReports_OpportunitiesExist() {
         printReports("City");
-        assertTrue(outputStreamCaptor.toString().trim().contains("+------------+---------------------------+"));
+        assertTrue(outputStreamCaptor.toString().trim().contains("+-----------------------+--------------------------+"));
     }
 
     @Test
