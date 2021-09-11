@@ -23,21 +23,21 @@ import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputServ
 @Service
 public class ReportService {
 
-    @Autowired
-    static
-    SalesRepRepository salesRepRepository;
+    private static SalesRepRepository salesRepRepository;
+    private static LeadObjectRepository leadObjectRepository;
+    private static OpportunityRepository opportunityRepository;
+    private static AccountRepository accountRepository;
 
     @Autowired
-    static
-    LeadObjectRepository leadObjectRepository;
-
-    @Autowired
-    static
-    OpportunityRepository opportunityRepository;
-
-    @Autowired
-    static
-    AccountRepository accountRepository;
+    public ReportService(SalesRepRepository salesRepRepository,
+                         LeadObjectRepository leadObjectRepository,
+                         OpportunityRepository opportunityRepository,
+                         AccountRepository accountRepository) {
+        this.salesRepRepository = salesRepRepository;
+        this.leadObjectRepository = leadObjectRepository;
+        this.opportunityRepository = opportunityRepository;
+        this.accountRepository = accountRepository;
+    }
 
     //Report Leads by the SalesRep
     public static void reportLeadsBySalesRep() {
@@ -58,43 +58,25 @@ public class ReportService {
         }
     }
 
-    //Report Leads with a given status by the SalesRep
+    //Report Opportunities with a given status by the SalesRep
     public static void reportOpportunitiesBySalesRep() {
         List<SalesRep> salesReps = salesRepRepository.findAll();
-        if (salesReps.size() < 1) {
-            colorMessage("+--- There are no SalesReps in the system ---+", TextColor.RED);
+        String printFormat = printReports();
+        for (SalesRep sales : salesReps) {
+            System.out.format(printFormat, sales.getName().toUpperCase(), opportunityRepository.countOpportunitiesBySalesRep(sales.getName()));
         }
-        else {
-            String printFormat = "| %-10s | %-25d |%n";
-            System.out.println("Here are the number of opportunities per SalesRep:" + "\n");
-            System.out.format("+------------+---------------------------+%n");
-            System.out.format("| Name       | Number of Opportunities   |%n");
-            System.out.format("+------------+---------------------------+%n");
-            for (SalesRep sales : salesReps) {
-                System.out.format(printFormat, sales.getName().toUpperCase(), opportunityRepository.countOpportunitiesBySalesRep(sales.getName()));
-            }
-            System.out.format("+------------+---------------------------+%n");
-        }
+        System.out.format("+------------+---------------------------+%n");
     }
 
     //Report Opportunities with a given status by the SalesRep
     public static void reportOpportunitiesBySalesRepAndStatus(Status status) {
         List<SalesRep> salesReps = salesRepRepository.findAll();
-        if (salesReps.size() < 1) {
-            colorMessage("+--- There are no SalesReps in the system ---+", TextColor.RED);
+        String convStatus = status.name();
+        String printFormat = printReports();
+        for (SalesRep sales : salesReps) {
+            System.out.format(printFormat, sales.getName().toUpperCase(), opportunityRepository.countOpportunitiesBySalesRepAndStatus(sales.getName(), convStatus));
         }
-        else {
-            String convStatus = status.name();
-            String printFormat = "| %-10s | %-25d |%n";
-            System.out.printf("Here are the number of %b opportunities per SalesRep: \n%n", convStatus);
-            System.out.format("+------------+---------------------------+%n");
-            System.out.format("| Name       | Number of Opportunities   |%n");
-            System.out.format("+------------+---------------------------+%n");
-            for (SalesRep sales : salesReps) {
-                System.out.format(printFormat, sales.getName().toUpperCase(), opportunityRepository.countOpportunitiesBySalesRepAndStatus(sales.getName(), convStatus));
-            }
-            System.out.format("+------------+---------------------------+%n");
-        }
+        System.out.format("+------------+---------------------------+%n");
     }
 
     //Report Opportunities by the Product
@@ -225,7 +207,7 @@ public class ReportService {
                 enumValues = Arrays.asList(Industry.values());
                 break;
         }
-        List.of(enumValues).forEach(enumValue -> enumNames.add(enumValue.toString()));
+        enumValues.forEach(enumValue -> enumNames.add(enumValue.toString()));
         return enumNames;
     }
 }

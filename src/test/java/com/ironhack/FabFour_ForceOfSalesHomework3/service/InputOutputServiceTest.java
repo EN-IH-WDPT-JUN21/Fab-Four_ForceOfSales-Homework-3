@@ -2,6 +2,7 @@ package com.ironhack.FabFour_ForceOfSalesHomework3.service;
 
 import com.ironhack.FabFour_ForceOfSalesHomework3.dao.*;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Industry;
+import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Product;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.TextColor;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.AccountRepository;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.LeadObjectRepository;
@@ -14,13 +15,12 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.ironhack.FabFour_ForceOfSalesHomework3.enums.Product.BOX;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.enums.Product.HYBRID;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class InputOutputServiceTest {
@@ -180,6 +180,33 @@ public class InputOutputServiceTest {
     }
 
     @Test
+    @DisplayName("Test: getUserInput(). Return correct enum value as expected.")
+    public void Account_GetUSerInput_EnumReturned() {
+        InputStream in = new ByteArrayInputStream("box".getBytes());
+        System.setIn(in);
+        assertEquals(Product.BOX, getUserInput("product"));
+        in = new ByteArrayInputStream("other".getBytes());
+        System.setIn(in);
+        assertEquals(Industry.OTHER, getUserInput("industry"));
+    }
+
+    @Test
+    @DisplayName("Test: getUserInput(). Return correct value as expected.")
+    public void Account_GetUSerInput_IntegerReturned() {
+        InputStream in = new ByteArrayInputStream("12".getBytes());
+        System.setIn(in);
+        assertEquals(12, getUserInput("employees"));
+    }
+
+    @Test
+    @DisplayName("Test: getUserInput(). Doesn't return correct as invalid input provided.")
+    public void Account_GetUserInput_NullReturned() {
+        InputStream in = new ByteArrayInputStream("semi".getBytes());
+        System.setIn(in);
+        assertNull(getUserInput("product"));
+    }
+
+    @Test
     @DisplayName("Test: errorMessage(). Method runs as expected.")
     public void InputOutput_errorMessage_MessagePrinted() {
         assertEquals("This is a message", colorMessage("This is a message", TextColor.RED));
@@ -211,5 +238,58 @@ public class InputOutputServiceTest {
     public void InputOutput_validateInput_Industry() {
         Object testObject = validateInput("other", "industry");
         assertEquals(Industry.OTHER, testObject);
+    }
+
+    @Test
+    @DisplayName("Test: validateInput(). Method runs as expected.")
+    public void InputOutput_validateInput_AccountChoice_CreateAccount() {
+        String industry = "other"; String numOfEmployees = "12"; String city = "Paris"; String country = "France";
+        String simulatedInput = industry + System.getProperty("line.separator") + numOfEmployees + System.getProperty("line.separator") + city
+                + System.getProperty("line.separator") + country + System.getProperty("line.separator");
+        InputStream savedStandardInputStream = System.in;
+        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
+        Object testObject  = validateInput("y", "account");
+        System.setIn(savedStandardInputStream);
+        assertEquals(Industry.OTHER, ((List) testObject).get(0));
+    }
+
+    @Test
+    @DisplayName("Test: validateInput(). Method runs as expected.")
+    public void InputOutput_validateInput_AccountChoice_AddToAccount() {
+        String accountId = String.valueOf(testAccountOne.getId());
+        String simulatedInput = accountId + System.getProperty("line.separator");
+        InputStream savedStandardInputStream = System.in;
+        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
+        List<Object> testObjectList  = (List<Object>) validateInput("n", "account");
+        System.setIn(savedStandardInputStream);
+        assertEquals(accountId, testObjectList.get(0));
+    }
+
+    @Test
+    @DisplayName("Test: validateInput(). Method runs as expected.")
+    public void InputOutput_validateInput_Quantity() {
+        Object testObject = validateInput("12", "quantity");
+        assertEquals(12, testObject);
+    }
+
+    @Test
+    @DisplayName("Test: validateInput(). Method runs as expected.")
+    public void InputOutput_validateInput_Employees() {
+        Object testObject = validateInput("12", "employees");
+        assertEquals(12, testObject);
+    }
+
+    @Test
+    @DisplayName("Test: validateInput(). Method runs as expected.")
+    public void InputOutput_validateInput_City() {
+        Object testObject = validateInput("London", "city");
+        assertEquals("London", testObject);
+    }
+
+    @Test
+    @DisplayName("Test: validateInput(). Method runs as expected.")
+    public void InputOutput_validateInput_Country() {
+        Object testObject = validateInput("Poland", "country");
+        assertEquals("Poland", testObject);
     }
 }
