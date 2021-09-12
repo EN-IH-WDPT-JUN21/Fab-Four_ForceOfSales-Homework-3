@@ -44,6 +44,10 @@ public class LeadObjectService {
                 colorMessage("Contact name cannot be blank. Please try again.", TextColor.RED);
                 tempName = aScanner.nextLine();
             }
+            while (!containsOnlyLetters(tempName)) {
+                colorMessage("Please provide a valid contact name, with only letters and spaces.", TextColor.RED);
+                tempName = aScanner.nextLine();
+            }
             System.out.println("Please enter their phone number, with no spaces.");
             while (tempNumber == null) {
                 tempString = aScanner.nextLine();
@@ -97,12 +101,12 @@ public class LeadObjectService {
                         sales = newSalesRep();
                     }
                     else {
-                        System.out.println("Please enter a valid SalesRep id.");
+                        System.out.println(colorMessage("Please enter a valid SalesRep id.",TextColor.RED));
                     }
                 }
             }
             else {
-                System.out.println("SalesRep Id can only be a number. Please try again.");
+                System.out.println(colorMessage("SalesRep Id can only be a number. Please try again.",TextColor.RED));
             }
         }
         return sales;
@@ -153,14 +157,18 @@ public class LeadObjectService {
     // Shows attribute information for each lead currently in LeadList. Returns an error if no leads exists.
     public static void showLeads() {
         List<LeadObject> leadList = leadObjectRepository.findAll();
+        String leadContactName = null;
         if(countLeads() > 0) {
-            String printFormat = "| %-10d | %-25s |%n";
+            String printFormat = "| %-10d | %-25s | %n";
             System.out.printf("Here are the current leads: \n%n");
             System.out.format("+------------+---------------------------+%n");
             System.out.format("| Lead ID    | Contact Name              |%n");
             System.out.format("+------------+---------------------------+%n");
             for (LeadObject leadObject : leadList) {
-                System.out.format(printFormat,leadObject.getId(), leadObject.getContactName().toUpperCase() + ".\n");
+                leadContactName = (leadObject.getContactName().length() > 10) ?
+                        (leadObject.getContactName().substring(0, 20) + "...") : leadObject.getContactName();
+                System.out.format(printFormat,leadObject.getId(), leadContactName.toUpperCase());
+                System.out.format("+------------+---------------------------+%n");
             }
         } else colorMessage("+--- There are no leads! Try to add some with the 'new lead' command. ---+", TextColor.RED);
     }

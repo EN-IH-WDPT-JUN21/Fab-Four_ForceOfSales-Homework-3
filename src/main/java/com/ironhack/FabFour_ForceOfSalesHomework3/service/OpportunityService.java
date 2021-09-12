@@ -82,21 +82,24 @@ public class OpportunityService {
     // Method prints all opportunities to the screen
     public static void showAllOpportunities() {
         List<Opportunity> opportunities = opportunityRepository.findAll();
+        String oppContactName = null;
 
         if(opportunities.size() >0) {
+
+            String printFormat = "| %-6d | %-10s | %-10d | %-13s | %-10s |%n";
+            System.out.println("Here are the current opportunities:" + "\n");
+            System.out.format("+--------+------------+------------+---------------+------------+%n");
+            System.out.format("| ID     | Product    | Quantity   | Contact       | Status     |%n");
+            System.out.format("+--------+------------+------------+---------------+------------+%n");
+
             for (Opportunity o: opportunities
                  ) {
-
-                System.out.println(o);
-                System.out.println(String.format("ID: &d, Product: %s, Quantity: %s, Decision maker: %s, Status: %s, Salesrep: %s.",
-                       o.getId(),
-                        o.getProduct(),
-                        o.getQuantity(),
-                        o.getDecisionMaker()
-                                .getContactName(),
-                        o.getStatus()));
+                oppContactName = (o.getDecisionMaker().getContactName().length() > 10) ?
+                        (o.getDecisionMaker().getContactName().substring(0, 10) + "...") : o.getDecisionMaker().getContactName();
+                System.out.format(printFormat,o.getId(),o.getProduct(),o.getQuantity(),oppContactName.toUpperCase(), o.getStatus());
+                System.out.format("+--------+------------+------------+---------------+------------+%n");
             }
-        } else System.out.println("There are no opportunities!");
+        } else System.out.println(colorMessage("+--- There are no opportunities in the system ---+",TextColor.RED));
 
     }
 }

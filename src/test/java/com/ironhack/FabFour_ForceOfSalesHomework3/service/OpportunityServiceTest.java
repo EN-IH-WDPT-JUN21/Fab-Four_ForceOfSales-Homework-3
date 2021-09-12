@@ -6,6 +6,7 @@ import com.ironhack.FabFour_ForceOfSalesHomework3.dao.Opportunity;
 import com.ironhack.FabFour_ForceOfSalesHomework3.dao.SalesRep;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Product;
 import com.ironhack.FabFour_ForceOfSalesHomework3.enums.Status;
+import com.ironhack.FabFour_ForceOfSalesHomework3.enums.TextColor;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.ContactRepository;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.LeadObjectRepository;
 import com.ironhack.FabFour_ForceOfSalesHomework3.repository.OpportunityRepository;
@@ -22,6 +23,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
 
+import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.colorMessage;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.OpportunityService.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -133,4 +135,23 @@ class OpportunityServiceTest {
         assertEquals(1, opportunityRepository.count());
         assertEquals("HYBRID", newOpportunity.getProduct().toString());
         }
+
+    @Test
+    @DisplayName("Test: showAllOpportunities(). Shows opps as expected.")
+    public void OpportunityService_ShowAllOpportuntiesTest_ShowsAsExpected() {
+        showAllOpportunities();
+        assertTrue(outputStreamCaptor.toString()
+                .trim().contains("HYBRID"));
+        assertTrue(outputStreamCaptor.toString()
+                .trim().contains("JOHN"));
+    }
+
+    @Test
+    @DisplayName("Test: showAllOpportunities(). No opps exist.")
+    public void OpportunityService_ShowAllOpportuntiesTest_NoOpps() {
+        opportunityRepository.deleteAll();
+        showAllOpportunities();
+        assertTrue(outputStreamCaptor.toString().trim().
+                contains(colorMessage("+--- There are no opportunities in the system ---+", TextColor.RED)));
+    }
 }
