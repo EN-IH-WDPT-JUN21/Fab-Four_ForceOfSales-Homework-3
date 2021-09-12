@@ -62,9 +62,9 @@ class EmployeeCountRepositoryTest {
         assertEquals(12, min);
     }
 
-    @Test
-    public void EmployeeCountRepository_getEmployeeCountList() {
-        List<Integer> employeeCounts = employeeCountRepository.getEmployeeCountList();
-        assertEquals(4, employeeCounts.size());
-    }
+//     @Test
+//     public void EmployeeCountRepository_getEmployeeCountList() {
+//         List<Integer> employeeCounts = employeeCountRepository.getEmployeeCountList();
+//         assertEquals(4, employeeCounts.size());
+//     }
 }
