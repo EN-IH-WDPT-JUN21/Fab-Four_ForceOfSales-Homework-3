@@ -39,12 +39,10 @@ public class AccountService {
     // Print out Account details
     public static void lookUpAccount(long id)  {
         Optional<Account> accountOptional = accountRepository.findById(id);
-        if(accountOptional.isEmpty()) {
-            colorMessage("There is no Account with id " + id + ". Please try again.", TextColor.RED);
-        } else {
+        if(!accountOptional.isEmpty()) {
             Account account = accountOptional.get();
             System.out.println(account);
-        }
+        } else { colorMessage("There is no Account with id " + id + ". Please try again.", TextColor.RED); }
     }
 
     // Obtain Account data from user input
@@ -125,6 +123,9 @@ public class AccountService {
     public static List<Object> getAccountId() {
         System.out.println("Please provide the id of the Account you want to use or type 'go back' to abandon the operation.");
         Object accountId =  getUserInput("accountId");
+        /* if there are no Accounts in the system or the user decides to abandon the operation,
+           convertLead method will exit
+        */
         if((accountRepository.count() == 0) || Objects.equals(accountId, "go back")) {
             showAccounts();
             colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", TextColor.GREEN);
@@ -132,6 +133,9 @@ public class AccountService {
             colorMessage("++++++++++++++++++++++++++++++++++++++++++++++++++", TextColor.GREEN);
             removeIncompleteData();
             return Arrays.asList(0);
+        /* if the Account id provided by the user is in the wrong format
+           or the Account with that id doesn't exist, getAccountId() method will be called again
+         */
         } else if(Objects.equals(accountId, "bad input") || Objects.equals(accountId, "no account")){ return getAccountId(); }
         return Arrays.asList(accountId);
     }
@@ -164,6 +168,7 @@ public class AccountService {
         return new List[] {countryNames, countryCodes};
     }
 
+    // Obtain ISO Country codes
     public static String getCountryCode(String countryName) {
         List<String> names = getCountryList()[0];
         List<String> codes = getCountryList()[1];
@@ -176,7 +181,9 @@ public class AccountService {
         return code;
     }
 
+    // Print out ISO Country names
     public static String showCountryList() {
+        System.out.println("Printing out country list....");
         List<String> names = getCountryList()[0];
         for(String countryDetail : names) {
                 System.out.printf("Country name: %s", countryDetail + "\n");
@@ -189,6 +196,7 @@ public class AccountService {
     // Print out information on all existing Accounts
     public static void showAccounts() {
         List<Account> accountList = accountRepository.findAll();
+        String cityName = "";
         String printFormat = "| %-10d | %-20s | %-15s | %-13s | %-19s| %n";
 
         if(accountList.size() > 0) {
@@ -197,7 +205,10 @@ public class AccountService {
             System.out.format("| ID         | Industry             | City            | Country       | Number of Contacts |%n");
             System.out.format("+------------+----------------------+-----------------+---------------+--------------------+%n");
             for (Account account : accountList) {
-                System.out.format(printFormat, account.getId(), account.getIndustry(), account.getCity(), getCountryCode(account.getCountry()), account.getContactList().size());
+                 /* String.substring() cuts off city names which are too long,
+                   dots let the user know the name is not fully displayed */
+                cityName= (account.getCity().length() >= 15) ? account.getCity().substring(0, 12) + "..." : account.getCity();
+                System.out.format(printFormat, account.getId(), account.getIndustry(), cityName, getCountryCode(account.getCountry()), account.getContactList().size());
             }
             System.out.format("+------------+----------------------+-----------------+---------------+--------------------+%n");
         } else System.out.println("There are no Accounts! Try to add a new one by typing 'convert {lead id}'.");

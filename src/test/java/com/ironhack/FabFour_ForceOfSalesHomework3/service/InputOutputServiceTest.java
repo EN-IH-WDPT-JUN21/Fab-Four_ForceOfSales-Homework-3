@@ -11,14 +11,13 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.ironhack.FabFour_ForceOfSalesHomework3.enums.Product.BOX;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.enums.Product.HYBRID;
+import static com.ironhack.FabFour_ForceOfSalesHomework3.service.AccountService.showCountryList;
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -40,6 +39,9 @@ public class InputOutputServiceTest {
     LeadObject testLeadThree = null;
     Account testAccountOne = null;
     Account testAccountTwo = null;
+    final PrintStream standardOut = System.out;
+    InputStream standardIn;
+    final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
 
 
     @BeforeEach
@@ -65,12 +67,17 @@ public class InputOutputServiceTest {
 
         accountRepository.save(testAccountOne);
         accountRepository.save(testAccountTwo);
+
+        standardIn = System.in;
+        System.setOut(new PrintStream(outputStreamCaptor));
     }
 
     @AfterEach
     public void tearDown() {
         leadObjectRepository.deleteAll();
         accountRepository.deleteAll();
+        System.setOut(standardOut);
+        System.setIn(standardIn);
     }
 
     @Test
@@ -291,5 +298,13 @@ public class InputOutputServiceTest {
     public void InputOutput_validateInput_Country() {
         Object testObject = validateInput("Poland", "country");
         assertEquals("Poland", testObject);
+    }
+
+    @Test
+    @DisplayName("Test: validateInput(). Method runs as expected.")
+    public void InputOutput_validateInput_ShowCountries() {
+        InputStream in = new ByteArrayInputStream("Poland".getBytes());
+        System.setIn(in);
+        assertEquals("Poland", validateInput("show countries", "country"));
     }
 }

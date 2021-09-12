@@ -13,11 +13,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
 import static com.ironhack.FabFour_ForceOfSalesHomework3.service.AccountService.*;
-import static com.ironhack.FabFour_ForceOfSalesHomework3.service.LeadObjectService.convertLead;
+import static com.ironhack.FabFour_ForceOfSalesHomework3.service.InputOutputService.getUserInput;
+import static com.ironhack.FabFour_ForceOfSalesHomework3.service.LeadObjectService.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -112,7 +114,8 @@ public class AccountServiceTest {
                         account.getEmployeeCount() + ", City: " + account.getCity() + ", Country: " + account.getCountry() +
                       ", Contacts: " + account.printIds("contact") + ", Opportunities:" +
                       account.printIds("opportunity");
-        assertEquals(testString, account.toString());
+        lookUpAccount(account.getId());
+        assertTrue(outputStreamCaptor.toString().contains("Account: " + account.getId()));
     }
 
     @Test
@@ -203,10 +206,43 @@ public class AccountServiceTest {
         assertEquals(++beforeCreateAccount, afterCreateAccount);
     }
 
+    //System.out.println("Account with this information already exists.");
+    @Test
+    @DisplayName("Test: createAccount(). Returns correct result.")
+    public void Account_createAccount_DuplicateAccount() {
+        Account account2 = new Account(Industry.ECOMMERCE, 12, "Paris", "France", contactList, opportunityList);
+        long beforeCreateAccount = accountRepository.count();
+        List<Object> dataList = new ArrayList<>();
+        dataList.add(Industry.ECOMMERCE);
+        dataList.add(12);
+        dataList.add("Paris");
+        dataList.add("France");
+        dataList.add(contactList);
+        dataList.add(opportunityList);
+        Account newAccount = createAccount(lead, contact, opportunity, dataList);
+        long afterCreateAccount = accountRepository.count();
+        assertEquals(beforeCreateAccount, afterCreateAccount);
+    }
+
     @Test
     @DisplayName("Test: showAccount(). Prints out correct message as expected.")
     public void Account_showAccounts_MessagePrinted() {
         showAccounts();
         assertTrue(outputStreamCaptor.toString().contains("These are the Accounts logged in our system:"));
+    }
+
+    @Test
+    @DisplayName("Test: getCountryCode(). Returns correct country code as expected.")
+    public void Account_getCountryCode_CodeReturned() {
+        String code = getCountryCode("Poland");
+        assertEquals("PL", code);
+    }
+
+    @Test
+    @DisplayName("Test: getCountryCode(). Returns correct country code as expected.")
+    public void Account_showCountryList_CountryListPrinted() {
+        InputStream in = new ByteArrayInputStream("Poland".getBytes());
+        System.setIn(in);
+        assertEquals("Poland", showCountryList());
     }
 }

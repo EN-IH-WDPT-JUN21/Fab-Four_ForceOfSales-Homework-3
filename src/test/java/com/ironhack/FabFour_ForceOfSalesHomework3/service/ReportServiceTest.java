@@ -114,6 +114,14 @@ class ReportServiceTest {
     }
 
     @Test
+    @DisplayName("Test: reportLeadsBySalesRep(). Leads reported as expected.")
+    public void Report_reportLeadsBySalesRep_NoLeads() {
+        salesRepRepository.deleteAll();
+        reportLeadsBySalesRep();
+        assertTrue(outputStreamCaptor.toString().trim().contains("+--- There are no SalesReps in the system ---+"));
+    }
+
+    @Test
     @DisplayName("Test: reportOpportunitiesBySalesRep(). Opportunities reported as expected.")
     public void Report_reportOpportunitiesBySalesRep() {
         reportOpportunitiesBySalesRep();
