@@ -64,21 +64,25 @@ public class ReportService {
 
     //Report Opportunities with a given status by the SalesRep
     public static void reportOpportunitiesBySalesRep() {
+        String salesName;
         List<SalesRep> salesReps = salesRepRepository.findAll();
         String printFormat = printReports("Name    ");
         for (SalesRep sales : salesReps) {
-            System.out.format(printFormat, sales.getName().toUpperCase(), opportunityRepository.countOpportunitiesBySalesRep(sales.getName()));
+            salesName= (sales.getName().length() > 10) ? sales.getName().substring(0, 8) + "..." : sales.getName();
+            System.out.format(printFormat, salesName.toUpperCase(), opportunityRepository.countOpportunitiesBySalesRep(sales.getName()));
         }
         System.out.format("+-----------------------+--------------------------+%n");
     }
 
     //Report Opportunities with a given status by the SalesRep
     public static void reportOpportunitiesBySalesRepAndStatus(Status status) {
+        String salesName;
         List<SalesRep> salesReps = salesRepRepository.findAll();
         String convStatus = status.name();
         String printFormat = printReports("Name    ");
         for (SalesRep sales : salesReps) {
-            System.out.format(printFormat, sales.getName().toUpperCase(), opportunityRepository.countOpportunitiesBySalesRepAndStatus(sales.getName(), convStatus));
+            salesName= (sales.getName().length() > 10) ? sales.getName().substring(0, 8) + "..." : sales.getName();
+            System.out.format(printFormat, salesName.toUpperCase(), opportunityRepository.countOpportunitiesBySalesRepAndStatus(sales.getName(), convStatus));
         }
         System.out.format("+-----------------------+--------------------------+%n");
     }
