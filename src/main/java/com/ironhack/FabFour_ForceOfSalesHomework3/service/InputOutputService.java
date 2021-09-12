@@ -42,16 +42,10 @@ public class InputOutputService {
                 csvWriter.write(leadObject.getId() + "," + leadObject.getContactName() + "," + leadObject.getPhoneNumber() + "," + leadObject.getEmail() + "," + leadObject.getCompanyName() + "\n");
             }
         }
-        catch (Exception e) {
-            System.out.println("Error: " + e);
-        }
+        catch (Exception e) { System.out.println("Error: " + e); }
         finally {
-            try {
-                csvWriter.flush();
-            }
-            catch (Exception e) {
-                System.out.println("Error: " + e);
-            }
+            try { csvWriter.flush(); }
+            catch (Exception e) { System.out.println("Error: " + e); }
         }
     }
 
@@ -60,7 +54,7 @@ public class InputOutputService {
         Scanner aScanner = new Scanner(System.in);
         System.out.println("What would you like to name your file?");
         String fileName = aScanner.nextLine().replaceAll("\\s+", "_");
-        BufferedWriter csvWriter = null;
+        BufferedWriter csvWriter;
         try {
             csvWriter = new BufferedWriter(new FileWriter(fileName + ".txt"));
             csvWriter.write("Id,Industry,Employee Count,City,Country,Number of Opportunities \n");
@@ -69,9 +63,7 @@ public class InputOutputService {
             }
             csvWriter.close();
         }
-        catch (Exception e) {
-            System.out.println("Error: " + e);
-        }
+        catch (Exception e) { System.out.println("Error: " + e); }
     }
 
     // Export Opportunities Information to CSV
@@ -79,7 +71,7 @@ public class InputOutputService {
         Scanner aScanner = new Scanner(System.in);
         System.out.println("What would you like to name your file?");
         String fileName = aScanner.nextLine().replaceAll("\\s+", "_");
-        BufferedWriter csvWriter = null;
+        BufferedWriter csvWriter;
         try {
             csvWriter = new BufferedWriter(new FileWriter(fileName + ".txt"));
             csvWriter.write("Company ID,Company Name,Id,Product,Quantity,Decision Maker,Status \n");
@@ -90,28 +82,27 @@ public class InputOutputService {
             }
             csvWriter.close();
         }
-        catch (Exception e) {
-            System.out.println("Error: " + e);
-        }
+        catch (Exception e) { System.out.println("Error: " + e); }
     }
 
     //Obtain and process user input
     public static Object getUserInput(String inputType) {
         Scanner aScanner = new Scanner(System.in);
-        String userInput = "";
+        String userInput;
         Object result;
         while (aScanner.hasNextLine()) {
             try {
                 userInput = aScanner.nextLine();
-                result = validateInput(userInput, inputType); //validate user input
+                /* user input will be validated based on the input type
+                *  getUserInput() method will keep asking for the proper input
+                */
+                result = validateInput(userInput, inputType);
                 if (result != null) {
                     return result;
                 } else {
                     colorMessage("Please provide the correct value.", TextColor.RED);
                 }
-            } catch(Exception e){
-                    System.out.println("Exception is: " + e);
-                }
+            } catch(Exception e){ System.out.println("Exception is: " + e); }
             }
         return null;
     }
@@ -148,9 +139,7 @@ public class InputOutputService {
                 colorMessage("Account with ID " + userInput + " doesn't exist.", TextColor.RED);
                 return "no account";
             }
-        } catch (Exception e) {
-            System.out.println("Something went wrong.");
-        }
+        } catch (Exception e) { System.out.println("Something went wrong."); }
         return null;
     }
 

@@ -42,6 +42,7 @@ public class ReportService {
     //Report Leads by the SalesRep
     public static void reportLeadsBySalesRep() {
         List<SalesRep> salesReps = salesRepRepository.findAll();
+        String salesName;
         if (salesReps.size() < 1) {
             colorMessage("+--- There are no SalesReps in the system ---+", TextColor.RED);
         }
@@ -51,8 +52,11 @@ public class ReportService {
             System.out.format("+------------+---------------------------+%n");
             System.out.format("| Name       | Number of Leads           |%n");
             System.out.format("+------------+---------------------------+%n");
+             /* String.substring() cuts off salesRep names which are too long,
+                   dots let the user know the name is not fully displayed */
             for (SalesRep sales : salesReps) {
-                System.out.format(printFormat, sales.getName().toUpperCase(), leadObjectRepository.countLeadObjectsBySalesRep(sales.getName()));
+                salesName= (sales.getName().length() > 10) ? sales.getName().substring(0, 8) + "..." : sales.getName();
+                System.out.format(printFormat, salesName.toUpperCase(), leadObjectRepository.countLeadObjectsBySalesRep(sales.getName()));
             }
             System.out.format("+------------+---------------------------+%n");
         }
@@ -183,15 +187,17 @@ public class ReportService {
     public static List<String> accountLoop(String listType) {
         List<Account> accountList = accountRepository.findAll();
         List<String> elementList = new ArrayList<>();
-        String element = "";
+        String element;
         if (listType.equals("city")) {
             for (Account account : accountList) {
-                element = (account.getCity().length() > 20) ? account.getCity().substring(0, 20) : account.getCity();
+                /* String.substring() cuts off city/country names which are too long,
+                   dots let the user know the name is not fully displayed */
+                element = (account.getCity().length() > 20) ? account.getCity().substring(0, 17) + "..." : account.getCity();
                 elementList.add(element);
             }
         } else if (listType.equals("country")) {
             for (Account account : accountList) {
-                element = (account.getCountry().length() > 20) ? account.getCountry().substring(0, 20) : account.getCountry();
+                element = (account.getCountry().length() > 20) ? account.getCountry().substring(0, 17) + "...": account.getCountry();
                 elementList.add(element);
             }
         }

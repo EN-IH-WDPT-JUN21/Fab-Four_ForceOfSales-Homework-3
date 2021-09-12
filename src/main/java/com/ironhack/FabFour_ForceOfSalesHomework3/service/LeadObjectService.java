@@ -30,10 +30,10 @@ public class LeadObjectService {
     }
 
     public static LeadObject createLead() {
-        String tempName = null; String tempNumber = null;
-        String tempEmail = null; String tempCompany = null;
+        String tempName; String tempNumber = null;
+        String tempEmail = null; String tempCompany;
         String tempString;
-        LeadObject tempLeadObject = null; SalesRep sales = null;
+        LeadObject tempLeadObject = null; SalesRep sales;
         try {
             Scanner aScanner = new Scanner(System.in);
             System.out.println("Please enter your SalesRep id.");
@@ -122,6 +122,10 @@ public class LeadObjectService {
             Contact contact = createContact(lead);
             Opportunity opportunity = createOpportunity(lead, contact);
             System.out.println("Would you like to create a new Account? (Y/N)");
+            /* List object will be returned, either a one-element List with an Account Id if the user
+            * doesn't want to create a new account or a dataList to be used in Account creation.
+            * Should the user abandon the convert operation or tries to add the info when no Accounts exists
+            * in the system, a List containing a single zero will be returned */
             List<Object> dataList = (List) getUserInput("account");
             if (dataList.get(0).toString().equals("0")) {
                 return null;
